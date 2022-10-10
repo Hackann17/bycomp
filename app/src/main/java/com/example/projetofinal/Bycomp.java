@@ -1,5 +1,11 @@
 package com.example.projetofinal;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -7,6 +13,7 @@ import android.view.Menu;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,12 +28,18 @@ public class Bycomp extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityBycompBinding binding;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityBycompBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+
+
 
         setSupportActionBar(binding.appBarBycomp.toolbar);
         binding.appBarBycomp.appBarLayout.setOnClickListener(new View.OnClickListener() {

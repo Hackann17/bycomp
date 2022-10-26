@@ -1,4 +1,4 @@
-package com.example.projetofinal;
+package com.example.projetofinal.recyclerview;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.projetofinal.R;
+
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ProdutosViewHolder> {
@@ -17,7 +18,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ProdutosViewHo
 
 
     //construtor
-    public ItemAdapter(ArrayList<ItemPesq> itempe) {
+    public ItemAdapter(List<ItemPesq> itempe) {
         this.listaitem = itempe;
     }
 

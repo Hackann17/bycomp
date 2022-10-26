@@ -11,7 +11,6 @@ public class Mercado {
         this.avaliacao = avaliacao;
     }
 
-
     public String getNome() {
         return nome;
     }
@@ -23,7 +22,6 @@ public class Mercado {
     public double getAvaliacao() {
         return avaliacao;
     }
-
 
     public void setNome(String nome) {
         this.nome = nome;

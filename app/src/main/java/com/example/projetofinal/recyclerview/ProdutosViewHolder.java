@@ -1,10 +1,12 @@
-package com.example.projetofinal;
+package com.example.projetofinal.recyclerview;
 
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.projetofinal.R;
 
 public class ProdutosViewHolder extends RecyclerView.ViewHolder {
 

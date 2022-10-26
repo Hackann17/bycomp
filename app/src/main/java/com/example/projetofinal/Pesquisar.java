@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.projetofinal.recyclerview.ItemPost;
+
 import java.util.ArrayList;
 
 /**
@@ -75,16 +77,16 @@ public class Pesquisar extends Fragment {
         ItemPost itp4 = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
 
         ArrayList<ItemPost> itempe = new ArrayList<>();
-        itempe.add(itp1);
-        itempe.add(itp2);
-        itempe.add(itp3);
-        itempe.add(itp4);
+        //itempe.add(itp1);
+        //itempe.add(itp2);
+        //itempe.add(itp3);
+        // itempe.add(itp4);
         //pas=ando a lista par o adapter personalizad
 
         RecyclerView recyclerTela = view.findViewById(R.id.listaPost);
 
         recyclerTela.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerTela.setAdapter(new PostAdapter(itempe));
+        //recyclerTela.setAdapter(new PostAdapter(itempe));
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pesquisar, container, false);

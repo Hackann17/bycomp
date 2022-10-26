@@ -1,12 +1,15 @@
 package com.example.projetofinal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 //import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 //import android.util.Base64;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,12 +23,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.projetofinal.ui.home.HomeFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import classesmodelos.BCDlocal;
+import classesmodelos.Usuario;
 
 //import java.io.ByteArrayOutputStream;
 //import java.text.DateFormat;
@@ -34,24 +43,49 @@ import classesmodelos.BCDlocal;
 
 public class Login extends AppCompatActivity {
 
-    EditText user, senha;
+    //criando chaves constantes para o shared preferences
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    //chave para guardar o user
+    public static final String USUARIO_KEY = "usuario_key";
+
+    //chave para guardar a senha
+    public static final String SENHA_KEY = "senha_key";
+
+    // variaveis para o shared preferences
+    SharedPreferences sharedpreferences;
+
+    FirebaseAuth mAuth;
+    EditText emailEd, senhaEd;
     TextView Criarconta;
     Button btLogar;
+    String email, senha;
+    Usuario u;
+
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //funções de tela login para tela
-
+        //pegando os ids
         Criarconta= findViewById(R.id.Criarconta);
         btLogar = findViewById(R.id.btLogar);
-        user = findViewById(R.id.inputUserL);
-        senha = findViewById(R.id.inputSenhaL);
+        emailEd = findViewById(R.id.edtEmail);
+        senhaEd = findViewById(R.id.inputSenhaL);
+        mAuth = FirebaseAuth.getInstance();
+
+       // sharedpreferences = getSharedPreferences(SHARED_PREFS, Cadastro.MODE_PRIVATE);
+        //email = sharedpreferences.getString(USUARIO_KEY, null);
+        //senha = sharedpreferences.getString(SENHA_KEY, null);
 
 
-        //ir oara tela de cadastro
+        //ir para tela de cadastro
         Criarconta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,65 +95,46 @@ public class Login extends AppCompatActivity {
         });
 
         //entrar na tela do aplicativo
-
         btLogar.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                email = emailEd.getText().toString();
+                senha = senhaEd.getText().toString();
 
-                startActivity(new Intent(Login.this, Bycomp.class));
+                try{
+                    //verifica se os campos estão preenchidos
+                    if(TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())){
+                        Toast.makeText(Login.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                //Indicando que irá utilizar o webservice rodando no localhost do computador
-                String url = "http://10.0.2.2:5000/api/Usuario/login";
+                        mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()){
+                                    startActivity(new Intent( Login.this, HomeFragment.class));
+                                    Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
+                                    // Sign in success, update UI with the signed-in user's information
+                                    //FirebaseUser user = mAuth.getCurrentUser();
+                                    //updateUI(user);
+                                } else {
+                                    Toast.makeText(Login.this, "Verifique se o email e a senha estão corretos", Toast.LENGTH_SHORT).show();
+                                    // If sign in fails, display a message to the user.
 
-                try {
-                    //Criar um objeto que irá transformar os dados preenchidos na tela em JSON
-                    JSONObject dadosEnvio = new JSONObject();
-                    //O nome dos parâmetros precisam ser iguais ao que o webservice espera receber
-                    dadosEnvio.put("user", user.getText().toString());
-                    dadosEnvio.put("senha", senha.getText().toString());
-
-                    //Configurar a requisição que será enviada ao webservice
-                    JsonObjectRequest configRequisicao = new JsonObjectRequest(Request.Method.POST,
-                            url, dadosEnvio,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        if (response.getInt("status") == 200) {
-                                            BCDlocal bd =  null;
-                                            bd.Logar(user, senha);
-                                            Snackbar.make(findViewById(R.id.telaLogin), "Bem-vindo", Snackbar.LENGTH_SHORT).show();
-                                            Intent it = new Intent(Login.this, HomeFragment.class); //activity para um fragmento
-                                            startActivity(it);
-                                        } else {
-                                            Snackbar.make(findViewById(R.id.telaLogin), "Verifque se os dados estão corretos", Snackbar.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        Snackbar.make(findViewById(R.id.telaLogin), "Erro do JSON:" + e.toString(), Snackbar.LENGTH_SHORT).show();
-                                    }
+                                    //updateUI(null);
                                 }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    error.printStackTrace();
-                                    Snackbar.make(findViewById(R.id.telaLogin), "Erro resposta: " + error.toString(), Snackbar.LENGTH_SHORT).show();
-                                }
+
                             }
-                    );
+                        });
 
-                    RequestQueue requisicao = Volley.newRequestQueue(Login.this);
-                    requisicao.add(configRequisicao);
+                    }
 
-                } catch (Exception exc) {
-                    exc.printStackTrace();
-                    Toast.makeText(Login.this, "Erro do envio de dados: " + exc.toString(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e){
+                    e.getStackTrace();
+
                 }
+
             }
-
         });
-
-
     }
 }

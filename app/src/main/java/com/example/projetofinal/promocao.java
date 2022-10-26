@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.projetofinal.recyclerview.ItemAdapter;
+import com.example.projetofinal.recyclerview.ItemPesq;
+
 import java.util.ArrayList;
 
 /**

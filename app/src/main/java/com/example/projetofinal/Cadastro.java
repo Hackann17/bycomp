@@ -1,32 +1,37 @@
 package com.example.projetofinal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import classesmodelos.BCDlocal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cadastro extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+
     TextView txtentrar;
     Button btCadastrar;
+    View v;
 
     EditText inputUser;
     EditText inputSenha;
@@ -37,123 +42,98 @@ public class Cadastro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
+        mAuth = FirebaseAuth.getInstance();
+
         inputUser = findViewById(R.id.inputUser);
         inputSenha = findViewById(R.id.inputSenha);
         inputEmail = findViewById(R.id.inputEmail);
 
-        txtentrar = findViewById(R.id.txtEntrar);
 
+        txtentrar = v.findViewById(R.id.txtEntreAqui);
         btCadastrar = findViewById(R.id.btCadastrar);
 
         txtentrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity( new Intent( Cadastro.this, Login.class));
+                startActivity(new Intent(Cadastro.this, Login.class));
             }
-
         });
-
 
         //metodo de cadastrar
         btCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            //implementando firebase
 
-                //Indicando que irá utilizar o webservice rodando no localhost do computador
-                String url = "http://10.0.2.2:5000/api/Usuario";
-                try {
+                String usuario, senha, email;
 
+                usuario = inputUser.getText().toString();
+                senha= inputSenha.getText().toString();
+                email= inputEmail.getText().toString();
 
+                //pegando as strigs e as colocando como parametro, é criado um metodo do firebase
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
-                    //Criar um objeto que irá transformar os dados preenchidos na tela em JSON
-                    JSONObject dadosEnvio = new JSONObject();
+                            //pega uma instancia do usuario em questao ao salvar
+                            FirebaseFirestore ff = FirebaseFirestore.getInstance();
 
-                    //O nome dos parâmetros precisam ser iguais ao que o webservice espera receber
-                    //no nosso caso são "nome", "email", "senha", "fotoPerfil" e "dataNascimento"
-                    dadosEnvio.put("nome", inputUser.getText().toString());
-                    dadosEnvio.put("senha", inputSenha.getText().toString());
-                    dadosEnvio.put("email", inputEmail.getText().toString());
+                            //usado com lista definidora para salvamentod de várias informações
+                            Map<String, Object> mp = new HashMap<>();
 
+                            mp.put("nome usuario", usuario);
+                            mp.put("senha", senha);
+                            mp.put("email", email);
 
+                            //o qeu sera colocado no firebase, expecificando as coleçoes (usuarios no caso)
+                            DocumentReference documentReference = ff.collection("Usuarios").document(email);
 
-                    //Configurar a requisição que será enviada ao webservice
-                    JsonObjectRequest configRequisicao = new JsonObjectRequest(Request.Method.POST,
-                            url, dadosEnvio,
-                            new Response.Listener<JSONObject>() {
+                            //aplica no firebase as informaçoes montadas antes
 
-                                @Override
-                                public void onResponse(JSONObject response) {
-
-                                    Toast.makeText(Cadastro.this, "feito1", Toast.LENGTH_SHORT).show();
-
-                                    try {
-
-                                        if(response.getInt("status") == 200){
-                                            startActivity(new Intent(Cadastro.this,Bycomp.class));
-
-                                            Toast.makeText(Cadastro.this, "deu certo ", Toast.LENGTH_SHORT).show();
-                   // Toast.makeText(Cadastro.this, Cadastro.CadastroUsuarioBCDLocal(inputUser.getText().toString(), inputSenha.getText().toString(),inputEmail.getText().toString()), Toast.LENGTH_SHORT).show();
-
-                                        }else{
-                                            Snackbar.make(findViewById(R.id.telaLogin), "Verifique se os dados estão corretos", Snackbar.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-
-                                        Toast.makeText(Cadastro.this, "nao feito"+e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                        e.printStackTrace();
-                                        //Snackbar.make(findViewById(R.id.telaLogin), R.string.avisoErro, Snackbar.LENGTH_SHORT).show();
+                            try {
+                                documentReference.set(mp).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        limparCampos();
+                                        Toast.makeText(Cadastro.this,"Cadastro realizado com sucesso", Toast.LENGTH_SHORT);
                                     }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    error.printStackTrace();
-                                    // Snackbar.make(findViewById(R.id.telaLogin), R.string.avisoErro, Snackbar.LENGTH_SHORT).show();
-                                }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e("TAGGGGG", "---->" + e);
+                                    }
+                                });
+
                             }
-                    );
-
-                    RequestQueue requisicao = Volley.newRequestQueue(Cadastro.this);
-                    requisicao.add(configRequisicao);
-
-                }
-
-
-
-                catch (Exception exc){
-                    exc.printStackTrace();
-                }
-
-
-
+                            catch (Exception e){
+                                Log.e("ERRO", e.toString());
+                            }
+                        }
+                    }
+                });
             }
-
         });
 
-        //metodo para cadastrar o usuario no banco de dados local, deve ser puchado em um toast
-        // para aparacer a mensagem em questao se deu certo ou nao
-
-        }
-      private static String CadastroUsuarioBCDLocal(String u, String s, String e){
-
-
-          Cadastro cadastro = new Cadastro();
-
-
-        //criar objeto da classe do banco dedados local
-          BCDlocal bcd = new BCDlocal(cadastro,1);
-
-          if(bcd.cadastrarUsuario(u,s,e)){
-              return "Usuario cadastrado com sucesso (Local)";
-
-
-          }else{
-              return  "Erro ao cadastrar (Local)";
-          }
-
-
-      }
 
     }
+
+    private void limparCampos() {
+        //Criar um objeto do ConstraintLayout que é aonde todos os EditTexts estão
+        ConstraintLayout telaCadastro = findViewById(R.id.actyCadastro);
+
+        //Laço para percorrer todos os componentes dentro do ConstraintLayout
+        for (int i = 0; i < telaCadastro.getChildCount(); i++) {
+            //Recupera o primeiro componente encontrado
+            View view = telaCadastro.getChildAt(i);
+            //Verifica se esse componente é um EditText
+            if (view instanceof EditText) {
+                //Limpa o texto
+                ((EditText) view).setText("");
+            }
+        }
+    }
+
+}
+

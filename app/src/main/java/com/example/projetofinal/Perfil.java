@@ -1,5 +1,6 @@
 package com.example.projetofinal;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,14 +11,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+
+
+import classesmodelos.Usuario;
 
 public class Perfil extends Fragment {
 
-
     Button btAlterarDados;
+    Button btAlterarSenha;
     EditText inputNomeUsuario;
     EditText inputEmailUsuario;
-    EditText inputSenhaUsuario;
+    TextView textView37;
+    TextView textView38;
+
     View v;
 
 
@@ -47,26 +55,49 @@ public class Perfil extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //declarando os inputs / pegar informações dos inputs
-        inputNomeUsuario = v.findViewById(R.id.inputNomeUsuario);
-        inputSenhaUsuario = v.findViewById(R.id.inputSenhaUsuario);
-        inputEmailUsuario = v.findViewById(R.id.inputEmailUsuario);
-        btAlterarDados = v.findViewById(R.id.btAlterarDados);
-
-        // pegar as informações do banco local e passar para os inputs
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+
+        v = inflater.inflate(R.layout.fragment_perfil, container, false);
+
+        try {
+            //objt de testes
+            Usuario usuario = new Usuario("Campinas", "marina", "marina@gmail.com", "1234");
+
+            //declarando os inputs / pegar informações dos inputs
+
+            textView37 = v.findViewById(R.id.textView37);
+            textView38 = v.findViewById(R.id.textView38);
+            inputNomeUsuario = v.findViewById(R.id.inputNomeUsuario);
+            inputEmailUsuario = v.findViewById(R.id.inputEmailUsuario);
+
+            btAlterarDados = v.findViewById(R.id.btAlterarDados);
+            btAlterarSenha = v.findViewById(R.id.btAlterarSenha);
+
+            btAlterarSenha.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(v.getContext(), Senha.class));
+
+                }
+            });
+
+            // pegar as informações do banco local e passar para os inputs
+
+            inputNomeUsuario.setHint(usuario.getNome());
+            inputEmailUsuario.setHint(usuario.getEmail());
+        }
+        catch (Exception e) {
+            Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return v;
     }
 }
-

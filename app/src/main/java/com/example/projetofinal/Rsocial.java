@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.projetofinal.recyclerview.ItemPost;
+import com.example.projetofinal.recyclerview.PostAdapter;
+
 import java.util.ArrayList;
 
 /**

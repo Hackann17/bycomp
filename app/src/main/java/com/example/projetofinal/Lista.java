@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +24,8 @@ import java.util.List;
 public class Lista<Int> extends Fragment {
 
     //variaveis
-    private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
     View v;
-    EditText listaCompras;
     Button pesq;
     String endereco; //do mercado
     String localizacao; //do usuario
@@ -80,7 +81,8 @@ public class Lista<Int> extends Fragment {
         v = inflater.inflate(R.layout.fragment_lista, container, false);
         //achando os ids
         Button btNavegar = v.findViewById(R.id.butPesq);
-        //lista = findViewById(R.id.listaProdutos);
+
+        recuperarDadosFirebase();
 
 
         btNavegar.setOnClickListener(new View.OnClickListener() {
@@ -101,9 +103,16 @@ public class Lista<Int> extends Fragment {
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
+
 
         return  v;
+
+    }
+
+    private void recuperarDadosFirebase() {
+        firestore = FirebaseFirestore.getInstance();
+
+        //DocumentReference reference = firestore.collection("Produtos");
 
     }
 }

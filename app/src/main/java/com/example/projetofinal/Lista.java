@@ -11,17 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Lista#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class Lista<Int> extends Fragment {
 
     //variaveis
@@ -35,6 +32,7 @@ public class Lista<Int> extends Fragment {
     List<String> itens = new ArrayList<String>(); //lista que vai receber os produtos da tela
     List<Integer> produtos = new ArrayList<Integer>(); //lista que vai armazenar os dados vindos da WebAPI
     List<String> mercados = new ArrayList<String>(); //lista que vai receber os mercados
+    TextView limparLista; //texto clicavel para limpar o texto na lista de compras
 
 
     /*// TODO: Rename parameter arguments, choose names that match
@@ -89,6 +87,17 @@ public class Lista<Int> extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(v).navigate(R.id.lista_pesq);
+            }
+        });
+
+        listaCompras = v.findViewById(R.id.listaProdutos);
+
+        //evento do texto de limpar a lista
+        limparLista = v.findViewById(R.id.txtLimpar);
+        limparLista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listaCompras.setText("");
             }
         });
 

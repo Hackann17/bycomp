@@ -112,7 +112,7 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-                                    startActivity(new Intent( Login.this, HomeFragment.class));
+                                    startActivity(new Intent( Login.this, Bycomp.class));
                                     Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
                                     // Sign in success, update UI with the signed-in user's information
                                     //FirebaseUser user = mAuth.getCurrentUser();

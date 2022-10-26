@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-//import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,7 +49,7 @@ public class Cadastro extends AppCompatActivity {
         inputEmail = findViewById(R.id.inputEmail);
 
 
-        txtentrar = v.findViewById(R.id.txtEntreAqui);
+        txtentrar = findViewById(R.id.txtEntreAqui);
         btCadastrar = findViewById(R.id.btCadastrar);
 
         txtentrar.setOnClickListener(new View.OnClickListener() {
@@ -67,9 +67,9 @@ public class Cadastro extends AppCompatActivity {
 
                 String usuario, senha, email;
 
-                usuario = inputUser.getText().toString();
-                senha= inputSenha.getText().toString();
-                email= inputEmail.getText().toString();
+                usuario = inputUser.getText().toString().trim();
+                senha= inputSenha.getText().toString().trim();
+                email= inputEmail.getText().toString().trim();
 
                 //pegando as strigs e as colocando como parametro, é criado um metodo do firebase
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

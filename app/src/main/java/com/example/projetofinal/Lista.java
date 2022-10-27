@@ -27,6 +27,7 @@ public class Lista<Int> extends Fragment {
     private FirebaseFirestore firestore;
     View v;
     Button pesq;
+    EditText listaCompras;
     String endereco; //do mercado
     String localizacao; //do usuario
     Int melhoresPrecos; //vai guardar os precos mais baratos

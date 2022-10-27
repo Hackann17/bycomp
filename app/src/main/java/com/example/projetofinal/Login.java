@@ -62,6 +62,7 @@ public class Login extends AppCompatActivity {
     Button btLogar;
     String email, senha;
     Usuario u;
+    boolean modoTeste = true;//logar direto para testar o aplicativo
 
     public void onStart() {
         super.onStart();
@@ -104,11 +105,15 @@ public class Login extends AppCompatActivity {
                 senha = senhaEd.getText().toString();
 
                 try{
+                    //logar direto para testar o aplicativo
+
                     //verifica se os campos estão preenchidos
                     if(TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())){
+                        if(modoTeste)
+                        startActivity(new Intent( Login.this, Bycomp.class));
+                        else
                         Toast.makeText(Login.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                     } else {
-
                         mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

@@ -3,8 +3,11 @@ package com.example.projetofinal;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import classesmodelos.Usuario;
 
 public class Perfil extends Fragment {
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Button btAlterarDados;
     Button btAlterarSenha;
@@ -68,12 +78,18 @@ public class Perfil extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_perfil, container, false);
 
+        //criando o objeto do firebase
+
+
+
+
+
         try {
             //objt de testes
             Usuario usuario = new Usuario("Campinas", "marina", "marina@gmail.com", "1234");
 
-            //declarando os inputs / pegar informações dos inputs
 
+            //declarando os inputs / pegar informações dos inputs
             textView37 = v.findViewById(R.id.textView37);
             textView38 = v.findViewById(R.id.textView38);
             inputNomeUsuario = v.findViewById(R.id.inputNomeUsuario);
@@ -85,19 +101,83 @@ public class Perfil extends Fragment {
             btAlterarSenha.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(v.getContext(), Senha.class));
+                    startActivity(new Intent(getContext(), Senha.class));
 
                 }
             });
 
             // pegar as informações do banco local e passar para os inputs
 
-            inputNomeUsuario.setHint(usuario.getNome());
-            inputEmailUsuario.setHint(usuario.getEmail());
+            inputNomeUsuario.setHint(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+            inputEmailUsuario.setHint(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         }
         catch (Exception e) {
             Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
+
+        btAlterarDados.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //puxar metodo atualizar
+
+                String nomeusuario,emailusuario;
+
+                //lembrar de colocar a verificaçao do input de nomedousuario
+                if(TextUtils.isEmpty(inputNomeUsuario.getText().toString().trim()) && TextUtils.isEmpty(inputEmailUsuario.getText().toString().trim())){
+                    Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                }
+                else{
+
+                    nomeusuario=inputNomeUsuario.getText().toString();
+                    emailusuario = inputEmailUsuario.getText().toString();
+
+                    try {
+                        Atualizardados(nomeusuario,emailusuario);
+                        inputNomeUsuario.setText("");
+                        inputEmailUsuario.setText("");
+
+                    }
+                    catch (Exception e){
+                        Log.e("ErrMetodoAtualizar","------------------------->"+e);
+                    }
+
+
+                }
+
+
+
+            }
+
+
+        });
+
         return v;
+
     }
+
+    private void Atualizardados(String nomeusuario,String emailusuario) {
+
+        DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+        documentReference.update("nome usuario",nomeusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getContext(), "Dados atualizados com sucesso", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Houve um problema ", Toast.LENGTH_SHORT).show();
+
+                Log.e("Erro","=============>"+e);
+
+            }
+        });
+
+
+
+    }
+
+
 }

@@ -91,8 +91,8 @@ public class Lista<Int> extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.lista_pesq);
             }
         });
-
-        listaCompras = v.findViewById(R.id.listaProdutos);
+/*
+        listaCompras = findViewById(R.id.listaProdutos);
 
         //evento do texto de limpar a lista
         limparLista = v.findViewById(R.id.txtLimpar);
@@ -102,7 +102,7 @@ public class Lista<Int> extends Fragment {
                 listaCompras.setText("");
             }
         });
-
+*/
 
 
         return  v;

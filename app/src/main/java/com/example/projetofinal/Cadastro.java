@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,6 +103,9 @@ public class Cadastro extends AppCompatActivity {
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
+
+                                        Toast.makeText(Cadastro.this, "A realização do seu cadastro falhou", Toast.LENGTH_SHORT).show();
+
                                         Log.e("TAGGGGG", "---->" + e);
                                     }
                                 });

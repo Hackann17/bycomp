@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -24,6 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetofinal.databinding.ActivityBycompBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,6 +42,11 @@ public class Bycomp extends AppCompatActivity {
     private Location location;
     private LocationManager locationManager;
     private Address endereco;
+
+    private TextView textView ;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,9 @@ public class Bycomp extends AppCompatActivity {
         double latitude = 0.0;
         double longitude = 0.0;
 
+
+
+
         /*verificaçao de permiçao*/
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
@@ -99,16 +109,13 @@ public class Bycomp extends AppCompatActivity {
 
         }
 
-
         //retornando um toast para ver os dados adquirido ,VOLTADO PARA TESTES ESSE TOAST
         try {
             endereco = BuscaEndereco(latitude,longitude);
-            Log.e("Endereço","--------------------------->" +
-                    endereco);
+            Log.e("Endereço","--------------------------->" + endereco);
 
 
-            //objeto provisorio , so para deixar claro que a loalizaçao sera armazenada no usuario
-          Usuario usuario = new Usuario(endereco.getSubLocality(),"yasy","yaaas@gmail.com","yasy1234");
+            //adicionar a localizaçao do usuario para ser pega a qualquer momento
 
 
 
@@ -117,23 +124,7 @@ public class Bycomp extends AppCompatActivity {
                     "Latitude"+latitude+", "+
                             "Logitude"+longitude+", "+
                             "Bairro"+endereco.getSubLocality()+", "+//esse aki pega o bairro
-                            "Cidade"+ endereco.getLocality()+", "+
-                            "Cidade"+ endereco.getLocality()+", "+
-                            "?"+ endereco.getFeatureName()+", "+
-                            "?"+ endereco.getLocale()+", "+
-                            "País "+endereco.getCountryName()
-                    , Toast.LENGTH_SHORT).show();
-
-            Log.e("Mensagem","--------------------------->" +
-                            "Latitude"+latitude+", "+
-                            "Logitude"+longitude+", "+
-                            "Bairro"+endereco.getSubLocality()+", "+//esse aki pega o bairro
-                            "Cidade"+ endereco.getLocality()+", "+
-                    "Cidade"+ endereco.getLocality()+", "+
-
-                    "País "+endereco.getCountryName()+
-                    "?"+ endereco.getFeatureName()+", "+
-                            "?"+ endereco.getLocale());
+                            "Cidade"+ endereco.getSubAdminArea(), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -163,6 +154,12 @@ public class Bycomp extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+
+
+
+
 
 //metodo para achar o endereço do usuario
 

@@ -62,7 +62,6 @@
 
     <EditText
         android:id="@+id/inputEmailUsuario"
-        android:paddingLeft="10dp"
         android:layout_width="291dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
@@ -70,6 +69,7 @@
         android:background="@drawable/container"
         android:ems="10"
         android:inputType="textPersonName"
+        android:paddingLeft="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.375"

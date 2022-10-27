@@ -28,6 +28,7 @@ import classesmodelos.Usuario;
 public class Perfil extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     Button btAlterarDados;
     Button btAlterarSenha;
@@ -133,6 +134,8 @@ public class Perfil extends Fragment {
                     emailusuario = inputEmailUsuario.getText().toString();
 
                     try {
+
+                        //esse metod alterar os dados somente no firestore ,deve se ser implementados as aleraçoes vigentes no authentification
                         Atualizardados(nomeusuario,emailusuario);
                         inputNomeUsuario.setText("");
                         inputEmailUsuario.setText("");
@@ -141,12 +144,7 @@ public class Perfil extends Fragment {
                     catch (Exception e){
                         Log.e("ErrMetodoAtualizar","------------------------->"+e);
                     }
-
-
                 }
-
-
-
             }
 
 
@@ -158,6 +156,48 @@ public class Perfil extends Fragment {
 
     private void Atualizardados(String nomeusuario,String emailusuario) {
 
+        //alteraçoes athentification
+       // mAuth.updateCurrentUser()
+
+
+
+
+        //auteraçoes firestore
+        AlterarNomeU(nomeusuario);
+        AlterarEmailU(emailusuario);
+
+
+
+
+
+
+
+    }
+
+    private void AlterarEmailU(String emailusuario) {
+
+        DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+        documentReference.update("email",emailusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getContext(), "Dados atualizados com sucesso", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Houve um problema ", Toast.LENGTH_SHORT).show();
+
+                Log.e("Erro","=============>"+e);
+
+            }
+        });
+
+
+
+    }
+
+    private void AlterarNomeU(String nomeusuario){
         DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         documentReference.update("nome usuario",nomeusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -174,8 +214,6 @@ public class Perfil extends Fragment {
 
             }
         });
-
-
 
     }
 

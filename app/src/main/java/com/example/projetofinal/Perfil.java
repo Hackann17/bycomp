@@ -17,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -158,24 +161,33 @@ public class Perfil extends Fragment {
 
         //alteraçoes athentification
        // mAuth.updateCurrentUser()
-
-
-
-
         //auteraçoes firestore
         AlterarNomeU(nomeusuario);
         AlterarEmailU(emailusuario);
-
-
-
-
-
-
 
     }
 
     private void AlterarEmailU(String emailusuario) {
 
+        //atualizaçao de dados no authentification
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        try{
+        user.updateEmail(emailusuario)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("Atualizaçao", "User email address updated.");
+                        }
+                    }
+                });}
+        catch (Exception e){
+
+            Log.e("Erro ","------------------>"+e);
+        }
+
+        //atualizaçao de dados no firestore
         DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         documentReference.update("email",emailusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -189,15 +201,12 @@ public class Perfil extends Fragment {
                 Toast.makeText(getContext(), "Houve um problema ", Toast.LENGTH_SHORT).show();
 
                 Log.e("Erro","=============>"+e);
-
             }
         });
-
-
-
     }
 
     private void AlterarNomeU(String nomeusuario){
+
         DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         documentReference.update("nome usuario",nomeusuario).addOnSuccessListener(new OnSuccessListener<Void>() {

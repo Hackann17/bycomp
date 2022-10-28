@@ -17,7 +17,6 @@ public class Produto {
         this.nome = nome;
         this.preco = preco;
         this.dataenvio = dataenvio;
-        this.codigo = codigo;
     }
 
     public String getNome() {

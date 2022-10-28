@@ -1,4 +1,4 @@
-package com.example.projetofinal.recyclerview;
+package com.example.projetofinal;
 
 public class ItemPost {
 

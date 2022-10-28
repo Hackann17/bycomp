@@ -17,9 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -78,10 +81,17 @@ public class Perfil extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_perfil, container, false);
+
         //criando o objeto do firebase
+
+
+
+
+
         try {
             //objt de testes
             Usuario usuario = new Usuario("Campinas", "marina", "marina@gmail.com", "1234");
+
 
             //declarando os inputs / pegar informações dos inputs
             textView37 = v.findViewById(R.id.textView37);
@@ -109,6 +119,7 @@ public class Perfil extends Fragment {
             Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
+
         btAlterarDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,25 +132,33 @@ public class Perfil extends Fragment {
                     Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 }
                 else{
+
                     nomeusuario=inputNomeUsuario.getText().toString();
                     emailusuario = inputEmailUsuario.getText().toString();
+
                     try {
+
                         //esse metod alterar os dados somente no firestore ,deve se ser implementados as aleraçoes vigentes no authentification
                         Atualizardados(nomeusuario,emailusuario);
                         inputNomeUsuario.setText("");
                         inputEmailUsuario.setText("");
+
                     }
                     catch (Exception e){
                         Log.e("ErrMetodoAtualizar","------------------------->"+e);
                     }
                 }
             }
+
+
         });
 
         return v;
+
     }
 
     private void Atualizardados(String nomeusuario,String emailusuario) {
+
         //alteraçoes athentification
        // mAuth.updateCurrentUser()
         //auteraçoes firestore
@@ -149,7 +168,28 @@ public class Perfil extends Fragment {
     }
 
     private void AlterarEmailU(String emailusuario) {
+
+        //atualizaçao de dados no authentification
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        try{
+        user.updateEmail(emailusuario)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("Atualizaçao", "User email address updated.");
+                        }
+                    }
+                });}
+        catch (Exception e){
+
+            Log.e("Erro ","------------------>"+e);
+        }
+
+        //atualizaçao de dados no firestore
         DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
         documentReference.update("email",emailusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -161,12 +201,12 @@ public class Perfil extends Fragment {
                 Toast.makeText(getContext(), "Houve um problema ", Toast.LENGTH_SHORT).show();
 
                 Log.e("Erro","=============>"+e);
-
             }
         });
     }
 
     private void AlterarNomeU(String nomeusuario){
+
         DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         documentReference.update("nome usuario",nomeusuario).addOnSuccessListener(new OnSuccessListener<Void>() {

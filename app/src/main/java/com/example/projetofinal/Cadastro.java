@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -98,6 +99,14 @@ public class Cadastro extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         limparCampos();
+
+                                        //adicionando os dados no shered preferences
+
+                                        SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
+
+                                        editor.putString("NomeDocumento",email);
+                                        editor.commit();
+
                                         Toast.makeText(Cadastro.this,"Cadastro realizado com sucesso", Toast.LENGTH_SHORT);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

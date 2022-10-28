@@ -1,6 +1,8 @@
 package com.example.projetofinal;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,6 +41,8 @@ public class Perfil extends Fragment {
     EditText inputEmailUsuario;
     TextView textView37;
     TextView textView38;
+
+    String nomedocumento;
 
     View v;
 
@@ -82,11 +86,10 @@ public class Perfil extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        //criando o objeto do firebase
+        //puxando informaçoes shared preferences
+        SharedPreferences preferences = getContext().getSharedPreferences("Salvar", Context.MODE_PRIVATE);
 
-
-
-
+        nomedocumento = preferences.getString("NomeDocumento","");
 
         try {
             //objt de testes
@@ -188,7 +191,7 @@ public class Perfil extends Fragment {
         }
 
         //atualizaçao de dados no firestore
-        DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
 
         documentReference.update("email",emailusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -207,7 +210,7 @@ public class Perfil extends Fragment {
 
     private void AlterarNomeU(String nomeusuario){
 
-        DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
 
         documentReference.update("nome usuario",nomeusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

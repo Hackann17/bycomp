@@ -3,6 +3,8 @@ package com.example.projetofinal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +35,8 @@ public class Senha extends AppCompatActivity {
     Button btVoltarTela;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ;
+
+    String nomedocumento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +53,10 @@ public class Senha extends AppCompatActivity {
         idSenhaAtual.setHint("Digite aqui sua senha atual ");
         idNovaSenha.setHint("Digite aqui sua nova senha");
 
+        //puxando informaçoes shared preferences
+        SharedPreferences preferences = getSharedPreferences("Salvar",MODE_PRIVATE);
 
-        Toast.makeText(this, "Usuario" + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
-
+        nomedocumento = preferences.getString("NomeDocumento","");
 
         //metodo para alterar a senha no banco
         btAlterarSenha2.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +105,8 @@ public class Senha extends AppCompatActivity {
 
             //alteraçao de dados no firestore
 
-            DocumentReference dr = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            DocumentReference dr = db.collection("Usuarios").document(nomedocumento);
 
             dr.update("senha",senhaNv).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -111,7 +116,9 @@ public class Senha extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.e("Seha","----------------->"+"Derrota");
+
+
+                    Log.e("Seha","----------------->"+"Derrota"+ e);
 
                 }
             });

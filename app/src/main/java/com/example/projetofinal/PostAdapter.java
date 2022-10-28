@@ -1,14 +1,10 @@
-package com.example.projetofinal.recyclerview;
+package com.example.projetofinal;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.projetofinal.R;
-import com.example.projetofinal.recyclerview.ItemPost;
-import com.example.projetofinal.recyclerview.PostViewHolder;
 
 import java.util.List;
 

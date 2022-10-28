@@ -64,62 +64,10 @@ public class HomeFragment extends Fragment {
         IdLista = view.findViewById(R.id.IdLista);
         Idpromocoes = view.findViewById(R.id.Idpromocoes);
         btLerNota = view.findViewById(R.id.btLerNota);
-        txtview = view.findViewById(R.id.txtCronometro);
-
-
-
-
-
-
-/*
-//referente ao antigo codigo de localizaçao
-        if (ActivityCompat.checkSelfPermission(binding.home.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-        {
-
-            //solicitar a permição do usuario, funciona caso seja permitido
-
-
-           requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},120);
-
-        }
-
-        //esse aki é o problema
-        locationManager = (LocationManager) getSystemService(view.getContext().LOCATION_SERVICE);
-        location=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-       // Log.e("TAGAPPEDRO", "----------->" + locationManager);
-
-
-
-
-       if (location != null){
-
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-        }
-*/
-
-        /*
-        //retornando um toast para ver os dados adquirido ,VOLTADO PARA TESTES ESSE TOAST
-        try {
-            endereco = BuscaEndereco(latitude,longitude);
-
-           Toast.makeText(view.getContext(), " Latitude "+latitude+
-                   "Logitude"+longitude+
-                           "Cidade"+endereco.getLocality()+
-                            "Estado"+endereco.getCountryName()
-                    , Toast.LENGTH_SHORT).show();
-
-
-        } catch (IOException e) {
-         e.printStackTrace();
-        }
-
-*/
-
+        
         IdLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Navigation.findNavController(view).navigate(R.id.lista2);
             }
         });

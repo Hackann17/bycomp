@@ -1,17 +1,21 @@
 package com.example.projetofinal;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,6 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import classesmodelos.Produto;
 
 
 public class Lista<Int> extends Fragment {
@@ -83,13 +89,16 @@ public class Lista<Int> extends Fragment {
         //achando os ids
         Button btNavegar = v.findViewById(R.id.butPesq);
 
-        recuperarDadosFirebase();
+
 
 
         btNavegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(v).navigate(R.id.lista_pesq);
+
+               Navigation.findNavController(view).navigate(R.id.lista_pesq);
+
+
             }
         });
 /*
@@ -104,16 +113,29 @@ public class Lista<Int> extends Fragment {
             }
         });
 */
-
-
         return  v;
 
     }
 
-    private void recuperarDadosFirebase() {
+   /* private void recuperarDadosFirebase() {
         firestore = FirebaseFirestore.getInstance();
 
-        //DocumentReference reference = firestore.collection("Produtos");
+        //Produto produto = new Produto();
 
-    }
+        try{
+            firestore.collection("Produtos").document("07891000248758").get().addOnSuccessListener(
+                    documentSnapshot -> {
+                        if(documentSnapshot.exists()){
+                            //traz o documento
+                            Log.d(TAG, "DocumentSnapshot data: ${document.data}");
+                        } else {
+                            //avisa que o documento não foi encontrado
+                            Log.d(TAG, "Falhou");
+                        }
+                    }
+            );
+        } catch (Exception e){
+            Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }*/
 }

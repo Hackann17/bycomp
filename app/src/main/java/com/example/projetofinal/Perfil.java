@@ -78,17 +78,10 @@ public class Perfil extends Fragment {
                              Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_perfil, container, false);
-
         //criando o objeto do firebase
-
-
-
-
-
         try {
             //objt de testes
             Usuario usuario = new Usuario("Campinas", "marina", "marina@gmail.com", "1234");
-
 
             //declarando os inputs / pegar informações dos inputs
             textView37 = v.findViewById(R.id.textView37);
@@ -116,7 +109,6 @@ public class Perfil extends Fragment {
             Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-
         btAlterarDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,55 +121,35 @@ public class Perfil extends Fragment {
                     Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 }
                 else{
-
                     nomeusuario=inputNomeUsuario.getText().toString();
                     emailusuario = inputEmailUsuario.getText().toString();
-
                     try {
-
                         //esse metod alterar os dados somente no firestore ,deve se ser implementados as aleraçoes vigentes no authentification
                         Atualizardados(nomeusuario,emailusuario);
                         inputNomeUsuario.setText("");
                         inputEmailUsuario.setText("");
-
                     }
                     catch (Exception e){
                         Log.e("ErrMetodoAtualizar","------------------------->"+e);
                     }
                 }
             }
-
-
         });
 
         return v;
-
     }
 
     private void Atualizardados(String nomeusuario,String emailusuario) {
-
         //alteraçoes athentification
        // mAuth.updateCurrentUser()
-
-
-
-
         //auteraçoes firestore
         AlterarNomeU(nomeusuario);
         AlterarEmailU(emailusuario);
 
-
-
-
-
-
-
     }
 
     private void AlterarEmailU(String emailusuario) {
-
         DocumentReference documentReference = db.collection("Usuarios").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
         documentReference.update("email",emailusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -192,9 +164,6 @@ public class Perfil extends Fragment {
 
             }
         });
-
-
-
     }
 
     private void AlterarNomeU(String nomeusuario){

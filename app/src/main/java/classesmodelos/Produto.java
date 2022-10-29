@@ -2,36 +2,56 @@ package classesmodelos;
 
 public class Produto {
     private String nome;
-    private  Float preco;
-    private String dataenvio;
+    private String cnpj;
     private String codigo;
+    private  double preco;
+    private String unidade;
 
-
-    public Produto(String nome, Float preco, Mercado mercado, Usuario usuario, String dataenvio) {
+    public Produto(String nome, String cnpj, String codigo, double preco, String unidade) {
         this.nome = nome;
+        this.cnpj = cnpj;
+        this.codigo = codigo;
         this.preco = preco;
-        this.dataenvio = dataenvio;
-    }
-
-    public Produto() {
-        this.nome = nome;
-        this.preco = preco;
-        this.dataenvio = dataenvio;
+        this.unidade = unidade;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public Float getPreco() {
+    public String getcnpj() {
+        return cnpj;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public double getPreco() {
         return preco;
     }
 
-    public String getDataenvio() {
-        return dataenvio;
+    public String getUnidade() {
+        return unidade;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public void setUnidade(String unidade) {this.unidade = unidade;}
 
 
 }

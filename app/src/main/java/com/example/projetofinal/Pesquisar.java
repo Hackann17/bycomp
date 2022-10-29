@@ -2,6 +2,7 @@ package com.example.projetofinal;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,8 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
+import classesmodelos.Produto;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +77,7 @@ public class Pesquisar extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_pesquisar, container, false);
 
-        //simulando itens a serem integrados na tela
+       /* //simulando itens a serem integrados na tela
         //esses dois representam um item do recycler view
         ItemPost itp1 = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
         ItemPost itp2 = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
@@ -86,7 +96,8 @@ public class Pesquisar extends Fragment {
         recyclerTela.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerTela.setAdapter(new PostAdapter(itempe));
 
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment*/
         return inflater.inflate(R.layout.fragment_pesquisar, container, false);
     }
+
 }

@@ -70,8 +70,8 @@ public class promocao extends Fragment {
         //simulando itens a serem integrados na tela
         //esses dois representam um item do recycler view
         ItemPesq itp1 = new ItemPesq("0","Calegaris","Aven Amizade",2,"Tomate Cereja",(float)6.00);
-        ItemPesq itp2 = new ItemPesq("0","Carrefour","Aven Amizade",3,"Tomate Cereja",(float)6.00);
-        ItemPesq itp3 = new ItemPesq("0","Pague-Menos","Aven Amizade",5,"Tomate Cereja",(float)6.00);
+        ItemPesq itp2 = new ItemPesq("1","Galassi","Aven Saudade",3,"Cebola",(float)5.00);
+        ItemPesq itp3 = new ItemPesq("2","Pague-Menos","Aven Amizade",5,"Yogurte Danone morango",(float)4.20);
 
         ArrayList<ItemPesq> itemp = new ArrayList<>();
         itemp.add(itp1);

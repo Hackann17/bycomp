@@ -18,6 +18,7 @@ public class ItemPesq {
             this.nomeP = nomeP;
             this.precoP = precoP;
         }
+
         private String nomeP;
 
         public String getId() {

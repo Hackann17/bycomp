@@ -77,24 +77,20 @@ public class Pesquisar extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_pesquisar, container, false);
 
-       /* //simulando itens a serem integrados na tela
+        //simulando itens a serem integrados na tela
         //esses dois representam um item do recycler view
-        ItemPost itp1 = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
-        ItemPost itp2 = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
-        ItemPost itp3 = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
-        ItemPost itp4 = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
+        ItemPost itp = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
 
-        ArrayList<ItemPost> itempe = new ArrayList<>();
-        //itempe.add(itp1);
-        //itempe.add(itp2);
-        //itempe.add(itp3);
-        // itempe.add(itp4);
-        //pas=ando a lista par o adapter personalizad
-
+        ArrayList<ItemPost> itemposts = new ArrayList<>();
+        for (int i = 0; i < 4; i++){
+            itemposts.add(itp);
+        }
+        //passando a lista par o adapter personalizad
+        /*
         RecyclerView recyclerTela = view.findViewById(R.id.ListaTelapes);
 
         recyclerTela.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerTela.setAdapter(new PostAdapter(itempe));
+        recyclerTela.setAdapter(new PostAdapter(itemposts));
 
         // Inflate the layout for this fragment*/
         return inflater.inflate(R.layout.fragment_pesquisar, container, false);

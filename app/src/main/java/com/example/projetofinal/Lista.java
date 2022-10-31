@@ -197,7 +197,7 @@ public class Lista<Int> extends Fragment {
                         Log.e("Produtos contem: ", produto.toString());
                        // Toast.makeText(getContext(), "Produtos que contem: " + item.toString(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.e("Não foi encontrado nenhum produto", produto.toString());
+                        //Log.e("Não foi encontrado nenhum produto", produto.toString());
                         //Toast.makeText(getContext(), "Não foi encontrado nenhum produto", Toast.LENGTH_SHORT).show();
                     }
                 }

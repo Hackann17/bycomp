@@ -7,9 +7,10 @@ public class Mercado {
     private String rua;
     private String uf;
     private String numero;
-    private int avaliacao;
+    private double avaliacao;
 
-    public Mercado(String nome, String cnpj, String bairro, String rua, String uf, String numero, int avaliacao) {
+
+    public Mercado(String nome, String cnpj, String bairro, String rua, String uf, String numero, double avaliacao) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.bairro = bairro;
@@ -18,7 +19,6 @@ public class Mercado {
         this.numero = numero;
         this.avaliacao = avaliacao;
     }
-
 
     public String getNome() {
         return nome;
@@ -40,15 +40,39 @@ public class Mercado {
         return uf;
     }
 
-    public String numero() {
+    public String getNumero() {
         return numero;
     }
 
-    public int avaliacao() {
+    public double getAvaliacao() {
         return avaliacao;
     }
 
     public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCpnj(String cnpj) {
+        this.nome = nome;
+    }
+
+    public void setBairro(String bairro) {
+        this.nome = nome;
+    }
+
+    public void setRua(String rua) {
+        this.nome = nome;
+    }
+
+    public void setUf(String uf) {
+        this.nome = nome;
+    }
+
+    public void setNumero(String numero) {
+        this.nome = nome;
+    }
+
+    public void setAvaliacao(double avaliacao) {
         this.nome = nome;
     }
 }

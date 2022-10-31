@@ -109,10 +109,11 @@ public class Login extends AppCompatActivity {
 
                     //verifica se os campos estão preenchidos
                     if(TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())){
-                        if(modoTeste)
-                        startActivity(new Intent( Login.this, Bycomp.class));
-                        else
-                        Toast.makeText(Login.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                        if(modoTeste) {
+                            startActivity(new Intent(Login.this, Bycomp.class));
+                        } else {
+                            Toast.makeText(Login.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override

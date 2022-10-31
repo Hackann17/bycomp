@@ -46,7 +46,7 @@ public class Lista<Int> extends Fragment {
     String endereco; //do mercado
     String localizacao; //do usuario
     String lista;
-    Int melhoresPrecos; //vai guardar os precos mais baratos
+    int melhoresPrecos; //vai guardar os precos mais baratos
     List<String> itens = new ArrayList<String>(); //lista que vai receber os produtos da tela
     List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
     List<String> mercados = new ArrayList<String>(); //lista que vai receber os mercados
@@ -105,7 +105,8 @@ public class Lista<Int> extends Fragment {
         limparLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recuperarDadosMercado();
+                verificarCorrespondencia();
+              //  listaCompras.setText("");
             }
         });
 
@@ -115,16 +116,11 @@ public class Lista<Int> extends Fragment {
             public void onClick(View view) {
                 // -----> PEDRO GODINHO
                 //precisará enviar a lista dos mercados com os precos mais baratos para a tela pesquisa
-                Navigation.findNavController(view).navigate(R.id.lista_pesq);
-            }
-        });
+                //Navigation.findNavController(view).navigate(R.id.lista_pesq);
 
-        //evento do texto de limpar a lista
-        limparLista = v.findViewById(R.id.txtLimpar);
-        limparLista.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listaCompras.setText("");
+                separarElementos(); //funciona!!!!!
+
+
             }
         });
 
@@ -136,56 +132,84 @@ public class Lista<Int> extends Fragment {
         //divide a string em partes a cada virgula
         //adiciona a string no array
 
-        lista = listaCompras.toString();
+        lista = listaCompras.getText().toString();
 
-        itens.add(lista);
+        //separando as strings a cada virgula
+        String[] array = lista.split(",");
 
         //enquanto indice menor que o comprimento do array
         //inicialmente a lista tem 1 elemento
-        int index = 0;
+        //int index = 0;
 
-        while(index < itens.size()){ //0 < 1
-            //separando as strings a cada virgula
-            String produto;
-            //o primeiro elemento vai ser adicionado na variavel depois de ser separado
-            produto = String.valueOf(lista.split(","));
-            //adicionar dentro da lista a string separada
-            itens.add(produto);
-            //usar para ver se funcionou
+        try{
+            for(int index = 0; index < array.length; index++){
+                itens.add(array[index]);
+            }
+            Log.e("lista: ", itens.toString());
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Erro: " + e.toString(), Toast.LENGTH_SHORT).show();
 
-            //add 1
-            index++;
         }
-        Toast.makeText(getContext(), "lista: " + itens.toString(), Toast.LENGTH_SHORT).show();
-        //quando voltar a repetição, o length da lista vai ter aumentado 1
-        //se for igual, vai ter acabado a lista e encerrar a repetição
+
+
     }
+
 
    private void recuperarDadosProduto() {
         firestore = FirebaseFirestore.getInstance();
-        try{
+        for(int index = 0; index < itens.toArray().length; index++){
             firestore.collection("Produtos")
-                    //.whereEqualTo("codigo", "07891000248758")
+                   // .whereEqualTo("nome", itens.toArray()[index].toString().toUpperCase())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                   Produto p = new Produto(document.getString("nome"), document.getString("cnpj"),document.getString("codigo"),
-                                           document.getDouble("preco"), document.getString("unidade"));
-                                   produtos.add(p);
-                                    //Toast.makeText(getContext(), document.getString("nome"), Toast.LENGTH_SHORT).show();
+                                    Produto p = new Produto(document.getString("nome"), document.getString("cnpj"),document.getString("codigo"),
+                                            document.getDouble("preco"), document.getString("unidade"));
+                                    produtos.add(p);
+                                   // Toast.makeText(getContext(), "Array: " + itens.toArray()[0].toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Produto: " + p.toString(), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+        }
+        try{
+
         } catch (Exception e){
             Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void verificarCorrespondencia(){
+        recuperarDadosProduto();
+
+        try{
+            for(int index = 0; index < produtos.toArray().length; index++){
+                String produto = produtos.toArray()[index].toString();
+                for(int i = 0; i  < itens.toArray().length; i++){
+                    String item = itens.toArray()[i].toString();
+                    if(item.contains(produto)){
+                        Log.e("Produtos contem: ", produto.toString());
+                       // Toast.makeText(getContext(), "Produtos que contem: " + item.toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("Não foi encontrado nenhum produto", produto.toString());
+                        //Toast.makeText(getContext(), "Não foi encontrado nenhum produto", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+        } catch (Exception e){
+            Log.e("ERRO: ", e.toString());
+        }
+
+
+    }
+
 
     private void recuperarDadosMercado() {
         firestore = FirebaseFirestore.getInstance();
@@ -197,9 +221,9 @@ public class Lista<Int> extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                   /* Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"),document.getString("bairro"),
-                                            document.getDouble("rua"), document.getString("uf"), document.getString("numero") );*/
-                                   // mercados.add(m);
+                                    Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"),document.getString("bairro"),
+                                            document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
+                                    mercados.add(String.valueOf(m));
                                 }
                             } else {
                                 Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();

@@ -105,8 +105,15 @@ public class Lista<Int> extends Fragment {
         limparLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verificarCorrespondencia();
+                //verificarCorrespondencia();
               //  listaCompras.setText("");
+
+                //verificarCorrespondencia();
+               // recuperarDadosProduto();
+
+                //verificarCorrespondencia();
+
+
             }
         });
 
@@ -114,18 +121,47 @@ public class Lista<Int> extends Fragment {
         btNavegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // -----> PEDRO GODINHO
-                //precisará enviar a lista dos mercados com os precos mais baratos para a tela pesquisa
-                //Navigation.findNavController(view).navigate(R.id.lista_pesq);
+                separarElementos();
+                try{
+                firestore = FirebaseFirestore.getInstance();
 
-                separarElementos(); //funciona!!!!!
+                    firestore.collection("Produtos")
+                            //.whereEqualTo("nome", itens.toArray()[index].toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
+                                                    document.getString("preco"), document.getString("unidade"));
 
+                                            List<Produto> aux = new ArrayList<Produto>();
+                                            aux.add(p);
 
+                                            for (int index = 0; index < aux.toArray().length; index++) {
+                                                String aux1 = itens.toString().toUpperCase();
+                                                if (aux1.contains("SAL BATATA")) {
+                                                    produtos.add(p);
+                                                    //Log.e("Produtos contem: ", produtos.toString());
+                                                    Toast.makeText(getContext(), "Produtos contem: " + au1, Toast.LENGTH_SHORT).show();
+                                                    // Toast.makeText(getContext(), "Produto: " + p.toString(), Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(getContext(), "Não foi encontrado nenhum produto: " + p.getNome(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                } catch (Exception e){
+                    Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         return  v;
-
     }
 
     private void separarElementos() {
@@ -151,15 +187,15 @@ public class Lista<Int> extends Fragment {
 
         }
 
-
+//contains(itens.toArray()[index].toString().toUpperCase()
     }
 
 
-   private void recuperarDadosProduto() {
-        firestore = FirebaseFirestore.getInstance();
+   /*private void recuperarDadosProduto() {
+       firestore = FirebaseFirestore.getInstance();
         for(int index = 0; index < itens.toArray().length; index++){
             firestore.collection("Produtos")
-                   // .whereEqualTo("nome", itens.toArray()[index].toString().toUpperCase())
+                   //.whereEqualTo("nome", itens.toArray()[index].toString())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -167,10 +203,12 @@ public class Lista<Int> extends Fragment {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Produto p = new Produto(document.getString("nome"), document.getString("cnpj"),document.getString("codigo"),
-                                            document.getDouble("preco"), document.getString("unidade"));
+                                            document.getString("preco"), document.getString("unidade"));
                                     produtos.add(p);
-                                   // Toast.makeText(getContext(), "Array: " + itens.toArray()[0].toString(), Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getContext(), "Produto: " + p.toString(), Toast.LENGTH_SHORT).show();
+
+                                    //Log.e("Produtos contem: ", produtos.toString());
+                                   //Toast.makeText(getContext(), "Produtos contem: " + produtos.toArray()[0].toString(), Toast.LENGTH_SHORT).show();
+                                   // Toast.makeText(getContext(), "Produto: " + p.toString(), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
@@ -183,33 +221,30 @@ public class Lista<Int> extends Fragment {
         } catch (Exception e){
             Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
-    private void verificarCorrespondencia(){
-        recuperarDadosProduto();
-
+    /*private void verificarCorrespondencia(){
+        //recuperarDadosProduto();
         try{
             for(int index = 0; index < produtos.toArray().length; index++){
-                String produto = produtos.toArray()[index].toString();
                 for(int i = 0; i  < itens.toArray().length; i++){
-                    String item = itens.toArray()[i].toString();
+                    String produto = produtos.toArray()[index].toString();
+                    String item = itens.toArray()[i].toString().toUpperCase();
                     if(item.contains(produto)){
-                        Log.e("Produtos contem: ", produto.toString());
-                       // Toast.makeText(getContext(), "Produtos que contem: " + item.toString(), Toast.LENGTH_SHORT).show();
+                        Log.e("Produtos contem: ", produto);
+                       Toast.makeText(getContext(), "Produtos que contem: " + produtos.toString(), Toast.LENGTH_SHORT).show();
                     } else {
-                        //Log.e("Não foi encontrado nenhum produto", produto.toString());
-                        //Toast.makeText(getContext(), "Não foi encontrado nenhum produto", Toast.LENGTH_SHORT).show();
+                        Log.e("Erro: valor nulo ", produto);
+                        Toast.makeText(getContext(), "Não foi encontrado nenhum produto", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
-
         } catch (Exception e){
             Log.e("ERRO: ", e.toString());
         }
 
 
-    }
-
+    }*/
 
     private void recuperarDadosMercado() {
         firestore = FirebaseFirestore.getInstance();
@@ -235,7 +270,7 @@ public class Lista<Int> extends Fragment {
         }
     }
 
-    private void comparaPrecos(){
+    /*private void comparaPrecos(){
         double preco2 = 0;
         int i = 0;  //vai auxiliar o método para garantir que não vai
         //estar somando os mesmos precos sempre
@@ -258,7 +293,7 @@ public class Lista<Int> extends Fragment {
                 }
             }
         }
-    }
+    }*/
 
     //método que compara a localização dos mercados no nosso banco e verifica a distancia da localização do usuario
     // !!!!!!!! PEDRO GODINHO

@@ -4,10 +4,10 @@ public class Produto {
     private String nome;
     private String cnpj;
     private String codigo;
-    private  double preco;
+    private  String preco;
     private String unidade;
 
-    public Produto(String nome, String cnpj, String codigo, double preco, String unidade) {
+    public Produto(String nome, String cnpj, String codigo, String preco, String unidade) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.codigo = codigo;
@@ -27,7 +27,7 @@ public class Produto {
         return codigo;
     }
 
-    public double getPreco() {
+    public String getPreco() {
         return preco;
     }
 
@@ -47,7 +47,7 @@ public class Produto {
         this.codigo = codigo;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(String preco) {
         this.preco = preco;
     }
 

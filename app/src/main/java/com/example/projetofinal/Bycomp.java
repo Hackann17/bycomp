@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ public class Bycomp extends AppCompatActivity {
 
     private TextView textView ;
 
-
+    private SearchView search;
 
 
     @Override
@@ -62,6 +63,19 @@ public class Bycomp extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
+        });
+
+        //método da barra de pesquisa
+        search = findViewById(R.id.searchViewProduto);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Toast.makeText(Bycomp.this, "produto: "+s, Toast.LENGTH_SHORT).show();//teste
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {return false;}
         });
 
         DrawerLayout drawer = binding.drawerLayout;

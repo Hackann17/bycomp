@@ -28,7 +28,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/searchViewProduto"
         style="@android:style/Widget.Material.SearchView"
         android:layout_width="327dp"
         android:layout_height="43dp"
@@ -47,7 +47,7 @@
         android:fontFamily="@font/poppins_light"
         android:text="Pesquise por um produto específico"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/searchView"
+        app:layout_constraintBottom_toTopOf="@+id/searchViewProduto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.257"
         app:layout_constraintStart_toStartOf="parent"

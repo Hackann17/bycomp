@@ -52,6 +52,9 @@ public class Lista<Int> extends Fragment {
     List<String> mercados = new ArrayList<String>(); //lista que vai receber os mercados
     TextView limparLista; //texto clicavel para limpar o texto na lista de compras
 
+    //lista auxiliar que vai ser usada para a verificação
+    List<Produto> aux = new ArrayList<Produto>();
+
 
     /*// TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -121,12 +124,13 @@ public class Lista<Int> extends Fragment {
         btNavegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //método que divide a String e coloca numa lista
                 separarElementos();
+
+                //busca os produtos no banco
                 try{
                 firestore = FirebaseFirestore.getInstance();
-
                     firestore.collection("Produtos")
-                            //.whereEqualTo("nome", itens.toArray()[index].toString())
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
@@ -136,20 +140,23 @@ public class Lista<Int> extends Fragment {
                                             Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
                                                     document.getString("preco"), document.getString("unidade"));
 
-                                            List<Produto> aux = new ArrayList<Produto>();
                                             aux.add(p);
 
-                                            for (int index = 0; index < aux.toArray().length; index++) {
-                                                String aux1 = itens.toString().toUpperCase();
-                                                if (aux1.contains("SAL BATATA")) {
-                                                    produtos.add(p);
-                                                    //Log.e("Produtos contem: ", produtos.toString());
-                                                    Toast.makeText(getContext(), "Produtos contem: " + au1, Toast.LENGTH_SHORT).show();
-                                                    // Toast.makeText(getContext(), "Produto: " + p.toString(), Toast.LENGTH_SHORT).show();
+                                            //percorre o tamanho da lista aux de produtos
+                                          /* for (int index = 0; index < aux.size(); index++) {
+                                                //pega o nome do objeto contido no indice e joga numa variavel do tipo string
+                                               String produtoBanco = aux.get(index).getNome();
+                                               String produtoUsuario = itens.get(index).toUpperCase();
+                                               //se a variavel conter uma parte da string armazenada em cada indice da lista que o usuario passou
+                                                if (produtoBanco.contains(produtoUsuario)) {
+                                                    produtos.add(p); //adiciona na lista de produtos global
+                                                    Log.e("Produtos contem: ", produtos.get(index).getNome());
+                                                    //Toast.makeText(getContext(), "Produtos contem: " + produtos.get(index).getNome(), Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(getContext(), "Não foi encontrado nenhum produto: " + p.getNome(), Toast.LENGTH_SHORT).show();
+                                                    Log.e("Não foi encontrado: ", p.getNome());
+                                                    //Toast.makeText(getContext(), "Não foi encontrado nenhum produto: " + p.getNome(), Toast.LENGTH_SHORT).show();
                                                 }
-                                            }
+                                           }*/
                                         }
                                     } else {
                                         Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
@@ -157,8 +164,9 @@ public class Lista<Int> extends Fragment {
                                 }
                             });
                 } catch (Exception e){
-                    Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "O erro foi: " + e, Toast.LENGTH_SHORT).show();
                 }
+                verificarCorrespondencia();
             }
         });
         return  v;
@@ -186,65 +194,7 @@ public class Lista<Int> extends Fragment {
             Toast.makeText(getContext(), "Erro: " + e.toString(), Toast.LENGTH_SHORT).show();
 
         }
-
-//contains(itens.toArray()[index].toString().toUpperCase()
     }
-
-
-   /*private void recuperarDadosProduto() {
-       firestore = FirebaseFirestore.getInstance();
-        for(int index = 0; index < itens.toArray().length; index++){
-            firestore.collection("Produtos")
-                   //.whereEqualTo("nome", itens.toArray()[index].toString())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Produto p = new Produto(document.getString("nome"), document.getString("cnpj"),document.getString("codigo"),
-                                            document.getString("preco"), document.getString("unidade"));
-                                    produtos.add(p);
-
-                                    //Log.e("Produtos contem: ", produtos.toString());
-                                   //Toast.makeText(getContext(), "Produtos contem: " + produtos.toArray()[0].toString(), Toast.LENGTH_SHORT).show();
-                                   // Toast.makeText(getContext(), "Produto: " + p.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
-        try{
-
-        } catch (Exception e){
-            Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }*/
-
-    /*private void verificarCorrespondencia(){
-        //recuperarDadosProduto();
-        try{
-            for(int index = 0; index < produtos.toArray().length; index++){
-                for(int i = 0; i  < itens.toArray().length; i++){
-                    String produto = produtos.toArray()[index].toString();
-                    String item = itens.toArray()[i].toString().toUpperCase();
-                    if(item.contains(produto)){
-                        Log.e("Produtos contem: ", produto);
-                       Toast.makeText(getContext(), "Produtos que contem: " + produtos.toString(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.e("Erro: valor nulo ", produto);
-                        Toast.makeText(getContext(), "Não foi encontrado nenhum produto", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        } catch (Exception e){
-            Log.e("ERRO: ", e.toString());
-        }
-
-
-    }*/
 
     private void recuperarDadosMercado() {
         firestore = FirebaseFirestore.getInstance();
@@ -272,13 +222,12 @@ public class Lista<Int> extends Fragment {
 
     /*private void comparaPrecos(){
         double preco2 = 0;
-        int i = 0;  //vai auxiliar o método para garantir que não vai
-        //estar somando os mesmos precos sempre
+        int i = 0;  //vai auxiliar o método para garantir que não vai estar somando os mesmos precos sempre
 
         //enquanto index for menor/igual a lista de produtos
-        for(int index = 0; index <= itens.size(); index++){
+        for(int index = 0; index <= produtos.size(); index++){
             //pega o preco do indice 0 e coloca no preco 1
-            double preco1 = produtos.get(index).getPreco();
+            String preco = produtos.get(index).getPreco();
 
             //verifica o valor que a variavel está guardando
             //se for maior, ele armazena na variavel para fazer a próxima comparação
@@ -294,6 +243,20 @@ public class Lista<Int> extends Fragment {
             }
         }
     }*/
+
+  /* private void verificarCorrespondencia(){
+        for(int i = 0; i < aux.size(); i++) {
+            for(int a = 0; a < itens.size(); i++){
+                if(aux.get(i).getNome().contains(itens.get(a).toUpperCase())){
+                    Log.e("Produtos contem: ", produtos.get(i).getNome());
+                }else{
+                    Log.e("Não foi encontrado: ", produtos.get(i).getNome());
+                }
+
+            }
+        }
+    }*/
+
 
     //método que compara a localização dos mercados no nosso banco e verifica a distancia da localização do usuario
     // !!!!!!!! PEDRO GODINHO

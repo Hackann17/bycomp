@@ -1,6 +1,7 @@
 package com.example.projetofinal;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -126,6 +127,15 @@ public class Bycomp extends AppCompatActivity {
         //retornando um toast para ver os dados adquirido ,VOLTADO PARA TESTES ESSE TOAST
         try {
             endereco = BuscaEndereco(latitude,longitude);
+
+            SharedPreferences.Editor editor = getSharedPreferences("LocalizacaoUsuario",MODE_PRIVATE).edit();
+
+            editor.putString("bairroU",endereco.getSubLocality());
+            editor.putString("cidadeU",endereco.getSubAdminArea());
+
+            editor.commit();
+
+
             Log.e("Endereço","--------------------------->" + endereco);
 
 

@@ -136,37 +136,49 @@ public class Lista<Int> extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
+
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
                                                     document.getString("preco"), document.getString("unidade"));
 
                                             aux.add(p);
 
+
+                                        }
+
+                                        Log.e("tamanho1: ",itens.size()+"");
+                                        Log.e("tamanho2: ",aux.size()+"");
+
+                                        for (int indexP = 0; indexP < itens.size(); indexP++) {
                                             //percorre o tamanho da lista aux de produtos
-                                          /* for (int index = 0; index < aux.size(); index++) {
+                                            Log.e("indice produto: ",indexP+"");
+
+                                            for (int index = 0; index < aux.size(); index++) {
+                                                Log.e("indice lista banco: ",index+"");
                                                 //pega o nome do objeto contido no indice e joga numa variavel do tipo string
-                                               String produtoBanco = aux.get(index).getNome();
-                                               String produtoUsuario = itens.get(index).toUpperCase();
-                                               //se a variavel conter uma parte da string armazenada em cada indice da lista que o usuario passou
+                                                String produtoBanco = aux.get(index).getNome().toUpperCase();
+                                                String produtoUsuario = itens.get(indexP).toUpperCase();
+                                                //se a variavel conter uma parte da string armazenada em cada indice da lista que o usuario passou
                                                 if (produtoBanco.contains(produtoUsuario)) {
-                                                    produtos.add(p); //adiciona na lista de produtos global
-                                                    Log.e("Produtos contem: ", produtos.get(index).getNome());
+                                                    produtos.add(aux.get(index)); //adiciona na lista de produtos global
+                                                    Log.e("Produtos contem: ", aux.get(index).getNome());
                                                     //Toast.makeText(getContext(), "Produtos contem: " + produtos.get(index).getNome(), Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Log.e("Não foi encontrado: ", p.getNome());
+                                                    Log.e("Não foi encontrado: ", aux.get(index).getNome());
                                                     //Toast.makeText(getContext(), "Não foi encontrado nenhum produto: " + p.getNome(), Toast.LENGTH_SHORT).show();
                                                 }
-                                           }*/
+                                            }
                                         }
-                                    } else {
-                                        Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
+
+                                        for (int indexP = 0; indexP < produtos.size(); indexP++){
+                                            Log.e("nome do produto: ", produtos.get(indexP).getNome());
+                                        }
                                     }
                                 }
                             });
                 } catch (Exception e){
                     Toast.makeText(getContext(), "O erro foi: " + e, Toast.LENGTH_SHORT).show();
                 }
-                verificarCorrespondencia();
             }
         });
         return  v;

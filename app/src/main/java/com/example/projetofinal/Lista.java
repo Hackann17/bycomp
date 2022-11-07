@@ -2,9 +2,7 @@ package com.example.projetofinal;
 
 import static com.android.volley.VolleyLog.TAG;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -57,7 +55,6 @@ public class Lista<Int> extends Fragment {
     //lista auxiliar que vai ser usada para a verificação
     List<Produto> aux = new ArrayList<Produto>();
 
-    String bairroU ;
 
     /*// TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -103,10 +100,6 @@ public class Lista<Int> extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_lista, container, false);
 
-
-
-
-
         //achando os ids
         Button btNavegar = v.findViewById(R.id.butPesq);
         limparLista = v.findViewById(R.id.txtLimpar);
@@ -126,6 +119,7 @@ public class Lista<Int> extends Fragment {
 
             }
         });
+
 
         btNavegar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,21 +166,8 @@ public class Lista<Int> extends Fragment {
                 } catch (Exception e){
                     Toast.makeText(getContext(), "O erro foi: " + e, Toast.LENGTH_SHORT).show();
                 }
-
-                //metodo que seleciona o mercado que possui os produtos mais baratos e no mesmo bairro do usuario
-                //compararLocal();
-
-
-
-
-
-
-
+                verificarCorrespondencia();
             }
-
-
-
-
         });
         return  v;
     }
@@ -279,46 +260,9 @@ public class Lista<Int> extends Fragment {
 
     //método que compara a localização dos mercados no nosso banco e verifica a distancia da localização do usuario
     // !!!!!!!! PEDRO GODINHO
-    //recebe uma lista de produto e retorna uma lista de strig dos cnpjs
-    private List<String> compararLocal(List<Produto> produtos) {
-        //pegar os mercdos que possuem os produtos em questao e estao no mesmo mercado que o usuario
-
-        //puxando informaçoes shared preferences
-        SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
-        bairroU = preferences.getString("bairroU","");
-        List<String> cnpjs = new ArrayList<String>();
-
-            firestore = FirebaseFirestore.getInstance();
-            try{
-                for (int i = 0; i < produtos.size(); i++)
-                {
-                    int finalI = i;
-                    firestore.collection("Mercados")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"),document.getString("bairro"),document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
-
-                                        if (m.getCnpj().equals(produtos.get(finalI).getcnpj()) && m.getBairro().equals(bairroU)){
-                                            cnpjs.add(m.getCnpj());
-                                            Log.e("cnpj", "--------------------->"+m.getCnpj());
-                                        }
-                                    }
-                                } else {
-                                    Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                }
-            } catch (Exception e){
-                Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
-            }
-
-                return cnpjs;
+    private void compararLocal(){
     }
 
     }
+
 

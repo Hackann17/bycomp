@@ -15,9 +15,12 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -28,8 +31,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetofinal.databinding.ActivityBycompBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.Produto;
@@ -40,6 +47,7 @@ public class Bycomp extends AppCompatActivity {
     //A gente precisa resolver para pegar a cidadedo usuario
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityBycompBinding binding;
+    private FirebaseFirestore firestore;
 
     //O classe abaixo irá fornecer os métodos para interagir com o GPS bem como recuperar os dados do posicionamento
     private Location location;
@@ -49,6 +57,7 @@ public class Bycomp extends AppCompatActivity {
     private TextView textView ;
 
     private SearchView search;
+    List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
 
 
     @Override
@@ -72,9 +81,52 @@ public class Bycomp extends AppCompatActivity {
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String produtoPesquisado) {
-                //lista de produtos do banco
-                List<Produto> produtos = null;
 
+                //busca os produtos no banco
+                try{
+                    firestore = FirebaseFirestore.getInstance();
+                    firestore.collection("Produtos")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                    List<Produto> aux = new ArrayList<Produto>();
+
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
+                                                    Double.parseDouble(document.getString("preco")), document.getString("unidade"));
+                                            aux.add(p);
+                                        }
+
+                                            //for que percorre a lista aux que contém todos os produtos do firebase
+                                            for (int index = 0; index < aux.size(); index++) {
+                                                //variavel que recebe cada item na lista aux
+                                                String produtoBanco = aux.get(index).getNome().toUpperCase().trim();
+                                                //variavel que recebe cada item da lista de usuario
+                                                String produtoUsuario = produtoPesquisado.toUpperCase().trim();
+                                                //verifica se os produtos no banco contém o item que o usuario passou
+                                                if (produtoBanco.contains(produtoUsuario)) {
+                                                    produtos.add(aux.get(index)); //adiciona na lista de produtos global
+                                                    Log.e("Produtos contem: ", aux.get(index).getNome());
+                                                } else {
+                                                    Log.e("Não foi encontrado: ", aux.get(index).getNome());
+                                                }
+
+                                            }
+                                        //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
+                                        produtos = Produto.organizarPorPreco(produtos);
+
+                                        for (Produto p : produtos) {
+                                            Log.e("preço depois: ",p.getPreco()+"");
+                                        }
+                                    }
+                                }
+                            });
+                } catch (Exception e){
+                    Log.e("ERRO: ", e.getMessage());
+                }
 
                 return false;
             }

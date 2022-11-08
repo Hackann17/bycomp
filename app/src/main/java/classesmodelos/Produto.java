@@ -1,13 +1,24 @@
 package classesmodelos;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 public class Produto {
     private String nome;
     private String cnpj;
     private String codigo;
-    private  String preco;
+    private double preco;
     private String unidade;
 
-    public Produto(String nome, String cnpj, String codigo, String preco, String unidade) {
+    public Produto(String nome, String cnpj, String codigo, double preco, String unidade) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.codigo = codigo;
@@ -19,7 +30,7 @@ public class Produto {
         return nome;
     }
 
-    public String getcnpj() {
+    public String getCnpj() {
         return cnpj;
     }
 
@@ -27,7 +38,7 @@ public class Produto {
         return codigo;
     }
 
-    public String getPreco() {
+    public double getPreco() {
         return preco;
     }
 
@@ -47,11 +58,35 @@ public class Produto {
         this.codigo = codigo;
     }
 
-    public void setPreco(String preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
 
     public void setUnidade(String unidade) {this.unidade = unidade;}
 
+    //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
+    public static List<Produto> organizarPorPreco(List<Produto> produtos){
+        List<Produto> produtosOrganizados = new ArrayList<>();
 
+        Produto ultimoMaisBarato = null;
+
+        //passa por cada produto da lista de produtos
+        for (Produto p : produtos) {
+            //redefinir como null
+            ultimoMaisBarato = null;
+            //passa por cada produto da lista de produtos mais uma vez
+            for(int i = 0; i < produtos.size(); i++){
+
+                if(!produtosOrganizados.contains(produtos.get(i)))//verificar se o produto sendo analizado ja esta na lista organizada
+                if(ultimoMaisBarato==null||
+                         produtos.get(i).getPreco()<ultimoMaisBarato.getPreco()){//verificar se o produto sendo analizado é mais barato que o ultimo
+                    ultimoMaisBarato = produtos.get(i);
+                }
+            }
+            //adicionar o ultimo mais barato na lista
+            produtosOrganizados.add(ultimoMaisBarato);
+        }
+
+        return produtosOrganizados;
+    }
 }

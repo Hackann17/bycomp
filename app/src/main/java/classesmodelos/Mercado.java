@@ -75,4 +75,10 @@ public class Mercado {
     public void setAvaliacao(double avaliacao) {
         this.nome = nome;
     }
+
+    public Mercado encontrarMercado(String cnpj){
+
+        return null;
+    }
+
 }

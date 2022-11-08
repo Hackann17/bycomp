@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.IOException;
 import java.util.List;
 
+import classesmodelos.Produto;
 import classesmodelos.Usuario;
 
 public class Bycomp extends AppCompatActivity {
@@ -70,8 +71,11 @@ public class Bycomp extends AppCompatActivity {
         search = findViewById(R.id.searchViewProduto);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                Toast.makeText(Bycomp.this, "produto: "+s, Toast.LENGTH_SHORT).show();//teste
+            public boolean onQueryTextSubmit(String produtoPesquisado) {
+                //lista de produtos do banco
+                List<Produto> produtos = null;
+
+
                 return false;
             }
 

@@ -2,7 +2,9 @@ package com.example.projetofinal;
 
 import static com.android.volley.VolleyLog.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,10 +112,10 @@ public class Lista<Int> extends Fragment {
             @Override
             public void onClick(View view) {
                 //verificarCorrespondencia();
-              //  listaCompras.setText("");
+                //  listaCompras.setText("");
 
                 //verificarCorrespondencia();
-               // recuperarDadosProduto();
+                // recuperarDadosProduto();
 
                 //verificarCorrespondencia();
 
@@ -128,8 +131,8 @@ public class Lista<Int> extends Fragment {
                 separarElementos();
 
                 //busca os produtos no banco
-                try{
-                firestore = FirebaseFirestore.getInstance();
+                try {
+                    firestore = FirebaseFirestore.getInstance();
                     firestore.collection("Produtos")
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -163,13 +166,13 @@ public class Lista<Int> extends Fragment {
                                     }
                                 }
                             });
-                } catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(getContext(), "O erro foi: " + e, Toast.LENGTH_SHORT).show();
                 }
-                verificarCorrespondencia();
+
             }
         });
-        return  v;
+        return v;
     }
 
     private void separarElementos() {
@@ -185,12 +188,12 @@ public class Lista<Int> extends Fragment {
         //inicialmente a lista tem 1 elemento
         //int index = 0;
 
-        try{
-            for(int index = 0; index < array.length; index++){
+        try {
+            for (int index = 0; index < array.length; index++) {
                 itens.add(array[index]);
             }
             Log.e("lista: ", itens.toString());
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getContext(), "Erro: " + e.toString(), Toast.LENGTH_SHORT).show();
 
         }
@@ -198,7 +201,7 @@ public class Lista<Int> extends Fragment {
 
     private void recuperarDadosMercado() {
         firestore = FirebaseFirestore.getInstance();
-        try{
+        try {
             firestore.collection("Mercados")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -206,7 +209,7 @@ public class Lista<Int> extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"),document.getString("bairro"),
+                                    Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("bairro"),
                                             document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
                                     mercados.add(String.valueOf(m));
                                 }
@@ -215,7 +218,7 @@ public class Lista<Int> extends Fragment {
                             }
                         }
                     });
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getContext(), "O erro foi: " + e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -260,9 +263,46 @@ public class Lista<Int> extends Fragment {
 
     //método que compara a localização dos mercados no nosso banco e verifica a distancia da localização do usuario
     // !!!!!!!! PEDRO GODINHO
-    private void compararLocal(){
+    private List<String> compararLocal(List<Produto> produtos) throws IOException {
+        SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
+        String bairroU = preferences.getString("bairroU", "");
+        List<String> cnpjs = new ArrayList<>();
+        try {
+            for (Produto produto : produtos) {
+                String cnpj = produto.getcnpj();
+                firestore.collection("Mercados")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("bairro"),
+                                                document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
+                                        //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no memso bairro que o usuario
+                                        if (m.getCnpj().equals(cnpj) && m.getBairro().equals(bairroU)) {
+                                            //caso o mercado atenda aos requisitos seu cnpj sera adicionado a lista
+                                            cnpjs.add(m.getCnpj());
+                                        }
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+
+            }
+        } catch (Exception e) {
+
+        }
+        //talvez seja possivel retornar uma lista bem mais completa do que as identificaçoes dos mecados
+        //que ja estao selecionados para a outra tela para serem selecionados de novo
+        return  cnpjs;
     }
 
-    }
+}
+
+
 
 

@@ -119,8 +119,7 @@ public class Cadastro extends AppCompatActivity {
                                     }
                                 });
 
-                            }
-                            catch (Exception e){
+                            } catch (Exception e){
                                 Log.e("ERRO", e.toString());
                             }
                         }

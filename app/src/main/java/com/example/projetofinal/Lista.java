@@ -52,7 +52,8 @@ public class Lista<Int> extends Fragment {
     int melhoresPrecos; //vai guardar os precos mais baratos
     List<String> itens = new ArrayList<String>(); //lista que vai receber os produtos da tela
     List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
-    List<String> mercados = new ArrayList<String>(); //lista que vai receber os mercados
+    List<ProdutoMercado> produtosMercado = new ArrayList<ProdutoMercado>();
+    List<Mercado> mercados = new ArrayList<>();
     TextView limparLista; //texto clicavel para limpar o texto na lista de compras
 
     //lista auxiliar que vai ser usada para a verificação
@@ -168,7 +169,6 @@ public class Lista<Int> extends Fragment {
     private List<Mercado> compararLocal(List<Produto> produtos) throws IOException {
         SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
         String bairroU = preferences.getString("bairroU", "");
-        List<Mercado> mercados = new ArrayList<>();
         try {
             for (Produto produto : produtos) {
                 String cnpj = produto.getCnpj();
@@ -200,6 +200,13 @@ public class Lista<Int> extends Fragment {
         //que ja estao selecionados para a outra tela para serem selecionados de novo
         return  mercados;
     }
+
+    private void separaProdutoPorLocal(){
+        ProdutoMercado pm = new ProdutoMercado((Mercado) mercados, (Produto) produtos);
+        Log.e(pm.toString(), "");
+
+    }
+
 }
 
 

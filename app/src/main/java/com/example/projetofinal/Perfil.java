@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -26,13 +27,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
+
+import classesmodelos.Produto;
 import classesmodelos.Usuario;
 
 public class Perfil extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     Button btAlterarDados;
@@ -92,10 +102,6 @@ public class Perfil extends Fragment {
         nomedocumento = preferences.getString("NomeDocumento","");
 
         try {
-            //objt de testes
-            Usuario usuario = new Usuario("Campinas", "marina", "marina@gmail.com", "1234");
-
-
             //declarando os inputs / pegar informações dos inputs
             textView37 = v.findViewById(R.id.textView37);
             textView38 = v.findViewById(R.id.textView38);
@@ -115,8 +121,7 @@ public class Perfil extends Fragment {
 
             // pegar as informações do banco local e passar para os inputs
 
-            inputNomeUsuario.setHint(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-            inputEmailUsuario.setHint(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            RecolhendoNome();
         }
         catch (Exception e) {
             Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -148,6 +153,7 @@ public class Perfil extends Fragment {
 
                     }
                     catch (Exception e){
+                        Toast.makeText(getContext(), "Erro"+e, Toast.LENGTH_SHORT).show();
                         Log.e("ErrMetodoAtualizar","------------------------->"+e);
                     }
                 }
@@ -160,7 +166,7 @@ public class Perfil extends Fragment {
 
     }
 
-    private void Atualizardados(String nomeusuario,String emailusuario) {
+    private void Atualizardados(String nomeusuario,String emailusuario) throws IOException {
 
         //alteraçoes athentification
        // mAuth.updateCurrentUser()
@@ -170,7 +176,7 @@ public class Perfil extends Fragment {
 
     }
 
-    private void AlterarEmailU(String emailusuario) {
+    private void AlterarEmailU(String emailusuario) throws IOException {
 
         //atualizaçao de dados no authentification
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -208,7 +214,7 @@ public class Perfil extends Fragment {
         });
     }
 
-    private void AlterarNomeU(String nomeusuario){
+    private void AlterarNomeU(String nomeusuario)throws IOException{
 
         DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
 
@@ -228,6 +234,30 @@ public class Perfil extends Fragment {
         });
 
     }
+
+    //metodo que desloga o usuario
+    private void RecolhendoNome(){
+        DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
+
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if(value != null) {
+
+                    inputNomeUsuario.setHint(value.getString("nome usuario"));
+                    inputEmailUsuario.setHint(value.getString("email"));
+
+
+                }
+
+            }
+        });
+
+
+    }
+
+
 
 
 }

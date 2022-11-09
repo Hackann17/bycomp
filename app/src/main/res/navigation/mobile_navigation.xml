@@ -29,8 +29,8 @@
         android:label="@string/menu_promocoes"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
-        android:id="@+id/nav_avaliacao"
-        android:name="com.example.projetofinal.PesquisarFragment"
+        android:id="@+id/avaliacaoTela"
+        android:name="com.example.projetofinal.AvaliacoesFragment"
         android:label="@string/menu_avaliacoes"
         tools:layout="@layout/fragment_avaliacoes" />
     <fragment

@@ -54,12 +54,12 @@ public class Bycomp extends AppCompatActivity {
     private LocationManager locationManager;
     private Address endereco;
 
-    private TextView textView ;
+    //private TextView navEmail ;
 
     private SearchView search;
     List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
 
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +142,7 @@ public class Bycomp extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_pesquisar,
                 R.id.nav_promocoes,R.id.nav_adicionarnota,
-                R.id.nav_historico,R.id.nav_avaliacao,
+                R.id.nav_historico,R.id.avaliacaoTela,
                 R.id.nav_perfil)
                 .setOpenableLayout(drawer)
                 .build();
@@ -265,7 +265,32 @@ public class Bycomp extends AppCompatActivity {
         //retorna o primeiro endereço
         return endereco;
     }
+//adicionando nome ao navheader
 
+    /*public void texto() {
+
+        SharedPreferences preferences = getSharedPreferences("Salvar", Context.MODE_PRIVATE);
+        String nomedocumento = preferences.getString("NomeDocumento","");
+
+        DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
+
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if (value != null) {
+
+                    navEmail.setText(value.getString("email"));
+
+
+                }
+
+            }
+
+
+        });
+    }
+*/
 
 
 }

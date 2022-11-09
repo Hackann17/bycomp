@@ -103,8 +103,9 @@ public class Cadastro extends AppCompatActivity {
                                         //adicionando os dados no shered preferences
 
                                         SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
-
                                         editor.putString("NomeDocumento",email);
+                                        editor.putBoolean("log",false);
+
                                         editor.commit();
 
                                         Toast.makeText(Cadastro.this,"Cadastro realizado com sucesso", Toast.LENGTH_SHORT);

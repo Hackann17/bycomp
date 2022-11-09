@@ -118,9 +118,9 @@ public class Bycomp extends AppCompatActivity {
                                         //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
                                         produtos = Produto.organizarPorPreco(produtos);
 
-                                        for (Produto p : produtos) {
-                                            Log.e("preço depois: ",p.getPreco()+"");
-                                        }
+//                                        for (Produto p : produtos) {
+//                                            Log.e("preço depois: ",p.getPreco()+"");
+//                                        }
                                     }
                                 }
                             });

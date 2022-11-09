@@ -36,6 +36,7 @@ import java.util.List;
 
 import classesmodelos.Mercado;
 import classesmodelos.Produto;
+import classesmodelos.ProdutoMercado;
 import classesmodelos.Usuario;
 
 
@@ -53,11 +54,7 @@ public class Lista<Int> extends Fragment {
     List<String> itens = new ArrayList<String>(); //lista que vai receber os produtos da tela
     List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
     List<ProdutoMercado> produtosMercado = new ArrayList<ProdutoMercado>();
-    List<Mercado> mercados = new ArrayList<>();
     TextView limparLista; //texto clicavel para limpar o texto na lista de compras
-
-    //lista auxiliar que vai ser usada para a verificação
-    List<Produto> aux = new ArrayList<Produto>();
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -100,7 +97,54 @@ public class Lista<Int> extends Fragment {
                 separarElementos();
                 //busca os produtos no banco
                 try{
-                    SelecionaProdutos();
+                    firestore = FirebaseFirestore.getInstance();
+                    firestore.collection("Produtos")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        //lista auxiliar que vai ser usada para a verificação
+                                        List<Produto> aux = new ArrayList<Produto>();
+
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
+                                                    Double.parseDouble(document.getString("preco")), document.getString("unidade"));
+                                            aux.add(p);
+                                        }
+                                        //for que vai percorrer a lista de itens do usuario
+                                        for (int indexP = 0; indexP < itens.size(); indexP++) {
+                                            //for que percorre a lista aux que contém todos os produtos do firebase
+                                            for (int index = 0; index < aux.size(); index++) {
+                                                //variavel que recebe cada item na lista aux
+                                                String produtoBanco = aux.get(index).getNome().toUpperCase().trim();
+                                                //variavel que recebe cada item da lista de usuario
+                                                String produtoUsuario = itens.get(indexP).toUpperCase().trim();
+                                                //verifica se os produtos no banco contém o item que o usuario passou
+                                                if (produtoBanco.contains(produtoUsuario)) {
+                                                    produtos.add(aux.get(index)); //adiciona na lista de produtos global
+                                                    Log.e("Produtos contem: ", aux.get(index).getNome());
+                                                } else {
+                                                    Log.e("Não foi encontrado: ", aux.get(index).getNome());
+                                                }
+                                            }
+                                        }
+                                        //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
+                                        produtos = Produto.organizarPorPreco(produtos);
+
+//                                        for (Produto p : produtos) {
+//                                            Log.e("ordem de preço: ",p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
+//                                        }
+
+                                        produtosMercado = separaProdutoPorMercado(produtos);
+
+//                                        for (ProdutoMercado pm : produtosMercado){
+//                                            for(Produto p : pm.getProdutos())
+//                                            Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
+//                                        }
+                                    }
+                                }
+                            });
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
                 }
@@ -128,56 +172,15 @@ public class Lista<Int> extends Fragment {
         }
     }
 
-    //seleciona os produtos no banco
-    private void SelecionaProdutos(){
-        firestore = FirebaseFirestore.getInstance();
-        firestore.collection("Produtos")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
-                                        Double.parseDouble(document.getString("preco")), document.getString("unidade"));
-                                aux.add(p);
-                            }
-                            //for que vai percorrer a lista de itens do usuario
-                            for (int indexP = 0; indexP < itens.size(); indexP++) {
-                                //for que percorre a lista aux que contém todos os produtos do firebase
-                                for (int index = 0; index < aux.size(); index++) {
-                                    //variavel que recebe cada item na lista aux
-                                    String produtoBanco = aux.get(index).getNome().toUpperCase().trim();
-                                    //variavel que recebe cada item da lista de usuario
-                                    String produtoUsuario = itens.get(indexP).toUpperCase().trim();
-                                    //verifica se os produtos no banco contém o item que o usuario passou
-                                    if (produtoBanco.contains(produtoUsuario)) {
-                                        produtos.add(aux.get(index)); //adiciona na lista de produtos global
-                                        Log.e("Produtos contem: ", aux.get(index).getNome());
-                                    } else {
-                                        Log.e("Não foi encontrado: ", aux.get(index).getNome());
-                                    }
-                                }
-                            }
-                            //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
-                            produtos = Produto.organizarPorPreco(produtos);
-
-                            for (Produto p : produtos) {
-                                Log.e("preço depois: ",p.getPreco()+"");
-                            }
-                        }
-                    }
-                });
-
-    }
-
     //método que compara a localização dos mercados no nosso banco e verifica a distancia da localização do usuario
     private List<Mercado> compararLocal(List<Produto> produtos) throws IOException {
+        List<Mercado> mercados = new ArrayList<>();
         SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
         String bairroU = preferences.getString("bairroU", "");
         try {
             for (Produto produto : produtos) {
                 String cnpj = produto.getCnpj();
+                firestore = FirebaseFirestore.getInstance();
                 firestore.collection("Mercados")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -207,10 +210,68 @@ public class Lista<Int> extends Fragment {
         return  mercados;
     }
 
-    private void separaProdutoPorLocal(){
-        ProdutoMercado pm = new ProdutoMercado((Mercado) mercados, (Produto) produtos);
-        Log.e(pm.toString(), "");
+    private List<ProdutoMercado> separaProdutoPorMercado(List<Produto> produtos){
+        List<ProdutoMercado> produtoMercado = new ArrayList<>();
+        //armazenar cnpjs para não repetir
+        List<String> cnpjsListados = new ArrayList<>();
 
+        for (int i = 0; i < produtos.size(); i++) {
+            //pegar o cnpj do mercado do produto
+            String cnpj = produtos.get(i).getCnpj();
+
+            //verificar se ja existe um mercado na lista com esse cnpj
+            if(!cnpjsListados.contains(cnpj)){
+                cnpjsListados.add(cnpj);
+                //lista com todos os produtos na lista de produtos que tem esse cnpj
+                List<Produto> produtosDoMercado = new ArrayList<>();
+                //for para adicionar todos os produtos com esse cnpj na lista
+                for (Produto p : produtos) {
+                    if(p.getCnpj().equals(cnpj)){
+                        produtosDoMercado.add(p);
+                    }
+                }
+                //trazer o mercado do banco pelo cnpj
+
+                //lista com todos os mercados do banco
+                List<Mercado> mercados = extrairMercadosBanco();
+                Mercado mercado = null;
+                //for para encontrar o mercado da lista que tem o mesmo cnpj do produto
+                for(Mercado m : mercados){
+                    if(m.getCnpj().equals(cnpj))
+                        mercado = m;
+                }
+
+                //adicionar o mercado e os produtos desse mercado na lista de produtoMercado
+                produtoMercado.add(new ProdutoMercado(mercado,produtosDoMercado));
+            }
+
+        }
+        return produtoMercado;
+    }
+
+    //método que devolve todos os mercados do banco
+    private List<Mercado> extrairMercadosBanco(){
+        List<Mercado> mercados = new ArrayList<>();
+        try {
+            firestore = FirebaseFirestore.getInstance();
+                firestore.collection("Mercados")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("bairro"),
+                                                document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
+                                        mercados.add(m);
+                                    }
+                                }
+                            }
+                        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  mercados;
     }
 
 }

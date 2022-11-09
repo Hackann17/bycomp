@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 //import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.Intent;
 //import android.graphics.Bitmap;
 import android.content.SharedPreferences;
@@ -62,7 +63,9 @@ public class Login extends AppCompatActivity {
     Button btLogar;
     String email, senha;
     Usuario u;
-    boolean modoTeste = true;//logar direto para testar o aplicativo
+    /*//puxando informaçoes shared preferences
+    SharedPreferences preferences = getSharedPreferences("Salvar",MODE_PRIVATE);
+    boolean logado=preferences.getBoolean("log",false);*/
 
     public void onStart() {
         super.onStart();
@@ -74,7 +77,6 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         //pegando os ids
         Criarconta= findViewById(R.id.Criarconta);
         btLogar = findViewById(R.id.btLogar);
@@ -105,22 +107,29 @@ public class Login extends AppCompatActivity {
                 senha = senhaEd.getText().toString();
 
                 try{
+
+
                     //logar direto para testar o aplicativo
 
                     //verifica se os campos estão preenchidos
                     if(TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())){
-                        if(modoTeste) {
-                            startActivity(new Intent(Login.this, Bycomp.class));
-                        } else {
+
                             Toast.makeText(Login.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-                        }
+
                     } else {
                         mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
+
+                                    //colocar o valor boolean no shared
+                                    SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
+                                    editor.putBoolean("log",true);
+                                    editor.commit();
+
                                     startActivity(new Intent( Login.this, Bycomp.class));
                                     Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
+
                                     // Sign in success, update UI with the signed-in user's information
                                     //FirebaseUser user = mAuth.getCurrentUser();
                                     //updateUI(user);

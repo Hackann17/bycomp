@@ -38,7 +38,7 @@
         android:layout_width="270dp"
         android:layout_height="316dp"
         android:src="@drawable/tomatoes_gdc3c474c8_19201"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/navEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

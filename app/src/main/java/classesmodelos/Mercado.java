@@ -7,10 +7,10 @@ public class Mercado {
     private String rua;
     private String uf;
     private String numero;
-    private String avaliacao;
+    private double avaliacao;
 
 
-    public Mercado(String nome, String cnpj, String bairro, String rua, String uf, String numero, String avaliacao) {
+    public Mercado(String nome, String cnpj, String bairro, String rua, String uf, String numero, double avaliacao) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.bairro = bairro;
@@ -44,7 +44,7 @@ public class Mercado {
         return numero;
     }
 
-    public String getAvaliacao() {
+    public double getAvaliacao() {
         return avaliacao;
     }
 

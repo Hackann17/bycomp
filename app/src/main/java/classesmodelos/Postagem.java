@@ -3,7 +3,7 @@ package classesmodelos;
 public class Postagem {
     private Usuario usuario;
     private Produto produto;
-
+    private Mercado avaliacaoMecrado;
     private String comentario ;
     private Integer likes;
 

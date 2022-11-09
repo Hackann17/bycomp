@@ -186,7 +186,7 @@ public class Lista<Int> extends Fragment {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("bairro"),
-                                                document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
+                                                document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getString("avaliacao"));
                                         //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no memso bairro que o usuario
                                         if (m.getCnpj().equals(cnpj) && m.getBairro().equals(bairroU)) {
                                             //caso o mercado atenda aos requisitos seu cnpj sera adicionado a lista
@@ -207,11 +207,6 @@ public class Lista<Int> extends Fragment {
         return  mercados;
     }
 
-    private void separaProdutoPorLocal(){
-        ProdutoMercado pm = new ProdutoMercado((Mercado) mercados, (Produto) produtos);
-        Log.e(pm.toString(), "");
-
-    }
 
 }
 

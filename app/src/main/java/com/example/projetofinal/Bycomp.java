@@ -1,7 +1,6 @@
 package com.example.projetofinal;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -22,7 +21,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -33,11 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetofinal.databinding.ActivityBycompBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -60,26 +54,18 @@ public class Bycomp extends AppCompatActivity {
     private LocationManager locationManager;
     private Address endereco;
 
-    private TextView navEmail ;
+    //private TextView navEmail ;
 
     private SearchView search;
     List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
 
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityBycompBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //navEmail = findViewById(R.id.navEmail);
-        //texto();
-
-
-
 
         setSupportActionBar(binding.appBarBycomp.toolbar);
         binding.appBarBycomp.appBarLayout.setOnClickListener(new View.OnClickListener() {
@@ -279,7 +265,6 @@ public class Bycomp extends AppCompatActivity {
         //retorna o primeiro endereço
         return endereco;
     }
-
 //adicionando nome ao navheader
 
     /*public void texto() {
@@ -306,9 +291,6 @@ public class Bycomp extends AppCompatActivity {
         });
     }
 */
-
-
-
 
 
 }

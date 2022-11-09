@@ -34,7 +34,7 @@
 
         <!-- *avaliaçoes-->
         <item
-            android:id="@+id/nav_avaliacao"
+            android:id="@+id/avaliacaoTela"
             android:icon="@drawable/estrelapreto"
             android:title="@string/menu_avaliacoes" />
 

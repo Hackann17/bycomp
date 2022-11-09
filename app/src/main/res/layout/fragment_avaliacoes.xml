@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/telaAvaliacao"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PesquisarFragment">
+    tools:context=".AvaliacoesFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -23,23 +24,24 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar8"
-        android:layout_width="332dp"
-        android:layout_height="168dp"
+        android:layout_width="325dp"
+        android:layout_height="149dp"
         android:layout_marginBottom="36dp"
         android:background="@drawable/containers"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView36"
-        app:layout_constraintVertical_bias="0.565" />
+        app:layout_constraintVertical_bias="0.7" />
 
     <TextView
         android:id="@+id/textView26"
@@ -48,7 +50,7 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="Avaliação"
         android:textColor="#485696"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/textView32"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
@@ -62,31 +64,31 @@
         android:layout_height="46dp"
         android:layout_marginTop="80dp"
         android:text="Faça uma avaliação e ajude outros usuários com a sua opinião"
-        android:textSize="16sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView17" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/butCaro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/botao"
         android:fontFamily="@font/poppins_medium"
         android:text="Caro"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/button9"
+        app:layout_constraintBottom_toTopOf="@+id/butAtendimentoOk"
         app:layout_constraintEnd_toEndOf="@+id/toolbar8"
         app:layout_constraintTop_toTopOf="@+id/toolbar8"
-        app:layout_constraintVertical_bias="0.512" />
+        app:layout_constraintVertical_bias="0.774" />
 
     <TextView
         android:id="@+id/textView36"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="@font/poppins_medium"
         android:text="Produtos"
         android:textColor="#485696"
@@ -97,21 +99,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/butBaixaQualidade"
         android:layout_width="206dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/botao"
         android:fontFamily="@font/poppins_medium"
-        android:text="Não gostei da qualidade"
+        android:text="Baixa qualidade"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/button7"
+        app:layout_constraintEnd_toStartOf="@+id/butCaro"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="@+id/toolbar8"
         app:layout_constraintTop_toTopOf="@+id/toolbar8" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/butPub"
         android:layout_width="124dp"
         android:layout_height="44dp"
         android:background="@drawable/botao_laranja"
@@ -121,13 +123,13 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.891"
+        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button11"
-        app:layout_constraintVertical_bias="0.701" />
+        app:layout_constraintTop_toBottomOf="@+id/butBarato"
+        app:layout_constraintVertical_bias="0.585" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/butArq"
         android:layout_width="124dp"
         android:layout_height="44dp"
         android:background="@drawable/botao"
@@ -139,11 +141,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button11"
-        app:layout_constraintVertical_bias="0.699" />
+        app:layout_constraintTop_toBottomOf="@+id/butBarato"
+        app:layout_constraintVertical_bias="0.585" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/butBarato"
         android:layout_width="122dp"
         android:layout_height="46dp"
         android:background="@drawable/botao"
@@ -152,16 +154,16 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="@+id/toolbar8"
-        app:layout_constraintTop_toBottomOf="@+id/button5"
-        app:layout_constraintVertical_bias="0.537" />
+        app:layout_constraintTop_toBottomOf="@+id/butBaixaQualidade"
+        app:layout_constraintVertical_bias="0.225" />
 
     <TextView
         android:id="@+id/textView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_medium"
         android:text="Mercado"
         android:textColor="#485696"
@@ -172,42 +174,82 @@
         app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/butAtendimentoOk"
         android:layout_width="171dp"
         android:layout_height="46dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/botao"
         android:fontFamily="@font/poppins_medium"
-        android:text="Atendimento ruim"
+        android:text="bom atendimento"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar8"
         app:layout_constraintEnd_toEndOf="@+id/toolbar8"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toEndOf="@+id/button11" />
+        app:layout_constraintHorizontal_bias="0.619"
+        app:layout_constraintStart_toEndOf="@+id/butBarato" />
+
+    <TextView
+        android:id="@+id/textView43"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar8"
+        app:layout_constraintEnd_toEndOf="@+id/textView17"
+        app:layout_constraintHorizontal_bias="0.149"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView36"
+        app:layout_constraintVertical_bias="0.102" />
+
+    <EditText
+        android:id="@+id/comentarioUsuario"
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/container"
+        android:ems="10"
+        android:inputType="textMultiLine|textPersonName"
+        android:paddingLeft="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.327"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView43"
+        app:layout_constraintVertical_bias="0.63" />
+
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Conte-nos um pouco da sua experiência"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/comentarioUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.204"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView36"
+        app:layout_constraintVertical_bias="0.569" />
+
+    <TextView
+        android:id="@+id/textView45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(opcional)"
+        android:textColor="#48000000"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView44"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.074"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView36"
+        app:layout_constraintVertical_bias="0.0" />
 
     <RatingBar
         android:id="@+id/ratingBar"
-        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
-        android:layout_width="182dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="44dp"
-        android:background="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/textView36"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.107"
-        app:layout_constraintStart_toStartOf="@+id/toolbar3"
-        app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="328dp"
-        android:layout_height="52dp"
-        android:background="@drawable/container"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Conte-nos sua experiência"
-        android:paddingLeft="10dp"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="312dp" />
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView32"
+        app:layout_constraintVertical_bias="0.84" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

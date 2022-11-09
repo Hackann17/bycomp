@@ -30,7 +30,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetofinal.databinding.ActivityBycompBinding;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.Produto;
-import classesmodelos.Usuario;
 
 public class Bycomp extends AppCompatActivity {
 
@@ -142,7 +140,7 @@ public class Bycomp extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_pesquisar,
                 R.id.nav_promocoes,R.id.nav_adicionarnota,
-                R.id.nav_historico,R.id.nav_avaliacao,
+                R.id.nav_historico,R.id.avaliacaoTela,
                 R.id.nav_perfil)
                 .setOpenableLayout(drawer)
                 .build();

@@ -5,6 +5,7 @@
     android:id="@+id/telaAvaliacao"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/botao"
     tools:context=".AvaliacoesFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -27,21 +28,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar8"
-        android:layout_width="325dp"
-        android:layout_height="149dp"
-        android:layout_marginBottom="36dp"
-        android:background="@drawable/containers"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.329"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView36"
-        app:layout_constraintVertical_bias="0.7" />
 
     <TextView
         android:id="@+id/textView26"
@@ -70,20 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView17" />
 
-    <Button
-        android:id="@+id/butCaro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/botao"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Caro"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/butAtendimentoOk"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar8"
-        app:layout_constraintTop_toTopOf="@+id/toolbar8"
-        app:layout_constraintVertical_bias="0.774" />
-
     <TextView
         android:id="@+id/textView36"
         android:layout_width="wrap_content"
@@ -93,29 +65,17 @@
         android:text="Produtos"
         android:textColor="#485696"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar8"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/toolbar8"
-        app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-    <Button
-        android:id="@+id/butBaixaQualidade"
-        android:layout_width="206dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/botao"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Baixa qualidade"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toStartOf="@+id/butCaro"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="@+id/toolbar8"
-        app:layout_constraintTop_toTopOf="@+id/toolbar8" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView33"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/butPub"
         android:layout_width="124dp"
         android:layout_height="44dp"
+        android:layout_marginBottom="44dp"
         android:background="@drawable/botao_laranja"
         android:fontFamily="@font/poppins_medium"
         android:text="Publicar"
@@ -125,13 +85,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/butBarato"
-        app:layout_constraintVertical_bias="0.585" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.853" />
 
     <Button
         android:id="@+id/butArq"
         android:layout_width="124dp"
         android:layout_height="44dp"
+        android:layout_marginBottom="44dp"
         android:background="@drawable/botao"
         android:fontFamily="@font/poppins_medium"
         android:text="Arquivar"
@@ -141,23 +102,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/butBarato"
-        app:layout_constraintVertical_bias="0.585" />
-
-    <Button
-        android:id="@+id/butBarato"
-        android:layout_width="122dp"
-        android:layout_height="46dp"
-        android:background="@drawable/botao"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Barato"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.038"
-        app:layout_constraintStart_toStartOf="@+id/toolbar8"
-        app:layout_constraintTop_toBottomOf="@+id/butBaixaQualidade"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintVertical_bias="0.853" />
 
     <TextView
         android:id="@+id/textView33"
@@ -173,46 +119,100 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView32" />
 
-    <Button
-        android:id="@+id/butAtendimentoOk"
-        android:layout_width="171dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/botao"
-        android:fontFamily="@font/poppins_medium"
-        android:text="bom atendimento"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar8"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar8"
-        app:layout_constraintHorizontal_bias="0.619"
-        app:layout_constraintStart_toEndOf="@+id/butBarato" />
-
     <TextView
         android:id="@+id/textView43"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar8"
         app:layout_constraintEnd_toEndOf="@+id/textView17"
         app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView36"
-        app:layout_constraintVertical_bias="0.102" />
+        app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
     <EditText
         android:id="@+id/comentarioUsuario"
         android:layout_width="350dp"
         android:layout_height="80dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/container"
         android:ems="10"
         android:inputType="textMultiLine|textPersonName"
         android:paddingLeft="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.327"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView43"
-        app:layout_constraintVertical_bias="0.63" />
+        app:layout_constraintTop_toBottomOf="@+id/textView43" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/radioGroup"
+        android:layout_width="367dp"
+        android:layout_height="135dp"
+        android:background="@drawable/container"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.298"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comentarioUsuario"
+        app:layout_constraintVertical_bias="0.183"
+        tools:ignore="MissingConstraints">
+
+        <RadioButton
+            android:id="@+id/butBomBarato"
+            android:layout_width="145dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/botao"
+            android:bufferType="editable"
+            android:fontFamily="@font/poppins_medium"
+            android:onClick="onRadioButtonClicked"
+            android:text="Bom e barato"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.064"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/butAtendimentoBom"
+            android:layout_width="177dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/botao"
+            android:fontFamily="@font/poppins_medium"
+            android:onClick="onRadioButtonClicked"
+            android:text="Bom atendimento"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintStart_toEndOf="@+id/butBomBarato"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/butAtendimentoRuim"
+            android:layout_width="171dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/botao"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Atendimento ruim"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/butBomBarato" />
+
+        <RadioButton
+            android:id="@+id/butCaro"
+            android:layout_width="155dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/botao"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Caro"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.466"
+            app:layout_constraintStart_toEndOf="@+id/butAtendimentoRuim"
+            app:layout_constraintTop_toBottomOf="@+id/butAtendimentoBom" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView44"

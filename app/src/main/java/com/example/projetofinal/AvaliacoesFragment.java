@@ -9,17 +9,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import classesmodelos.Postagem;
+
 public class AvaliacoesFragment extends Fragment {
 
-    //variaveis
-    Button butBaixaQualidade, butCaro, butBarato, butAtendimentoOk, publicar, arquivar;
+    //componentes da tela
+    Button publicar, arquivar;
     RatingBar qtdEstrelas;
     TextView comentarioUsuario;
+    RadioGroup radioGroup;
+
+    //variaveis
+    Boolean clicado = false; //verifica se algum botao foi clicado ou nao
+    int clickBotao; //vai aumentar a cada vez que o usuario clicar em um botao
     String comentario;
+    List <Postagem> postagem = new ArrayList<>(); //lista que vai guardar tudo o que vier da tela avaliacao
     View v;
 
 
@@ -45,11 +58,12 @@ public class AvaliacoesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_avaliacoes, container, false);
 
+        //recurso.setBackgroundResource(R.drawable.botaoroxoescuro);
+
+        //radioGroup
+        radioGroup = v.findViewById(R.id.radioGroup);
+
         //botoes
-        butBaixaQualidade = v.findViewById(R.id.butBaixaQualidade);
-        butAtendimentoOk = v.findViewById(R.id.butAtendimentoOk);
-        butBarato = v.findViewById(R.id.butBarato);
-        butCaro = v.findViewById(R.id.butCaro);
         publicar = v.findViewById(R.id.butPub);
         arquivar = v.findViewById(R.id.butArq);
 
@@ -69,44 +83,22 @@ public class AvaliacoesFragment extends Fragment {
                 if(rating.equals("0.0")){
                     Toast.makeText(getContext(), "Por favor, faça a avaliação do mercado", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.e("Estrelas: ", rating);
+                    verificarRadioButtonSelecionado();
+                    //Postagem p = new Postagem();
                 }
             }
-        });
 
-        butBaixaQualidade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //muda o shape dos botoes ao ser clicado
-                butBaixaQualidade.setBackgroundResource(R.drawable.botaoroxoescuro);
-                //teste
-                String texto;
-                texto = butBaixaQualidade.getText().toString();
-                Log.e("Texto: ", texto);
-            }
-        });
+            private void verificarRadioButtonSelecionado() {
+                //verifica o id do radio group selecionado
+                int item = radioGroup.getCheckedRadioButtonId();
 
-        butCaro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //muda o shape dos botoes ao ser clicado
-                butBaixaQualidade.setBackgroundResource(R.drawable.botaoroxoescuro);
-            }
-        });
+                if(item != -1){
+                    //algum foi selecionado
+                    RadioButton itemSelecionado = v.findViewById(R.id.item);
 
-        butBarato.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //muda o shape dos botoes ao ser clicado
-                butBaixaQualidade.setBackgroundResource(R.drawable.botaoroxoescuro);
-            }
-        });
+                    String opcao = itemSelecionado.getText().toString();
 
-        butAtendimentoOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //muda o shape dos botoes ao ser clicado
-                butBaixaQualidade.setBackgroundResource(R.drawable.botaoroxoescuro);
+                }
             }
         });
 

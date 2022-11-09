@@ -100,44 +100,7 @@ public class Lista<Int> extends Fragment {
                 separarElementos();
                 //busca os produtos no banco
                 try{
-                    firestore = FirebaseFirestore.getInstance();
-                    firestore.collection("Produtos")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
-                                                    Double.parseDouble(document.getString("preco")), document.getString("unidade"));
-                                            aux.add(p);
-                                        }
-                                        //for que vai percorrer a lista de itens do usuario
-                                        for (int indexP = 0; indexP < itens.size(); indexP++) {
-                                            //for que percorre a lista aux que contém todos os produtos do firebase
-                                            for (int index = 0; index < aux.size(); index++) {
-                                                //variavel que recebe cada item na lista aux
-                                                String produtoBanco = aux.get(index).getNome().toUpperCase().trim();
-                                                //variavel que recebe cada item da lista de usuario
-                                                String produtoUsuario = itens.get(indexP).toUpperCase().trim();
-                                                //verifica se os produtos no banco contém o item que o usuario passou
-                                                if (produtoBanco.contains(produtoUsuario)) {
-                                                    produtos.add(aux.get(index)); //adiciona na lista de produtos global
-                                                    Log.e("Produtos contem: ", aux.get(index).getNome());
-                                                } else {
-                                                    Log.e("Não foi encontrado: ", aux.get(index).getNome());
-                                                }
-                                            }
-                                        }
-                                        //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
-                                        produtos = Produto.organizarPorPreco(produtos);
-
-                                        for (Produto p : produtos) {
-                                            Log.e("preço depois: ",p.getPreco()+"");
-                                        }
-                                    }
-                                }
-                            });
+                    SelecionaProdutos();
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
                 }
@@ -163,6 +126,49 @@ public class Lista<Int> extends Fragment {
         } catch (Exception e) {
             Toast.makeText(getContext(), "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //seleciona os produtos no banco
+    private void SelecionaProdutos(){
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("Produtos")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
+                                        Double.parseDouble(document.getString("preco")), document.getString("unidade"));
+                                aux.add(p);
+                            }
+                            //for que vai percorrer a lista de itens do usuario
+                            for (int indexP = 0; indexP < itens.size(); indexP++) {
+                                //for que percorre a lista aux que contém todos os produtos do firebase
+                                for (int index = 0; index < aux.size(); index++) {
+                                    //variavel que recebe cada item na lista aux
+                                    String produtoBanco = aux.get(index).getNome().toUpperCase().trim();
+                                    //variavel que recebe cada item da lista de usuario
+                                    String produtoUsuario = itens.get(indexP).toUpperCase().trim();
+                                    //verifica se os produtos no banco contém o item que o usuario passou
+                                    if (produtoBanco.contains(produtoUsuario)) {
+                                        produtos.add(aux.get(index)); //adiciona na lista de produtos global
+                                        Log.e("Produtos contem: ", aux.get(index).getNome());
+                                    } else {
+                                        Log.e("Não foi encontrado: ", aux.get(index).getNome());
+                                    }
+                                }
+                            }
+                            //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
+                            produtos = Produto.organizarPorPreco(produtos);
+
+                            for (Produto p : produtos) {
+                                Log.e("preço depois: ",p.getPreco()+"");
+                            }
+                        }
+                    }
+                });
+
     }
 
     //método que compara a localização dos mercados no nosso banco e verifica a distancia da localização do usuario

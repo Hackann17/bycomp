@@ -36,6 +36,8 @@ import com.google.firebase.auth.FirebaseUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 import classesmodelos.Usuario;
 
 //import java.io.ByteArrayOutputStream;
@@ -108,8 +110,7 @@ public class Login extends AppCompatActivity {
 
                 try{
 
-
-                    //logar direto para testar o aplicativo
+                    //verificar a coneçao com a internet
 
                     //verifica se os campos estão preenchidos
                     if(TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())){
@@ -122,10 +123,6 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
 
-                                    //colocar o valor boolean no shared
-                                    SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
-                                    editor.putBoolean("log",true);
-                                    editor.commit();
 
                                     startActivity(new Intent( Login.this, Bycomp.class));
                                     Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
@@ -145,7 +142,12 @@ public class Login extends AppCompatActivity {
 
                     }
 
-                } catch (Exception e){
+                }
+
+
+                catch (Exception e){
+
+                    Toast.makeText(Login.this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
                 }
@@ -155,4 +157,14 @@ public class Login extends AppCompatActivity {
 
 
     }
+
+    //realizar a autentificaçao
+
+
+
+
+
+
+
+
 }

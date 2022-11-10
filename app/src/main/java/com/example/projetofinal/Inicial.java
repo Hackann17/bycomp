@@ -21,13 +21,13 @@ public class Inicial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial);
 
-        SharedPreferences preferences = getSharedPreferences("Salvar", Context.MODE_PRIVATE);
+        /*SharedPreferences preferences = getSharedPreferences("Salvar", Context.MODE_PRIVATE);
 
 
-        if(preferences.getBoolean("log",true)){
+        if(!preferences.getBoolean("log",false)){
             startActivity(new Intent(Inicial.this, Bycomp.class));
 
-        }
+        }*/
 
 
         butcomecar = findViewById(R.id.butComecar);

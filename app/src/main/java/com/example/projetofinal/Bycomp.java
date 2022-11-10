@@ -1,6 +1,7 @@
 package com.example.projetofinal;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -9,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.SearchView;
@@ -31,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetofinal.databinding.ActivityBycompBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -150,6 +153,20 @@ public class Bycomp extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId()==R.id.nav_sair){
+                  FirebaseAuth.getInstance().signOut();
+
+                    startActivity(new Intent(Bycomp.this, Login.class));
+
+                    finish();
+                }
+                return false;
+            }
+        });
         //uma das primeiras coisas a se fazer para pegar a localizaçao é pedir a permissao
         //variveis para armazenar a latitude e a longitude
         double latitude = 0.0;

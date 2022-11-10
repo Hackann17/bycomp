@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -26,7 +27,7 @@ public class AvaliacoesFragment extends Fragment {
     Button publicar, arquivar;
     RatingBar qtdEstrelas;
     TextView comentarioUsuario;
-    RadioGroup radioGroup;
+    //RadioButton bomEbarato, bomAtendimento, qualidadeRuim, caro;
 
     //variaveis
     Boolean clicado = false; //verifica se algum botao foi clicado ou nao
@@ -60,9 +61,6 @@ public class AvaliacoesFragment extends Fragment {
 
         //recurso.setBackgroundResource(R.drawable.botaoroxoescuro);
 
-        //radioGroup
-        radioGroup = v.findViewById(R.id.radioGroup);
-
         //botoes
         publicar = v.findViewById(R.id.butPub);
         arquivar = v.findViewById(R.id.butArq);
@@ -72,6 +70,13 @@ public class AvaliacoesFragment extends Fragment {
 
         //input que o usuario comentou
         comentarioUsuario = v.findViewById(R.id.comentarioUsuario);
+
+        //radioButton
+      /*  bomEbarato = v.findViewById(R.id.checkBom);
+        bomAtendimento = v.findViewById(R.id.checkBomAtend);
+        qualidadeRuim = v.findViewById(R.id.checkqualidadeRuim);
+        caro = v.findViewById(R.id.checkCaro);*/
+
 
         publicar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,23 +88,23 @@ public class AvaliacoesFragment extends Fragment {
                 if(rating.equals("0.0")){
                     Toast.makeText(getContext(), "Por favor, faça a avaliação do mercado", Toast.LENGTH_SHORT).show();
                 } else {
-                    verificarRadioButtonSelecionado();
+                    //verificarRadioButtonSelecionado();
                     //Postagem p = new Postagem();
                 }
             }
 
-            private void verificarRadioButtonSelecionado() {
+         /*   private void verificarRadioButtonSelecionado() {
+                CheckBox itemSelecionado;
                 //verifica o id do radio group selecionado
-                int item = radioGroup.getCheckedRadioButtonId();
-
-                if(item != -1){
-                    //algum foi selecionado
-                    RadioButton itemSelecionado = v.findViewById(R.id.item);
-
-                    String opcao = itemSelecionado.getText().toString();
+                if(bomEbarato.isChecked()){
+                    Log.e("Foi selecionado: ", bomEbarato.getText().toString());
 
                 }
-            }
+
+
+                    //String opcao = itemSelecionado.getText().toString();
+
+            }*/
         });
 
         return v;

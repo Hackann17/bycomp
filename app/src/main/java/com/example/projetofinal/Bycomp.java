@@ -142,7 +142,7 @@ public class Bycomp extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_pesquisar,
                 R.id.nav_promocoes,R.id.nav_adicionarnota,
-                R.id.nav_historico,R.id.avaliacaoTela,
+                R.id.nav_historico,
                 R.id.nav_perfil)
                 .setOpenableLayout(drawer)
                 .build();

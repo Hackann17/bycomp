@@ -43,7 +43,6 @@ public class Perfil extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     Button btAlterarDados;
     Button btAlterarSenha;

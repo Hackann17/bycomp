@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetofinal.databinding.ActivityBycompBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.Produto;
-import classesmodelos.Usuario;
 
 public class Bycomp extends AppCompatActivity {
 
@@ -146,27 +143,36 @@ public class Bycomp extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_pesquisar,
                 R.id.nav_promocoes,R.id.nav_adicionarnota,
                 R.id.nav_historico,R.id.avaliacaoTela,
-                R.id.nav_perfil)
+                R.id.nav_perfil,R.id.nav_sair)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_bycomp);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavController navController = Navigation.findNavController(Bycomp.this, R.id.nav_host_fragment_content_bycomp);
+        NavigationUI.setupActionBarWithNavController(Bycomp.this, navController, mAppBarConfiguration);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+        //listener que puxa o metodo de deslogar
+        /*navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.e("opa","ta caindo no item selected");
 
-                if(item.getItemId()==R.id.nav_sair){
-                  FirebaseAuth.getInstance().signOut();
-
+                if(item.getItemId()==R.id.nav_sair) {
+                    Log.e("opa","ta caindo no if");
+                    FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(Bycomp.this, Login.class));
-
                     finish();
+
+                }else{
+                    Log.e("opa","ta caindo no else");
+
+                    NavigationUI.setupWithNavController(navigationView, navController);
                 }
+
                 return false;
             }
-        });
+        });*/
+
+
         //uma das primeiras coisas a se fazer para pegar a localizaçao é pedir a permissao
         //variveis para armazenar a latitude e a longitude
         double latitude = 0.0;

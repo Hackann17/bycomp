@@ -1,6 +1,7 @@
 package com.example.projetofinal;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 //import androidx.constraintlayout.widget.ConstraintLayout;
@@ -32,6 +33,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,13 +64,14 @@ public class Login extends AppCompatActivity {
 
     // variaveis para o shared preferences
     SharedPreferences sharedpreferences;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     FirebaseAuth mAuth;
     EditText emailEd, senhaEd;
     TextView Criarconta;
     Button btLogar;
     String email, senha;
-    Usuario u;
+    String nomedocumento;
     /*//puxando informaçoes shared preferences
     SharedPreferences preferences = getSharedPreferences("Salvar",MODE_PRIVATE);
     boolean logado=preferences.getBoolean("log",false);*/
@@ -90,7 +97,10 @@ public class Login extends AppCompatActivity {
         //email = sharedpreferences.getString(USUARIO_KEY, null);
         //senha = sharedpreferences.getString(SENHA_KEY, null);
 
+        //puxando informaçoes shared preferences
+        SharedPreferences preferences = getSharedPreferences("Salvar",MODE_PRIVATE);
 
+        nomedocumento = preferences.getString("NomeDocumento","");
         //ir para tela de cadastro
         Criarconta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,8 +132,6 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-
-
                                     startActivity(new Intent( Login.this, Bycomp.class));
                                     Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
 
@@ -131,7 +139,31 @@ public class Login extends AppCompatActivity {
                                     //FirebaseUser user = mAuth.getCurrentUser();
                                     //updateUI(user);
                                 } else {
-                                    Toast.makeText(Login.this, "Verifique se o email e a senha estão corretos", Toast.LENGTH_SHORT).show();
+
+                                    //caso nao seja bem sucedido o processo
+                                    DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
+
+                                    //acessa o banco de dados e verifica se a senha e o email estao corretos
+                                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                                            if(value != null) {
+
+                                                if(value.getString("email") != email && value.getString("senha")!= senha){
+                                                    Toast.makeText(Login.this, "Verifique se o email ou a senha estão corretos", Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    Toast.makeText(Login.this, "Verifique se há conexão com a internet", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                            else{
+                                                Toast.makeText(Login.this, "Verifique se há conexão com a internet", Toast.LENGTH_SHORT).show();
+
+                                            }
+
+                                        }
+                                    });
+
                                     // If sign in fails, display a message to the user.
 
                                     //updateUI(null);
@@ -143,11 +175,9 @@ public class Login extends AppCompatActivity {
                     }
 
                 }
-
-
                 catch (Exception e){
 
-                    Toast.makeText(Login.this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Erro--->>"+e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
                 }
@@ -157,14 +187,5 @@ public class Login extends AppCompatActivity {
 
 
     }
-
-    //realizar a autentificaçao
-
-
-
-
-
-
-
 
 }

@@ -113,12 +113,16 @@ public class Login extends AppCompatActivity {
         //entrar na tela do aplicativo
         btLogar.setOnClickListener(new View.OnClickListener() {
 
-            @Override
+
+
+           @Override
             public void onClick(View view) {
                 email = emailEd.getText().toString();
                 senha = senhaEd.getText().toString();
 
-                try{
+                startActivity(new Intent( Login.this, Bycomp.class));
+
+                /*try{
 
                     //verificar a coneçao com a internet
 
@@ -180,8 +184,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Erro--->>"+e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
-                }
-
+                }*/
             }
         });
 

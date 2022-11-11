@@ -27,7 +27,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView26"
@@ -84,9 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        app:layout_constraintVertical_bias="0.853" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/butArq"
@@ -101,9 +100,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        app:layout_constraintVertical_bias="0.853" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView33"
@@ -130,89 +127,17 @@
 
     <EditText
         android:id="@+id/comentarioUsuario"
-        android:layout_width="350dp"
+        android:layout_width="323dp"
         android:layout_height="80dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/container"
         android:ems="10"
         android:inputType="textMultiLine|textPersonName"
         android:paddingLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.327"
+        app:layout_constraintHorizontal_bias="0.295"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView43" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/radioGroup"
-        android:layout_width="367dp"
-        android:layout_height="135dp"
-        android:background="@drawable/container"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.298"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comentarioUsuario"
-        app:layout_constraintVertical_bias="0.183"
-        tools:ignore="MissingConstraints">
-
-        <RadioButton
-            android:id="@+id/butBomBarato"
-            android:layout_width="145dp"
-            android:layout_height="39dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/botao"
-            android:bufferType="editable"
-            android:fontFamily="@font/poppins_medium"
-            android:onClick="onRadioButtonClicked"
-            android:text="Bom e barato"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.064"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RadioButton
-            android:id="@+id/butAtendimentoBom"
-            android:layout_width="177dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/botao"
-            android:fontFamily="@font/poppins_medium"
-            android:onClick="onRadioButtonClicked"
-            android:text="Bom atendimento"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.512"
-            app:layout_constraintStart_toEndOf="@+id/butBomBarato"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RadioButton
-            android:id="@+id/butAtendimentoRuim"
-            android:layout_width="171dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/botao"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Atendimento ruim"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/butBomBarato" />
-
-        <RadioButton
-            android:id="@+id/butCaro"
-            android:layout_width="155dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/botao"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Caro"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.466"
-            app:layout_constraintStart_toEndOf="@+id/butAtendimentoRuim"
-            app:layout_constraintTop_toBottomOf="@+id/butAtendimentoBom" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView44"
@@ -251,5 +176,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView32"
         app:layout_constraintVertical_bias="0.84" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar8"
+        android:layout_width="381dp"
+        android:layout_height="131dp"
+        android:background="@drawable/container"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comentarioUsuario"
+        app:layout_constraintVertical_bias="0.19" />
+
+    <CheckBox
+        android:id="@+id/checkBom"
+        android:layout_width="181dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/botao"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Bom e barato"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar8"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar8" />
+
+    <CheckBox
+        android:id="@+id/checkCaro"
+        android:layout_width="181dp"
+        android:layout_height="41dp"
+        android:background="@drawable/botao"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Caro"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/checkBom"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar8"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toEndOf="@+id/checkqualidadeRuim"
+        app:layout_constraintTop_toTopOf="@+id/toolbar8" />
+
+    <CheckBox
+        android:id="@+id/checkqualidadeRuim"
+        android:layout_width="177dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/botao"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Qualidade inferior"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/checkBomAtend"
+        app:layout_constraintStart_toStartOf="@+id/toolbar8"
+        app:layout_constraintTop_toTopOf="@+id/toolbar8"
+        app:layout_constraintVertical_bias="0.625" />
+
+    <CheckBox
+        android:id="@+id/checkBomAtend"
+        android:layout_width="181dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/botao"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Bom atendimento"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar8"
+        app:layout_constraintEnd_toStartOf="@+id/checkBom"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="@+id/toolbar8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

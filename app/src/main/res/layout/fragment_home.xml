@@ -69,19 +69,19 @@
 
     <TextView
         android:id="@+id/textView19"
-        android:layout_width="137dp"
-        android:layout_height="51dp"
+        android:layout_width="135dp"
+        android:layout_height="24dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="Promoções Especiais"
+        android:text="Nota Fiscal"
         android:textColor="#776060"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar4"
         app:layout_constraintEnd_toEndOf="@+id/toolbar4"
-        app:layout_constraintHorizontal_bias="0.269"
+        app:layout_constraintHorizontal_bias="0.259"
         app:layout_constraintStart_toEndOf="@+id/imageView16"
         app:layout_constraintTop_toTopOf="@+id/toolbar4"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0.128" />
 
     <ImageView
         android:id="@+id/imageView16"
@@ -97,25 +97,25 @@
 
     <TextView
         android:id="@+id/textView20"
-        android:layout_width="155dp"
-        android:layout_height="33dp"
+        android:layout_width="159dp"
+        android:layout_height="66dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="28dp"
-        android:text="Encontre as promoções mais próximas de você"
+        android:layout_marginEnd="24dp"
+        android:text="Digitalize suas compras posicionando a nota fiscal na câmera e ajude a manter os preços do app atualizados"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/Idpromocoes"
+        app:layout_constraintBottom_toTopOf="@+id/IdNotaScan"
         app:layout_constraintEnd_toEndOf="@+id/toolbar4"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/Idpromocoes"
+        android:id="@+id/IdNotaScan"
         android:layout_width="112dp"
         android:layout_height="38dp"
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/botao"
-        android:text="Ver mais"
+        android:text="Digitalizar"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
@@ -221,20 +221,5 @@
         app:layout_constraintStart_toStartOf="@+id/toolbar6"
         app:layout_constraintTop_toTopOf="@+id/toolbar6"
         app:layout_constraintVertical_bias="0.717" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btLerNota"
-        android:layout_width="63dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#485696"
-        android:clickable="true"
-        android:rotationX="-2"
-        android:src="@drawable/taxa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.91"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar6"
-        app:layout_constraintVertical_bias="0.413" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

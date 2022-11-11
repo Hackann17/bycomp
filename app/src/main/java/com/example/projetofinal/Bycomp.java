@@ -99,31 +99,21 @@ public class Bycomp extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
-                                                    Double.parseDouble(document.getString("preco")), document.getString("unidade"));
+                                                    Float.parseFloat(document.getString("preco")), document.getString("unidade"));
                                             aux.add(p);
                                         }
 
-                                            //for que percorre a lista aux que contém todos os produtos do firebase
-                                            for (int index = 0; index < aux.size(); index++) {
-                                                //variavel que recebe cada item na lista aux
-                                                String produtoBanco = aux.get(index).getNome().toUpperCase().trim();
-                                                //variavel que recebe cada item da lista de usuario
-                                                String produtoUsuario = produtoPesquisado.toUpperCase().trim();
-                                                //verifica se os produtos no banco contém o item que o usuario passou
-                                                if (produtoBanco.contains(produtoUsuario)) {
-                                                    produtos.add(aux.get(index)); //adiciona na lista de produtos global
-                                                    Log.e("Produtos contem: ", aux.get(index).getNome());
-                                                } else {
-                                                    Log.e("Não foi encontrado: ", aux.get(index).getNome());
-                                                }
+                                        List<String> produtoPesquisadoLista = new ArrayList<>();
+                                        produtoPesquisadoLista.add(produtoPesquisado);
 
-                                            }
+                                        produtos = Produto.separarProdutos(aux,produtoPesquisadoLista);
+
                                         //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
                                         produtos = Produto.organizarPorPreco(produtos);
 
-//                                        for (Produto p : produtos) {
-//                                            Log.e("preço depois: ",p.getPreco()+"");
-//                                        }
+                                        for (Produto p : produtos) {
+                                            Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
+                                        }
                                     }
                                 }
                             });

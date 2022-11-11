@@ -56,23 +56,6 @@ public class Lista<Int> extends Fragment {
     List<ProdutoMercado> produtosMercado = new ArrayList<ProdutoMercado>();
     TextView limparLista; //texto clicavel para limpar o texto na lista de compras
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -109,26 +92,13 @@ public class Lista<Int> extends Fragment {
 
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
-                                                    Double.parseDouble(document.getString("preco")), document.getString("unidade"));
+                                                    Float.parseFloat(document.getString("preco")), document.getString("unidade"));
                                             aux.add(p);
                                         }
-                                        //for que vai percorrer a lista de itens do usuario
-                                        for (int indexP = 0; indexP < itens.size(); indexP++) {
-                                            //for que percorre a lista aux que contém todos os produtos do firebase
-                                            for (int index = 0; index < aux.size(); index++) {
-                                                //variavel que recebe cada item na lista aux
-                                                String produtoBanco = aux.get(index).getNome().toUpperCase().trim();
-                                                //variavel que recebe cada item da lista de usuario
-                                                String produtoUsuario = itens.get(indexP).toUpperCase().trim();
-                                                //verifica se os produtos no banco contém o item que o usuario passou
-                                                if (produtoBanco.contains(produtoUsuario)) {
-                                                    produtos.add(aux.get(index)); //adiciona na lista de produtos global
-                                                    Log.e("Produtos contem: ", aux.get(index).getNome());
-                                                } else {
-                                                    Log.e("Não foi encontrado: ", aux.get(index).getNome());
-                                                }
-                                            }
-                                        }
+
+                                        //método para separar os produtos do banco de acordo com os itens que o usuario digitou na lista de compras
+                                        produtos = Produto.separarProdutos(aux,itens);
+
                                         //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
                                         produtos = Produto.organizarPorPreco(produtos);
 
@@ -138,10 +108,12 @@ public class Lista<Int> extends Fragment {
 
                                         produtosMercado = separaProdutoPorMercado(produtos);
 
-//                                        for (ProdutoMercado pm : produtosMercado){
-//                                            for(Produto p : pm.getProdutos())
-//                                            Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
-//                                        }
+                                        for (ProdutoMercado pm : produtosMercado){
+                                            //for(Produto p : pm.getProdutos())
+                                            //Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
+                                        }
+
+
                                     }
                                 }
                             });
@@ -253,7 +225,7 @@ public class Lista<Int> extends Fragment {
     private List<Mercado> extrairMercadosBanco(){
         List<Mercado> mercados = new ArrayList<>();
         try {
-            firestore = FirebaseFirestore.getInstance();
+            //firestore = FirebaseFirestore.getInstance();
                 firestore.collection("Mercados")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

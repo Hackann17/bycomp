@@ -1,30 +1,17 @@
 package com.example.projetofinal.ui.home;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -33,9 +20,6 @@ import com.example.projetofinal.R;
 import com.example.projetofinal.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -44,8 +28,8 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
 
     View view;
-    Button IdLista;
-    Button Idpromocoes;
+    Button btLista;
+    Button btNotaScan;
     FloatingActionButton btLerNota;
     TextView txtview;
 
@@ -61,28 +45,21 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
 
-        IdLista = view.findViewById(R.id.IdLista);
-        Idpromocoes = view.findViewById(R.id.Idpromocoes);
-        btLerNota = view.findViewById(R.id.btLerNota);
+        btLista = view.findViewById(R.id.IdLista);
+        btNotaScan = view.findViewById(R.id.IdNotaScan);
+        //btLerNota = view.findViewById(R.id.btLerNota);
         
-        IdLista.setOnClickListener(new View.OnClickListener() {
+        btLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.lista2);
             }
         });
 
-        Idpromocoes.setOnClickListener(new View.OnClickListener() {
+        btNotaScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Navigation.findNavController(view).navigate(R.id.promocao);
-            }
-        });
-
-        btLerNota.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
                 //inicializa o timer
                 long duracao = TimeUnit.SECONDS.toMillis(1);
@@ -114,10 +91,7 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(view.getContext(), "AFDADAFAF", Toast.LENGTH_SHORT).show();
                     }
                 }.start();
-
             }
-
-
         });
 
         return view;

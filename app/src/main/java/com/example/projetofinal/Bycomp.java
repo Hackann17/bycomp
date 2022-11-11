@@ -153,7 +153,7 @@ public class Bycomp extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        /*navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -166,7 +166,7 @@ public class Bycomp extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
         //uma das primeiras coisas a se fazer para pegar a localizaçao é pedir a permissao
         //variveis para armazenar a latitude e a longitude
         double latitude = 0.0;

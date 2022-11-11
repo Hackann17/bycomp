@@ -1,19 +1,33 @@
 package classesmodelos;
 
+import java.util.List;
+
 public class Postagem {
     private Usuario usuario;
     private Produto produto;
     private String avaliacaoMercado;
-    private String comentario ;
+    private String comentario;
     private Integer likes;
 
+    public void setAdicional(List<String> adicional) {
+        this.adicional = adicional;
+    }
 
-    public Postagem(Usuario usuario, Produto produto, String avaliacaoMercado, String comentario, Integer likes) {
+    private List<String> adicional;
+
+    public Postagem(Usuario usuario, Produto produto, String avaliacaoMercado, String comentario, Integer likes, List<String> adicional) {
         this.usuario = usuario;
         this.produto = produto;
         this.avaliacaoMercado = avaliacaoMercado;
         this.comentario = comentario;
         this.likes = likes;
+        this.adicional = adicional;
+    }
+
+    public Postagem(String avaliacaoMercado, String comentario, List<String> adicional) {
+        this.avaliacaoMercado = avaliacaoMercado;
+        this.comentario = comentario;
+        this.adicional = adicional;
     }
 
 
@@ -55,6 +69,10 @@ public class Postagem {
 
     public void setLikes(Integer likes) {
         this.likes = likes;
+    }
+
+    public List<String> getAdicional() {
+        return adicional;
     }
 
 

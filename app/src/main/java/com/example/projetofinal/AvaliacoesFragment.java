@@ -27,15 +27,15 @@ public class AvaliacoesFragment extends Fragment {
     Button publicar, arquivar;
     RatingBar qtdEstrelas;
     TextView comentarioUsuario;
-    //RadioButton bomEbarato, bomAtendimento, qualidadeRuim, caro;
-
-    //variaveis
-    Boolean clicado = false; //verifica se algum botao foi clicado ou nao
-    int clickBotao; //vai aumentar a cada vez que o usuario clicar em um botao
-    String comentario;
-    List <Postagem> postagem = new ArrayList<>(); //lista que vai guardar tudo o que vier da tela avaliacao
+    CheckBox bomEbarato, bomAtendimento, qualidadeRuim, caro;
+    String rating;
     View v;
 
+    //variaveis
+    String comentario;
+    Postagem postagem = null; //lista que vai guardar tudo o que vier da tela avaliacao
+    CheckBox[] checkboxes = new CheckBox[4]; //guarda todos os checkboxes que possuem na tela
+    List <String> opcoes = new ArrayList<>(); //guarda as opcoes
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,39 +72,67 @@ public class AvaliacoesFragment extends Fragment {
         comentarioUsuario = v.findViewById(R.id.comentarioUsuario);
 
         //radioButton
-      /*  bomEbarato = v.findViewById(R.id.checkBom);
+        bomEbarato = v.findViewById(R.id.checkBom);
         bomAtendimento = v.findViewById(R.id.checkBomAtend);
         qualidadeRuim = v.findViewById(R.id.checkqualidadeRuim);
-        caro = v.findViewById(R.id.checkCaro);*/
-
-
+        caro = v.findViewById(R.id.checkCaro);
+        
         publicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 comentario = comentarioUsuario.getText().toString();
                 //pega a quantidade de estrelas que o usuario passou
-                String rating = String.valueOf(qtdEstrelas.getRating());
+                 rating = String.valueOf(qtdEstrelas.getRating());
 
                 if(rating.equals("0.0")){
                     Toast.makeText(getContext(), "Por favor, faça a avaliação do mercado", Toast.LENGTH_SHORT).show();
                 } else {
-                    //verificarRadioButtonSelecionado();
-                    //Postagem p = new Postagem();
+                    //adiciona os checkboxs na lista
+                    checkboxes[0] = bomAtendimento;
+                    checkboxes[1] = qualidadeRuim;
+                    checkboxes[2] = bomEbarato;
+                    checkboxes[3] = caro;
+
+                    verificarCheckSelecionado();
+
+                    Log.e("Postagem: ", postagem.getAvaliacaoMercado());
+                    Log.e("Postagem: ", postagem.getComentario());
+
+                    for(int i = 0; i < postagem.getAdicional().size(); i++){
+                        Log.e("Postagem: ", postagem.getAdicional().get(i));
+                    }
+
+
+                    /*for(int i = 0; i < postagem.size(); i++){
+                        Log.e("Postagem: ", postagem.get(i).getComentario());
+                        Log.e("Postagem: ", postagem.get(i).getAvaliacaoMercado());
+                        Log.e("Postagem: ", postagem.get(i).getAdicional().get(i));
+                    }*/
                 }
             }
 
-         /*   private void verificarRadioButtonSelecionado() {
-                CheckBox itemSelecionado;
-                //verifica o id do radio group selecionado
-                if(bomEbarato.isChecked()){
-                    Log.e("Foi selecionado: ", bomEbarato.getText().toString());
-
+           private void verificarCheckSelecionado() {
+               Postagem p = null;
+               //tamanho do array checkboxes
+                for(int i = 0; i < checkboxes.length; i++){
+                    //verifica os indices que estão selecionados
+                    if(checkboxes[i].isChecked()){
+                        //adiciona numa lista de string
+                        opcoes.add(checkboxes[i].getText().toString());
+                    }
                 }
 
+               //cria o objeto postagem e adiciona o que o usuario colocou
+               p = new Postagem(rating, comentario, opcoes);
 
-                    //String opcao = itemSelecionado.getText().toString();
+                //percorre o tamanho das opcoes
+                for(int i = 0; i < opcoes.size(); i++){
+                    Log.e("Foi selecionado: ", opcoes.get(i));
+                    //adiciona numa lista de objetos
+                }
 
-            }*/
+               postagem = p;
+            }
         });
 
         return v;

@@ -1,5 +1,9 @@
 package com.example.projetofinal;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,17 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.Postagem;
+import io.grpc.internal.JsonParser;
 
 public class AvaliacoesFragment extends Fragment {
 
@@ -27,14 +32,14 @@ public class AvaliacoesFragment extends Fragment {
     Button publicar, arquivar;
     RatingBar qtdEstrelas;
     TextView comentarioUsuario;
-    CheckBox bomEbarato, bomAtendimento, qualidadeRuim, caro;
+    RadioButton barato, qualidadeBoa, qualidadeRuim, caro;
     String rating;
     View v;
 
     //variaveis
     String comentario;
     Postagem postagem = null; //lista que vai guardar tudo o que vier da tela avaliacao
-    CheckBox[] checkboxes = new CheckBox[4]; //guarda todos os checkboxes que possuem na tela
+    RadioButton[] rdButtom = new RadioButton[4]; //guarda todos os checkboxes que possuem na tela
     List <String> opcoes = new ArrayList<>(); //guarda as opcoes
 
     // TODO: Rename parameter arguments, choose names that match
@@ -72,10 +77,10 @@ public class AvaliacoesFragment extends Fragment {
         comentarioUsuario = v.findViewById(R.id.comentarioUsuario);
 
         //radioButton
-        bomEbarato = v.findViewById(R.id.checkBom);
-        bomAtendimento = v.findViewById(R.id.checkBomAtend);
-        qualidadeRuim = v.findViewById(R.id.checkqualidadeRuim);
-        caro = v.findViewById(R.id.checkCaro);
+        barato = v.findViewById(R.id.radioButtonBarato);
+        qualidadeBoa = v.findViewById(R.id.radioButtonQualidadeBoa);
+        qualidadeRuim = v.findViewById(R.id.radioButtonQualidadeInf);
+        caro = v.findViewById(R.id.radioButtonCaro);
         
         publicar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,10 +93,10 @@ public class AvaliacoesFragment extends Fragment {
                     Toast.makeText(getContext(), "Por favor, faça a avaliação do mercado", Toast.LENGTH_SHORT).show();
                 } else {
                     //adiciona os checkboxs na lista
-                    checkboxes[0] = bomAtendimento;
-                    checkboxes[1] = qualidadeRuim;
-                    checkboxes[2] = bomEbarato;
-                    checkboxes[3] = caro;
+                    rdButtom[0] = qualidadeBoa;
+                    rdButtom[1] = qualidadeRuim;
+                    rdButtom[2] = barato;
+                    rdButtom[3] = caro;
 
                     verificarCheckSelecionado();
 
@@ -108,17 +113,37 @@ public class AvaliacoesFragment extends Fragment {
                         Log.e("Postagem: ", postagem.get(i).getAvaliacaoMercado());
                         Log.e("Postagem: ", postagem.get(i).getAdicional().get(i));
                     }*/
+
+
                 }
+
+
+
+                arquivar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SharedPreferences.Editor gravar = getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE).edit();
+                        gravar.putString("postagem", new Gson().toJson(postagem));
+                        gravar.apply();
+
+                        Log.e("FEITO!", "FEITO");
+
+
+//                        Intent i = new Intent(getContext(), Historico.class);
+//                        i.putExtra("armazenar", postagem);
+//                        startActivity(i);
+                    }
+                });
             }
 
            private void verificarCheckSelecionado() {
                Postagem p = null;
                //tamanho do array checkboxes
-                for(int i = 0; i < checkboxes.length; i++){
+                for(int i = 0; i < rdButtom.length; i++){
                     //verifica os indices que estão selecionados
-                    if(checkboxes[i].isChecked()){
+                    if(rdButtom[i].isChecked()){
                         //adiciona numa lista de string
-                        opcoes.add(checkboxes[i].getText().toString());
+                        opcoes.add(rdButtom[i].getText().toString());
                     }
                 }
 

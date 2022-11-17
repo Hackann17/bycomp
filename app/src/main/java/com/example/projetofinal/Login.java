@@ -80,13 +80,13 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //pegando os ids
-        Criarconta = findViewById(R.id.Criarconta);
+        Criarconta= findViewById(R.id.Criarconta);
         btLogar = findViewById(R.id.btLogar);
         emailEd = findViewById(R.id.edtEmail);
         senhaEd = findViewById(R.id.inputSenhaL);
         mAuth = FirebaseAuth.getInstance();
 
-        // sharedpreferences = getSharedPreferences(SHARED_PREFS, Cadastro.MODE_PRIVATE);
+       // sharedpreferences = getSharedPreferences(SHARED_PREFS, Cadastro.MODE_PRIVATE);
         //email = sharedpreferences.getString(USUARIO_KEY, null);
         //senha = sharedpreferences.getString(SENHA_KEY, null);
 
@@ -95,7 +95,7 @@ public class Login extends AppCompatActivity {
         Criarconta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, Cadastro.class)
+                startActivity(new Intent( Login.this,Cadastro.class)
                 );
             }
         });
@@ -108,23 +108,26 @@ public class Login extends AppCompatActivity {
                 email = emailEd.getText().toString();
                 senha = senhaEd.getText().toString();
 
-                try {
+                startActivity(new Intent( Login.this, Bycomp.class));
+                Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
+
+            /*    try{
 
                     //verificar a coneçao com a internet
 
                     //verifica se os campos estão preenchidos
-                    if (TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())) {
+                    if(TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())){
 
-                        Toast.makeText(Login.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
                     } else {
                         mAuth.signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                                if (task.isSuccessful()){
 
 
-                                    startActivity(new Intent(Login.this, Bycomp.class));
+                                    startActivity(new Intent( Login.this, Bycomp.class));
                                     Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
 
                                     // Sign in success, update UI with the signed-in user's information
@@ -142,12 +145,15 @@ public class Login extends AppCompatActivity {
 
                     }
 
-                } catch (Exception e) {
+                }
+
+
+                catch (Exception e){
 
                     Toast.makeText(Login.this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
-                }
+                }*/
 
             }
         });
@@ -156,6 +162,12 @@ public class Login extends AppCompatActivity {
     }
 
     //realizar a autentificaçao
+
+
+
+
+
+
 
 
 }

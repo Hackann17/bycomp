@@ -2,7 +2,6 @@ package com.example.projetofinal;
 
 import static com.android.volley.VolleyLog.TAG;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -108,21 +107,16 @@ public class Lista<Int> extends Fragment {
 //                                        }
 
                                         produtosMercado = separaProdutoPorMercado(produtos);
-                                        /*
+
                                         for (ProdutoMercado pm : produtosMercado){
                                             //for(Produto p : pm.getProdutos())
                                             //Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
                                         }
-                                        */
 
 
                                     }
                                 }
                             });
-                    //levar a lista produto mercado para a outra tela
-
-                    startActivity(new Intent(getContext(),Pesquisar.class));
-
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
                 }

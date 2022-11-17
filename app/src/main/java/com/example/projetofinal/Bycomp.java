@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import classesmodelos.Mercado;
 import classesmodelos.Produto;
 import classesmodelos.Usuario;
 
@@ -178,9 +179,8 @@ public class Bycomp extends AppCompatActivity {
         double longitude = 0.0;
 
 
-
-
         /*verificaçao de permiçao*/
+        try {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
         {
@@ -188,12 +188,12 @@ public class Bycomp extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},120);
         }
 
-        Toast.makeText(this, "Localização liberada", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Localização liberada", Toast.LENGTH_SHORT).show();
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        location=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        } catch(Exception e){}
 
         if (location != null){
 
@@ -222,16 +222,16 @@ public class Bycomp extends AppCompatActivity {
 
 
             //DAR UM JEITO DE PEGAR A O NOME DA CIDADE
-           Toast.makeText(this,
+           Log.e("localização: ",
                     "Latitude"+latitude+", "+
                             "Logitude"+longitude+", "+
                             "Bairro"+endereco.getSubLocality()+", "+//esse aki pega o bairro
-                            "Cidade"+ endereco.getSubAdminArea(), Toast.LENGTH_SHORT).show();
+                            "Cidade"+ endereco.getSubAdminArea());
 
         }
 
         catch (IOException e) {
-            Toast.makeText(this,  e.getMessage(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,  e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("TAGCATCH", "---------------->" + e);
         }
 
@@ -259,8 +259,9 @@ public class Bycomp extends AppCompatActivity {
 
 
 
-
-
+    private List<Mercado> separarProdutosPorMercado(){
+        return null;
+    }
 
 
 //metodo para achar o endereço do usuario

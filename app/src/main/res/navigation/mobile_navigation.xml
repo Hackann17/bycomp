@@ -77,4 +77,9 @@
         android:name="com.example.projetofinal.Sair"
         android:label="@string/menu_sair"
         tools:layout="@layout/fragment_sair" />
+    <fragment
+        android:id="@+id/nav_historico"
+        android:name="com.example.projetofinal.Historico"
+        android:label="@string/menu_historico"
+        tools:layout="@layout/fragment_historico" />
 </navigation>

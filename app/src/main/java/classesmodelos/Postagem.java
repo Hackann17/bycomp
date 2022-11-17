@@ -1,8 +1,9 @@
 package classesmodelos;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Postagem {
+public class Postagem implements Serializable {
     private Usuario usuario;
     private Produto produto;
     private String avaliacaoMercado;

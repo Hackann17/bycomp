@@ -108,7 +108,10 @@ public class Login extends AppCompatActivity {
                 email = emailEd.getText().toString();
                 senha = senhaEd.getText().toString();
 
-                try{
+                startActivity(new Intent( Login.this, Bycomp.class));
+                Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
+
+            /*    try{
 
                     //verificar a coneçao com a internet
 
@@ -150,7 +153,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
-                }
+                }*/
 
             }
         });

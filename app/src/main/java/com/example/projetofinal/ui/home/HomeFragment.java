@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(1)));
 
                         //muda a string na tela
-                        txtview.setText(sDuracao);
+//                        txtview.setText(sDuracao);
                     }
 
                     @Override

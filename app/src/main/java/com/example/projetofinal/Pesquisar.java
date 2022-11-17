@@ -29,6 +29,8 @@ import classesmodelos.Produto;
  */
 public class Pesquisar extends Fragment {
 
+    //essa classe msotrar o resultado da pesquisa de mercados
+    //recebera dois layouts para o recycler view
     View view;
 
     private static final String ARG_PARAM1 = "param1";

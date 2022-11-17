@@ -117,9 +117,24 @@ public class Bycomp extends AppCompatActivity {
                                     }
                                 }
                             });
+
+                    if(produtos != null){
+                        //leva as informaçoes para outra tela de pesquisa
+                        //gerando a intent
+                        Intent it = new Intent(Bycomp.this,PesquisaProduto.class);
+                        it.putExtra("produtos",(ArrayList<Produto>) produtos);
+                    }else{
+                        Toast.makeText(Bycomp.this, "Não temos esse produto", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                    startActivity(new Intent(Bycomp.this,PesquisaProduto.class));
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
                 }
+
+
 
                 return false;
             }

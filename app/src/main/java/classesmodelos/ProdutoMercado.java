@@ -6,14 +6,20 @@ import java.util.List;
 public class ProdutoMercado{
     private Mercado mercado;
     private List<Produto> produtos;
+    private Produto produto;
     private float valorTotal;
 
-    public ProdutoMercado(Mercado m, List<Produto> p) {
+    public ProdutoMercado(List<Produto> p,Mercado m) {
         this.mercado = m;
         this.produtos = p;
         for(Produto produto : produtos) {
             this.valorTotal += produto.getPreco();
         }
+    }
+
+    public ProdutoMercado(Produto p, Mercado m){
+        this.mercado = m;
+        this.produto = p;
     }
 
     //getters e setters

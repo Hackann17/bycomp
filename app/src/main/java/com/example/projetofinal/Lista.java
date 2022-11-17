@@ -101,16 +101,26 @@ public class Lista<Int> extends Fragment {
 
                                         //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
                                         produtos = Produto.organizarPorPreco(produtos);
+                                        List<Mercado> mercados;
+                                        try {
+                                            mercados = compararLocal(produtos);
+                                        } catch (IOException e) {
+                                            Log.e("TESTE","gamer");
+                                            mercados = null;
+                                            e.printStackTrace();
+                                        }
+
 
 //                                        for (Produto p : produtos) {
 //                                            Log.e("ordem de preço: ",p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
 //                                        }
 
-                                        produtosMercado = separaProdutoPorMercado(produtos);
+                                        produtosMercado = separaProdutoPorMercado(produtos,mercados);
 
+                                        //DANDO ERRO
                                         for (ProdutoMercado pm : produtosMercado){
-                                            //for(Produto p : pm.getProdutos())
-                                            //Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
+                                            for(Produto p : pm.getProdutos())
+                                            Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj() + " " + pm.getMercado().getCnpj());
                                         }
 
 
@@ -149,22 +159,29 @@ public class Lista<Int> extends Fragment {
         List<Mercado> mercados = new ArrayList<>();
         SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
         String bairroU = preferences.getString("bairroU", "");
+        String cidadeU = preferences.getString("cidadeU", "");
         try {
+            Log.e("TESTE","0");
+            List<String> cnpjProdutos = new ArrayList<>();
             for (Produto produto : produtos) {
-                String cnpj = produto.getCnpj();
+                cnpjProdutos.add(produto.getCnpj());
+            }
                 firestore = FirebaseFirestore.getInstance();
                 firestore.collection("Mercados")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                Log.e("TESTE","1");
                                 if (task.isSuccessful()) {
+                                    Log.e("TESTE","2");
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("bairro"),
                                                 document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
-                                        //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no memso bairro que o usuario
-                                        if (m.getCnpj().equals(cnpj) && m.getBairro().equals(bairroU)) {
-                                            //caso o mercado atenda aos requisitos seu cnpj sera adicionado a lista
+                                        Log.e("cnpj",m.getCnpj());
+                                        //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no mesmo bairro ou cidade que o usuario
+                                        if (m.getBairro().equals(cidadeU)&&cnpjProdutos.contains(m.getCnpj())) {
+                                            //caso o mercado atenda aos requisitos o mercado sera adicionado a lista
                                             mercados.add(m);
                                         }
                                     }
@@ -173,7 +190,7 @@ public class Lista<Int> extends Fragment {
                                 }
                             }
                         });
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -182,7 +199,7 @@ public class Lista<Int> extends Fragment {
         return  mercados;
     }
 
-    private List<ProdutoMercado> separaProdutoPorMercado(List<Produto> produtos){
+    private List<ProdutoMercado> separaProdutoPorMercado(List<Produto> produtos,List<Mercado> mercados){
         List<ProdutoMercado> produtoMercado = new ArrayList<>();
         //armazenar cnpjs para não repetir
         List<String> cnpjsListados = new ArrayList<>();
@@ -203,18 +220,16 @@ public class Lista<Int> extends Fragment {
                     }
                 }
                 //trazer o mercado do banco pelo cnpj
-
-                //lista com todos os mercados do banco
-                List<Mercado> mercados = extrairMercadosBanco();
                 Mercado mercado = null;
                 //for para encontrar o mercado da lista que tem o mesmo cnpj do produto
                 for(Mercado m : mercados){
-                    if(m.getCnpj().equals(cnpj))
-                        mercado = m;
+                    if(m.getCnpj().equals(cnpj)) {
+                        mercado = m; break;
+                    }
                 }
 
                 //adicionar o mercado e os produtos desse mercado na lista de produtoMercado
-                produtoMercado.add(new ProdutoMercado(mercado,produtosDoMercado));
+                produtoMercado.add(new ProdutoMercado(produtosDoMercado,mercado));
             }
 
         }

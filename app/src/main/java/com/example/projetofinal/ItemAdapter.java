@@ -1,8 +1,14 @@
 package com.example.projetofinal;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import static java.security.AccessController.getContext;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +19,7 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ProdutosViewHolder> {
 
     List<ItemPesq> listaitem;//lista da clase para ser usada em+-. mais de um metodo
+    Button verMais;
 
 
     //construtor
@@ -36,6 +43,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ProdutosViewHo
         holder.nome.setText(listaitem.get(position).getNomeP());
         holder.preco.setText("R$"+listaitem.get(position).getPrecoP());
         holder.mercado.setText(listaitem.get(position).getNomeM());
+
+
+        /*verMais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });*/
     }
 
     @Override

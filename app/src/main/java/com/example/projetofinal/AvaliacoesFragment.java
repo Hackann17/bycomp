@@ -100,21 +100,13 @@ public class AvaliacoesFragment extends Fragment {
 
                     verificarCheckSelecionado();
 
+                    //mostrar no log
                     Log.e("Postagem: ", postagem.getAvaliacaoMercado());
                     Log.e("Postagem: ", postagem.getComentario());
 
                     for(int i = 0; i < postagem.getAdicional().size(); i++){
                         Log.e("Postagem: ", postagem.getAdicional().get(i));
-                    }
-
-
-                    /*for(int i = 0; i < postagem.size(); i++){
-                        Log.e("Postagem: ", postagem.get(i).getComentario());
-                        Log.e("Postagem: ", postagem.get(i).getAvaliacaoMercado());
-                        Log.e("Postagem: ", postagem.get(i).getAdicional().get(i));
-                    }*/
-
-
+                    }//*****
                 }
 
                 arquivar.setOnClickListener(new View.OnClickListener() {
@@ -126,12 +118,6 @@ public class AvaliacoesFragment extends Fragment {
 
                         Log.e("FEITO!", "FEITO");
 
-
-
-
-//                        Intent i = new Intent(getContext(), Historico.class);
-//                        i.putExtra("armazenar", postagem);
-//                        startActivity(i);
                     }
                 });
             }

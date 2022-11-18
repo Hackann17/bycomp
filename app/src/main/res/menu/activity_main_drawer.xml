@@ -13,13 +13,6 @@
             android:title="@string/menu_home" />
 
 
-        <!-- *pesquisar-->
-        <item
-            android:id="@+id/nav_pesquisar"
-            android:icon="@drawable/lupa2"
-            android:title="@string/menu_pesquisar" />
-
-
         <!-- *adicionar informaçoes-->
         <item
             android:id="@+id/nav_adicionarnota"

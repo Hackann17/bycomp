@@ -50,6 +50,9 @@
             android:label="@string/title_activity_bycomp"
             android:theme="@style/Theme.ProjetoFinal.NoActionBar" />
         <activity
+            android:name=".Pesquisar"
+            android:exported="false" />
+        <activity
             android:name=".Cadastro"
             android:exported="false" />
         <activity

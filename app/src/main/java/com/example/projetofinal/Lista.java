@@ -1,7 +1,5 @@
 package com.example.projetofinal;
 
-import static com.android.volley.VolleyLog.TAG;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,9 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,11 +19,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +31,6 @@ import java.util.List;
 import classesmodelos.Mercado;
 import classesmodelos.Produto;
 import classesmodelos.ProdutoMercado;
-import classesmodelos.Usuario;
 
 
 public class Lista<Int> extends Fragment {
@@ -88,7 +81,7 @@ public class Lista<Int> extends Fragment {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         //lista auxiliar que vai ser usada para a verificação
-                                        List<Produto> aux = new ArrayList<Produto>();
+                                        ArrayList<Produto> aux = new ArrayList<Produto>();
 
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
@@ -108,15 +101,24 @@ public class Lista<Int> extends Fragment {
 
                                         produtosMercado = separaProdutoPorMercado(produtos);
 
-                                        for (ProdutoMercado pm : produtosMercado){
-                                            //for(Produto p : pm.getProdutos())
-                                            //Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
-                                        }
+//                                        for (ProdutoMercado pm : produtosMercado){
+//                                            //for(Produto p : pm.getProdutos())
+//                                            //Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
+//                                        }
 
 
                                     }
                                 }
                             });
+
+                    //gerando o sharedpreferences ara guardar as informaçoes e levalas para outra tela
+                    /*
+                    SharedPreferences.Editor gravar = getContext().getSharedPreferences("InformacoesProdMerc", Context.MODE_PRIVATE).edit();
+                    gravar.putString("produtosMercado", new Gson().toJson(produtosMercado));
+                    gravar.apply();
+                    startActivity(new Intent(getContext(),Pesquisar.class));
+*/
+
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
                 }
@@ -214,7 +216,7 @@ public class Lista<Int> extends Fragment {
                 }
 
                 //adicionar o mercado e os produtos desse mercado na lista de produtoMercado
-                produtoMercado.add(new ProdutoMercado(mercado,produtosDoMercado));
+                produtoMercado.add(new ProdutoMercado(produtosDoMercado, mercado));
             }
 
         }

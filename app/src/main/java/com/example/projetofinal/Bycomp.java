@@ -111,10 +111,16 @@ public class Bycomp extends AppCompatActivity {
 
                                         //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
                                         produtos = Produto.organizarPorPreco(produtos);
+                                        Intent it = new Intent(Bycomp.this,PesquisaProduto.class);
+                                        it.putExtra("produtos",new ArrayList<Produto>(produtos));
+                                        startActivity(it);
 
+                                        //repete a ista de produtos no log
                                         for (Produto p : produtos) {
                                             Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
                                         }
+
+
                                     }
                                 }
                             });
@@ -122,21 +128,15 @@ public class Bycomp extends AppCompatActivity {
                     if(produtos != null){
                         //leva as informaçoes para outra tela de pesquisa
                         //gerando a intent
-                        Intent it = new Intent(Bycomp.this,PesquisaProduto.class);
-                        it.putExtra("produtos",(ArrayList<Produto>) produtos);
+
+
                     }else{
                         Toast.makeText(Bycomp.this, "Não temos esse produto", Toast.LENGTH_SHORT).show();
                     }
 
-
-
-                    startActivity(new Intent(Bycomp.this,PesquisaProduto.class));
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
                 }
-
-
-
                 return false;
             }
 
@@ -152,7 +152,7 @@ public class Bycomp extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_pesquisar,
                 R.id.nav_promocoes,R.id.nav_adicionarnota,
                 R.id.nav_historico,R.id.avaliacaoTela,
-                R.id.nav_perfil)
+                R.id.nav_perfil,R.id.nav_social)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_bycomp);
@@ -213,29 +213,16 @@ public class Bycomp extends AppCompatActivity {
 
             editor.commit();
 
-
-            Log.e("Endereço","--------------------------->" + endereco);
-
-
-            //adicionar a localizaçao do usuario para ser pega a qualquer momento
-
-
-
-            //DAR UM JEITO DE PEGAR A O NOME DA CIDADE
-           Log.e("localização: ",
-                    "Latitude"+latitude+", "+
-                            "Logitude"+longitude+", "+
-                            "Bairro"+endereco.getSubLocality()+", "+//esse aki pega o bairro
-                            "Cidade"+ endereco.getSubAdminArea());
-
         }
 
         catch (IOException e) {
             //Toast.makeText(this,  e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Conecte-se a internet para termos acesso a sua localisação", Toast.LENGTH_SHORT).show();
             Log.e("TAGCATCH", "---------------->" + e);
         }
 
         catch (Exception e ){
+            Toast.makeText(this, "Ocorreu um problema ", Toast.LENGTH_SHORT).show();
 
             Log.e("errrooooo","-------------------->"+e);
 

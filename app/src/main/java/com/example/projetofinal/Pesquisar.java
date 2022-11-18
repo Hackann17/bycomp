@@ -1,26 +1,25 @@
 package com.example.projetofinal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
+import classesmodelos.Postagem;
 import classesmodelos.Produto;
+import classesmodelos.ProdutoMercado;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,22 +62,14 @@ public class Pesquisar extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_pesquisar, container, false);
 
-        //simulando itens a serem integrados na tela
-        //esses dois representam um item do recycler view
-        ItemPost itp = new ItemPost(2, 3, "Bom e Barato", "Adorei o mercado", "@marininha", "Calegaris");
+        SharedPreferences ler = getContext().getSharedPreferences("InformacoesProdMerc", Context.MODE_PRIVATE);
 
-        ArrayList<ItemPost> itemposts = new ArrayList<>();
-        for (int i = 0; i < 4; i++){
-            itemposts.add(itp);
-        }
-        //passando a lista par o adapter personalizad
-        /*
-        RecyclerView recyclerTela = view.findViewById(R.id.ListaTelapes);
+        ArrayList<ProdutoMercado> pm = new Gson().fromJson(ler.getString("produtosMercado", "{}"),ProdutoMercado.class);
 
-        recyclerTela.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerTela.setAdapter(new PostAdapter(itemposts));
+        Log.e("lista: ", pm.toString());
 
-        // Inflate the layout for this fragment*/
+
+
         return inflater.inflate(R.layout.fragment_pesquisar, container, false);
     }
 

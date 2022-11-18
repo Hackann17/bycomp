@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ProdutosViewHolder> {
+public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ProdutosViewHolder> {
 
     List<ItemPesq> listaitem;//lista da clase para ser usada em+-. mais de um metodo
 
 
     //construtor
-    public ItemAdapter(List<ItemPesq> itempe) {
+    public ProdutoAdapter(List<ItemPesq> itempe) {
         this.listaitem = itempe;
     }
 

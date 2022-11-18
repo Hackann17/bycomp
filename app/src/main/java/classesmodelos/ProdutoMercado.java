@@ -3,7 +3,7 @@ package classesmodelos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoMercado{
+public class ProdutoMercado extends ArrayList<ProdutoMercado> {
     private Mercado mercado;
     private List<Produto> produtos;
     private Produto produto;
@@ -21,6 +21,7 @@ public class ProdutoMercado{
         this.mercado = m;
         this.produto = p;
     }
+
 
     //getters e setters
     public Mercado getMercado() {

@@ -82,7 +82,7 @@ public class promocao extends Fragment {
         RecyclerView recyclerTela = view.findViewById(R.id.ListaTelaPesq);
 
         recyclerTela.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerTela.setAdapter(new ItemAdapter(itemp));
+        recyclerTela.setAdapter(new ProdutoAdapter(itemp));
 
 
         return view;

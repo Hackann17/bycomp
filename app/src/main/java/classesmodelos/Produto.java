@@ -69,8 +69,23 @@ public class Produto  implements Serializable {
     public static List<Produto> separarProdutos(List<Produto> produtosBanco, List<String> itens){
 
         List<Produto> produtos = new ArrayList<>();
+
+        //caracteres que vão ser substituidos para poder pesquisar
+        char[][] caracteresParaRemover = {{'á','ã','â','à'},{'é','ê','è'},{'í','î','ì'},{'ó','õ','ô','ò'},{'ú','û','ù'},{'ç'}};
+        //caracteres usados para substituir
+        char[] caracteresSubstituir = {'a','e','i','o','u','c'};
+
         //for que vai percorrer a lista de itens do usuario
         for (int indexP = 0; indexP < itens.size(); indexP++) {
+            //variavel que recebe o nome de cada item da lista de usuario
+            String produtoUsuarioNome = itens.get(indexP).toUpperCase().trim();
+
+            //substituir caracteres com acento
+            for(int i = 0; i < caracteresParaRemover.length; i++){
+                for (char c : caracteresParaRemover[i]) {
+                    produtoUsuarioNome.replace(c,caracteresSubstituir[i]);
+                }
+            }
 
             //lista para guardar os produtos encontrados para não repetir produtos do mesmo mercado e do mesmo tipo
             List<Produto> produtosEncontrados = new ArrayList<>();
@@ -81,8 +96,6 @@ public class Produto  implements Serializable {
                 Produto produtoBanco = produtosBanco.get(index);
                 //variavel que recebe o nome de cada item na lista produtosBanco
                 String produtoBancoNome = produtoBanco.getNome().toUpperCase().trim();
-                //variavel que recebe o nome de cada item da lista de usuario
-                String produtoUsuarioNome = itens.get(indexP).toUpperCase().trim();
 
                 //verifica se os produtos no banco contém o item que o usuario passou
                 if (produtoBancoNome.contains(produtoUsuarioNome)) {

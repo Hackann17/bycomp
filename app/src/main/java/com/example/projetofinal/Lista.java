@@ -106,7 +106,12 @@ public class Lista<Int> extends Fragment {
 //                                            Log.e("ordem de preço: ",p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
 //                                        }
 
-                                        produtosMercado = separaProdutoPorMercado(produtos);
+                                        //separa os produtos pelos mercados na localização do usuário
+                                        try {
+                                            produtosMercado = separaProdutoPorMercado(produtos);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
 
                                         for (ProdutoMercado pm : produtosMercado){
                                             //for(Produto p : pm.getProdutos())
@@ -144,35 +149,23 @@ public class Lista<Int> extends Fragment {
         }
     }
 
-    //método que compara a localização dos mercados no nosso banco e verifica a distancia da localização do usuario
+    //método que compara a localização dos mercados no banco e verifica a distancia da localização do usuario
     private List<Mercado> compararLocal(List<Produto> produtos) throws IOException {
+        List<Mercado> mercadosBanco = extrairMercadosBanco();
         List<Mercado> mercados = new ArrayList<>();
+
+        //pegar a localização do usuário para comparar com a localização do mercado
         SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
         String bairroU = preferences.getString("bairroU", "");
+        String cidadeU = preferences.getString("cidadeU","");
+
         try {
-            for (Produto produto : produtos) {
-                String cnpj = produto.getCnpj();
-                firestore = FirebaseFirestore.getInstance();
-                firestore.collection("Mercados")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("bairro"),
-                                                document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
-                                        //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no memso bairro que o usuario
-                                        if (m.getCnpj().equals(cnpj) && m.getBairro().equals(bairroU)) {
-                                            //caso o mercado atenda aos requisitos seu cnpj sera adicionado a lista
-                                            mercados.add(m);
-                                        }
-                                    }
-                                } else {
-                                    Toast.makeText(getContext(), "erro", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+            for(Mercado m : mercadosBanco) {
+                //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no memso bairro que o usuario
+                if (m.getCidade().equalsIgnoreCase(cidadeU)) {
+                    //caso o mercado atenda aos requisitos seu cnpj sera adicionado a lista
+                    mercados.add(m);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,8 +175,11 @@ public class Lista<Int> extends Fragment {
         return  mercados;
     }
 
-    private List<ProdutoMercado> separaProdutoPorMercado(List<Produto> produtos){
+    private List<ProdutoMercado> separaProdutoPorMercado(List<Produto> produtos) throws IOException {
         List<ProdutoMercado> produtoMercado = new ArrayList<>();
+
+        //lista com todos os mercados do banco no mesmo endereço do usuário
+        List<Mercado> mercados = compararLocal(produtos);
         //armazenar cnpjs para não repetir
         List<String> cnpjsListados = new ArrayList<>();
 
@@ -204,17 +200,17 @@ public class Lista<Int> extends Fragment {
                 }
                 //trazer o mercado do banco pelo cnpj
 
-                //lista com todos os mercados do banco
-                List<Mercado> mercados = extrairMercadosBanco();
                 Mercado mercado = null;
                 //for para encontrar o mercado da lista que tem o mesmo cnpj do produto
-                for(Mercado m : mercados){
-                    if(m.getCnpj().equals(cnpj))
+                for(Mercado m : mercados) {
+                    if (m.getCnpj().equals(cnpj)) {
                         mercado = m;
+                        break;
+                    }
                 }
 
                 //adicionar o mercado e os produtos desse mercado na lista de produtoMercado
-                produtoMercado.add(new ProdutoMercado(produtosDoMercado,mercado));
+                produtoMercado.add(new ProdutoMercado(produtosDoMercado, mercado));
             }
 
         }
@@ -225,7 +221,7 @@ public class Lista<Int> extends Fragment {
     private List<Mercado> extrairMercadosBanco(){
         List<Mercado> mercados = new ArrayList<>();
         try {
-            //firestore = FirebaseFirestore.getInstance();
+                firestore = FirebaseFirestore.getInstance();
                 firestore.collection("Mercados")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -233,8 +229,8 @@ public class Lista<Int> extends Fragment {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("bairro"),
-                                                document.getString("rua"), document.getString("uf"), document.getString("numero"), document.getDouble("avaliacao"));
+                                        Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("uf"), document.getString("cidade"),
+                                                document.getString("bairro"), document.getString("rua"), document.getString("numero"), avaliacaoMercado(document.getString("cnpj")));
                                         mercados.add(m);
                                     }
                                 }
@@ -244,6 +240,36 @@ public class Lista<Int> extends Fragment {
             e.printStackTrace();
         }
         return  mercados;
+    }
+
+    //devolver a avaliação de um mercado
+    private double avaliacaoMercado(String cnpj){
+        List<Double> avaliacoes = new ArrayList<>();
+        try {
+            //buscar todas as avaliações do mercado no banco
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            firestore.collection("Avaliacao")
+                    .whereEqualTo("cnpj",cnpj).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    avaliacoes.add(document.getDouble("avaliacao"));
+                                }
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //somar todas as avaliacoes
+        double soma = 0;
+        for(double av : avaliacoes)
+            soma += av;
+
+        //devolver a média
+        return soma/avaliacoes.size();
     }
 
 }

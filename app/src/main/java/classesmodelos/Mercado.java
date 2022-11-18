@@ -7,15 +7,17 @@ public class Mercado {
     private String rua;
     private String uf;
     private String numero;
+    private String cidade;
     private double avaliacao;
 
 
-    public Mercado(String nome, String cnpj, String bairro, String rua, String uf, String numero, double avaliacao) {
+    public Mercado(String nome, String cnpj, String uf, String cidade, String bairro, String rua, String numero ,double avaliacao) {
         this.nome = nome;
         this.cnpj = cnpj;
+        this.uf = uf;
+        this.cidade = cidade;
         this.bairro = bairro;
         this.rua = rua;
-        this.uf = uf;
         this.numero = numero;
         this.avaliacao = avaliacao;
     }
@@ -27,6 +29,8 @@ public class Mercado {
     public String getCnpj() {
         return cnpj;
     }
+
+    public String getCidade() { return cidade; }
 
     public String getBairro() {
         return bairro;

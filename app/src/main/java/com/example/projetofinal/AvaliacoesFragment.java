@@ -117,8 +117,6 @@ public class AvaliacoesFragment extends Fragment {
 
                 }
 
-
-
                 arquivar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -127,6 +125,8 @@ public class AvaliacoesFragment extends Fragment {
                         gravar.apply();
 
                         Log.e("FEITO!", "FEITO");
+
+
 
 
 //                        Intent i = new Intent(getContext(), Historico.class);

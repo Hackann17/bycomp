@@ -3,6 +3,7 @@ package com.example.projetofinal;
 import static android.content.Intent.getIntent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 
@@ -23,6 +25,8 @@ import classesmodelos.Postagem;
 
 public class Historico extends Fragment {
 
+    String estrelas, comentario, adicional;
+    Button verMais;
     View view;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -60,34 +64,44 @@ public class Historico extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_historico, container, false);
 
-        SharedPreferences ler = getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE);
+        //ID
+        verMais = view.findViewById(R.id.btVerMais);
 
+        //json avaliacao vindo da tela AvaliacoesFragment
+        SharedPreferences ler = getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE);
         Postagem p = new Gson().fromJson(ler.getString("postagem", "{}"), Postagem.class);
 
-
+        //log teste
         Log.e("passou","================>"+p.getAvaliacaoMercado());
+        Log.e("passou","================>"+p.getComentario());
+        Log.e("passou","================>"+p.getAdicional());
+        /////////////////////
 
-        //simulando itens a serem integrados na tela
-        //esses dois representam um item do recycler view
+        //guardando as informacoes na variavel local
+        estrelas = p.getAvaliacaoMercado();
+        comentario = p.getAvaliacaoMercado();
+        adicional = p.getAvaliacaoMercado();
+
+
+
+        //recycler view
         ItemHist itp1 = new ItemHist("Calegaris");
 
         ArrayList<ItemHist> itempe = new ArrayList<>();
         itempe.add(itp1);
 
+        //xml
         RecyclerView recyclerTela = view.findViewById(R.id.histItem);
 
         recyclerTela.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerTela.setAdapter(new HistAdapter(itempe));
 
 
+
+
+
     return view;
-
-
-
-
-
-
-
-
     }
+
+
 }

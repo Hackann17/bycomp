@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import classesmodelos.Postagem;
 
@@ -62,6 +66,18 @@ public class Historico extends Fragment {
 
 
         Log.e("passou","================>"+p.getAvaliacaoMercado());
+
+        //simulando itens a serem integrados na tela
+        //esses dois representam um item do recycler view
+        ItemHist itp1 = new ItemHist("Calegaris");
+
+        ArrayList<ItemHist> itempe = new ArrayList<>();
+        itempe.add(itp1);
+
+        RecyclerView recyclerTela = view.findViewById(R.id.histItem);
+
+        recyclerTela.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerTela.setAdapter(new HistAdapter(itempe));
 
 
     return view;

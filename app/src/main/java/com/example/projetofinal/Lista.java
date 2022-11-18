@@ -214,7 +214,7 @@ public class Lista<Int> extends Fragment {
                 }
 
                 //adicionar o mercado e os produtos desse mercado na lista de produtoMercado
-                produtoMercado.add(new ProdutoMercado(mercado,produtosDoMercado));
+               // produtoMercado.add(new ProdutoMercado(mercado,produtosDoMercado));
             }
 
         }

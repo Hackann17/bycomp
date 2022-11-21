@@ -50,7 +50,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
             public void onClick(View view) {
 
             }
-        });*/
+        });*/ //
     }
 
     @Override

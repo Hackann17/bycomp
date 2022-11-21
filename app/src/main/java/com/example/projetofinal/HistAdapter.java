@@ -5,6 +5,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,12 @@ public class HistAdapter extends RecyclerView.Adapter<HistViewHolder>{
             public void onClick(View view) {
                 SharedPreferences ler = view.getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE);
                 Postagem p = new Gson().fromJson(ler.getString("postagem", "{}"), Postagem.class);
-                Navigation.findNavController(view).navigate(R.id.hist_avaliacao, null);
+
+                Bundle bundle = new Bundle();
+
+                bundle.putSerializable("p", p);
+
+                Navigation.findNavController(view).navigate(R.id.hist_avaliacao, bundle);
             }
         });
 

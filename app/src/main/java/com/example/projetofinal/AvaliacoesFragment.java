@@ -64,6 +64,17 @@ public class AvaliacoesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_avaliacoes, container, false);
 
+        Bundle bundle = getArguments();
+
+        if(getBoolean(bundle, "p") == true) {
+            Postagem p = (Postagem) bundle.getSerializable("p");
+
+            if(p != null) {
+                Toast.makeText(getContext(), "Foi!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
         //botoes
         publicar = v.findViewById(R.id.butPub);
         arquivar = v.findViewById(R.id.butArq);
@@ -128,6 +139,7 @@ public class AvaliacoesFragment extends Fragment {
             }
         });
 
+
         return v;
     }
 
@@ -152,5 +164,13 @@ public class AvaliacoesFragment extends Fragment {
         }
 
         postagem = p;
+    }
+
+    public static Boolean getBoolean(Bundle arguments, String key) {
+        if (arguments != null && arguments.containsKey(key)) {
+            return true;
+        } else {/* w  w  w  . ja v a  2  s  . co m*/
+            return false;
+        }
     }
 }

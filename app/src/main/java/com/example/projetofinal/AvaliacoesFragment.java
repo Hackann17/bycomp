@@ -64,8 +64,6 @@ public class AvaliacoesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_avaliacoes, container, false);
 
-        //recurso.setBackgroundResource(R.drawable.botaoroxoescuro);
-
         //botoes
         publicar = v.findViewById(R.id.butPub);
         arquivar = v.findViewById(R.id.butArq);
@@ -106,46 +104,53 @@ public class AvaliacoesFragment extends Fragment {
 
                     for(int i = 0; i < postagem.getAdicional().size(); i++){
                         Log.e("Postagem: ", postagem.getAdicional().get(i));
-                    }//*****
-                }
-
-                arquivar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SharedPreferences.Editor gravar = getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE).edit();
-                        gravar.putString("postagem", new Gson().toJson(postagem));
-                        gravar.apply();
-
-                        Log.e("FEITO!", "FEITO");
-
                     }
-                });
+                }
             }
 
-           private void verificarCheckSelecionado() {
-               Postagem p = null;
-               //tamanho do array checkboxes
-                for(int i = 0; i < rdButtom.length; i++){
-                    //verifica os indices que estão selecionados
-                    if(rdButtom[i].isChecked()){
-                        //adiciona numa lista de string
-                        opcoes.add(rdButtom[i].getText().toString());
-                    }
-                }
 
-               //cria o objeto postagem e adiciona o que o usuario colocou
-               p = new Postagem(rating, comentario, opcoes);
+        });
 
-                //percorre o tamanho das opcoes
-                for(int i = 0; i < opcoes.size(); i++){
-                    Log.e("Foi selecionado: ", opcoes.get(i));
-                    //adiciona numa lista de objetos
-                }
+        arquivar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor gravar = getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE).edit();
+                gravar.putString("postagem", new Gson().toJson(postagem));
+                gravar.apply();
 
-               postagem = p;
+                Toast.makeText(getContext(), "Arquivado com sucesso", Toast.LENGTH_SHORT).show();
+
+                SharedPreferences ler = null;
+
+
+                Log.e("FEITO!", "FEITO");
+
             }
         });
 
         return v;
+    }
+
+    private void verificarCheckSelecionado() {
+        Postagem p = null;
+        //tamanho do array checkboxes
+        for(int i = 0; i < rdButtom.length; i++){
+            //verifica os indices que estão selecionados
+            if(rdButtom[i].isChecked()){
+                //adiciona numa lista de string
+                opcoes.add(rdButtom[i].getText().toString());
+            }
+        }
+
+        //cria o objeto postagem e adiciona o que o usuario colocou
+        p = new Postagem(rating, comentario, opcoes);
+
+        //percorre o tamanho das opcoes
+        for(int i = 0; i < opcoes.size(); i++){
+            Log.e("Foi selecionado: ", opcoes.get(i));
+            //adiciona numa lista de objetos
+        }
+
+        postagem = p;
     }
 }

@@ -59,30 +59,16 @@ public class Historico extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_historico, container, false);
 
         //ID
-        verMais = view.findViewById(R.id.btVerMais);
+        //verMais = view.findViewById(R.id.btVerMais);
 
         //json avaliacao vindo da tela AvaliacoesFragment
         SharedPreferences ler = getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE);
         Postagem p = new Gson().fromJson(ler.getString("postagem", "{}"), Postagem.class);
-
-        //log teste
-        Log.e("passou","================>"+p.getAvaliacaoMercado());
-        Log.e("passou","================>"+p.getComentario());
-        Log.e("passou","================>"+p.getAdicional());
-        /////////////////////
-
-        //guardando as informacoes na variavel local
-        estrelas = p.getAvaliacaoMercado();
-        comentario = p.getAvaliacaoMercado();
-        adicional = p.getAvaliacaoMercado();
-
-
 
         //recycler view
         ItemHist itp1 = new ItemHist("Calegaris");
@@ -95,10 +81,6 @@ public class Historico extends Fragment {
 
         recyclerTela.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerTela.setAdapter(new HistAdapter(itempe));
-
-
-
-
 
     return view;
     }

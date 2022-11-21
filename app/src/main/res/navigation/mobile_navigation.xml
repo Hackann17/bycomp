@@ -27,7 +27,11 @@
         android:id="@+id/nav_promocoes"
         android:name="com.example.projetofinal.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_promocoes"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_slideshow" >
+        <action
+            android:id="@+id/action_nav_promocoes_self"
+            app:destination="@id/nav_promocoes" />
+    </fragment>
     <fragment
         android:id="@+id/avaliacaoTela"
         android:name="com.example.projetofinal.AvaliacoesFragment"
@@ -81,5 +85,9 @@
         android:id="@+id/nav_historico"
         android:name="com.example.projetofinal.Historico"
         android:label="@string/menu_historico"
-        tools:layout="@layout/fragment_historico" />
+        tools:layout="@layout/fragment_historico" >
+        <action
+            android:id="@+id/hist_avaliacao"
+            app:destination="@id/avaliacaoTela" />
+    </fragment>
 </navigation>

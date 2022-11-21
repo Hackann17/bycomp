@@ -27,6 +27,9 @@ public class Produto  implements Serializable {
         this.unidade = unidade;
     }
 
+    public Produto() {
+    }
+
     public String getNome() {
         return nome;
     }

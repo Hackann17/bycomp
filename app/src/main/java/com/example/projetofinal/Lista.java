@@ -114,9 +114,13 @@ public class Lista<Int> extends Fragment {
                                         }
 
                                         for (ProdutoMercado pm : produtosMercado){
-                                            //for(Produto p : pm.getProdutos())
-                                            //Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
+
+                                            Log.e("ordem de mercado: ", pm.getMercado()+" "+pm.getProdutos()+" "+pm.getValorTotal());
                                         }
+
+                                        //gerando itent ou SharedPreferences e passando a lista produtoMercado para tela de pesquisa
+
+
 
 
                                     }
@@ -227,10 +231,14 @@ public class Lista<Int> extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                Log.e("aviso","entrou extrair mercaos banco");
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("uf"), document.getString("cidade"),
                                                 document.getString("bairro"), document.getString("rua"), document.getString("numero"), avaliacaoMercado(document.getString("cnpj")));
+
+
+
                                         mercados.add(m);
                                     }
                                 }

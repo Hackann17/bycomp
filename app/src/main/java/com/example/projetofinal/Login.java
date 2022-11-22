@@ -65,6 +65,8 @@ public class Login extends AppCompatActivity {
     Button btLogar;
     String email, senha;
     Usuario u;
+
+    boolean modoTeste = false;
     /*//puxando informaçoes shared preferences
     SharedPreferences preferences = getSharedPreferences("Salvar",MODE_PRIVATE);
     boolean logado=preferences.getBoolean("log",false);*/
@@ -108,10 +110,11 @@ public class Login extends AppCompatActivity {
                 email = emailEd.getText().toString();
                 senha = senhaEd.getText().toString();
 
+                if(modoTeste)
                 startActivity(new Intent( Login.this, Bycomp.class));
-                Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
 
-            /*    try{
+                else
+                try{
 
                     //verificar a coneçao com a internet
 
@@ -128,7 +131,7 @@ public class Login extends AppCompatActivity {
 
 
                                     startActivity(new Intent( Login.this, Bycomp.class));
-                                    Toast.makeText(Login.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
+                                    finish();
 
                                     // Sign in success, update UI with the signed-in user's information
                                     //FirebaseUser user = mAuth.getCurrentUser();
@@ -153,7 +156,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
-                }*/
+                }
 
             }
         });

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
+    android:id="@+id/navegacao_avaliacoes"
     android:label="@string/menu_social"
     app:startDestination="@+id/nav_home">
 
@@ -37,16 +37,12 @@
         android:name="com.example.projetofinal.AvaliacoesFragment"
         android:label="@string/menu_avaliacoes"
         tools:layout="@layout/fragment_avaliacoes" />
-    <fragment
-        android:id="@+id/nav_social"
-        android:name="com.example.projetofinal.SocialFragment"
-        android:label="@string/menu_social"
-        tools:layout="@layout/fragment_social" />
-    <fragment
-        android:id="@+id/nav_adicionarnota"
-        android:name="com.example.projetofinal.AdicionarFragment"
-        android:label="@string/menu_adicionar"
-        tools:layout="@layout/fragment_adicionar" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_adicionarnota"-->
+<!--        android:name="com.example.projetofinal.AdicionarFragment"-->
+<!--        android:label="@string/menu_adicionar"-->
+<!--        tools:layout="@layout/fragment_adicionar" />-->
     <fragment
         android:id="@+id/lista"
         android:name="com.example.projetofinal.Lista"

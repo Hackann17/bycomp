@@ -42,24 +42,6 @@ public class AvaliacoesFragment extends Fragment {
     RadioButton[] rdButtom = new RadioButton[4]; //guarda todos os checkboxes que possuem na tela
     List <String> opcoes = new ArrayList<>(); //guarda as opcoes
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_avaliacoes, container, false);
@@ -99,7 +81,7 @@ public class AvaliacoesFragment extends Fragment {
                  rating = String.valueOf(qtdEstrelas.getRating());
 
                 if(rating.equals("0.0")){
-                    Toast.makeText(getContext(), "Por favor, faça a avaliação do mercado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Avalie o mercado com estrelas", Toast.LENGTH_LONG).show();
                 } else {
                     //adiciona os checkboxs na lista
                     rdButtom[0] = qualidadeBoa;
@@ -132,7 +114,6 @@ public class AvaliacoesFragment extends Fragment {
                 Toast.makeText(getContext(), "Arquivado com sucesso", Toast.LENGTH_SHORT).show();
 
                 SharedPreferences ler = null;
-
 
                 Log.e("FEITO!", "FEITO");
 

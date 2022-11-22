@@ -158,19 +158,24 @@ public class Bycomp extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_bycomp);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        /*navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+/*
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.avaliacaoTela:
+                        navController.navigate(R.id.navegacao_avaliacoes);
+                }
 
                 if(item.getItemId()==R.id.nav_sair){
                   FirebaseAuth.getInstance().signOut();
 
-                    startActivity(new Intent(Bycomp.this, Login.class));
+                    //startActivity(new Intent(Bycomp.this, Login.class));
 
                     finish();
                 }
-                return false;
+                return true;
             }
         });*/
         //uma das primeiras coisas a se fazer para pegar a localizaçao é pedir a permissao
@@ -217,14 +222,14 @@ public class Bycomp extends AppCompatActivity {
 
         catch (IOException e) {
             //Toast.makeText(this,  e.getMessage(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "Conecte-se a internet para termos acesso a sua localisação", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Conecte-se a internet para termos acesso a sua localização", Toast.LENGTH_SHORT).show();
             Log.e("TAGCATCH", "---------------->" + e);
         }
 
         catch (Exception e ){
             Toast.makeText(this, "Ocorreu um problema ", Toast.LENGTH_SHORT).show();
 
-            Log.e("errrooooo","-------------------->"+e);
+            Log.e("errrooooo","-------------------->"+e.getMessage());
 
         }
 

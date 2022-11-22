@@ -83,7 +83,7 @@ public class Cadastro extends AppCompatActivity {
                             FirebaseFirestore ff = FirebaseFirestore.getInstance();
 
                             //usado com lista definidora para salvamentod de várias informações
-                            Map<String, Object> mp = new HashMap<>();
+                            Map<String, String> mp = new HashMap<>();
 
                             mp.put("nome usuario", usuario);
                             mp.put("senha", senha);

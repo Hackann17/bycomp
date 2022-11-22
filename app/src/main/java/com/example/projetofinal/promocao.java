@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import recyclerviewclasses.ProdutoAdapter;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link promocao#newInstance} factory method to

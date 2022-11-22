@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import classesmodelos.Produto;
+import recyclerviewclasses.ProdutoAdapter;
 
 public class PesquisaProduto extends AppCompatActivity {
     //receber lista serializada , dessserializar , puxar recycler view e adicionar as informaççoes nele
@@ -59,8 +60,6 @@ public class PesquisaProduto extends AppCompatActivity {
             itemp.add(itp3);
 
             Log.e("Objt", itp1.getNomeM());
-
-
 
             //passando a lista par o adapter personalizad
             RecyclerView recyclerTela = findViewById(R.id.LPM);

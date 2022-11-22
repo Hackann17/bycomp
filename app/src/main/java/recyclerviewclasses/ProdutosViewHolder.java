@@ -1,4 +1,4 @@
-package com.example.projetofinal;
+package recyclerviewclasses;
 
 import android.view.View;
 import android.widget.TextView;
@@ -21,7 +21,7 @@ public class ProdutosViewHolder extends RecyclerView.ViewHolder {
         //VIncular id para cda componente
         textNomeP = itemView.findViewById(R.id.txtNome);
         textPrecoP = itemView.findViewById(R.id.txtPreco);
-        textNomeM = itemView.findViewById(R.id.txtNomeM);
+        textNomeM = itemView.findViewById(R.id.txtMercado1);
     }
 
 }

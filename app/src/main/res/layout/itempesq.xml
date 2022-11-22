@@ -37,9 +37,9 @@
         app:layout_constraintVertical_bias="0.097" />
 
     <TextView
-        android:id="@+id/txtNomeM"
-        android:layout_width="70dp"
-        android:layout_height="29dp"
+        android:id="@+id/txtMercado1"
+        android:layout_width="92dp"
+        android:layout_height="33dp"
         android:elevation="20dp"
         android:fontFamily="@font/poppins_light"
         android:text="Mercado"
@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar3" />
 
     <Button
-        android:id="@+id/bOcultar2"
+        android:id="@+id/btExDetalhes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -101,5 +101,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar3"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtPrecoP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:text=""
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar3"
+        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintStart_toStartOf="@+id/toolbar3"
+        app:layout_constraintTop_toTopOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="0.421" />
+
+    <TextView
+        android:id="@+id/txtNomeM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar3"
+        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintStart_toStartOf="@+id/toolbar3"
+        app:layout_constraintTop_toTopOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="0.716" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

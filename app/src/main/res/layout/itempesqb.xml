@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.128" />
+        app:layout_constraintVertical_bias="0.125" />
 
     <TextView
         android:id="@+id/txtPreco"
@@ -36,8 +36,8 @@
         app:layout_constraintVertical_bias="0.125" />
 
     <TextView
-        android:id="@+id/txtNomeM"
-        android:layout_width="70dp"
+        android:id="@+id/txtMercado1"
+        android:layout_width="78dp"
         android:layout_height="29dp"
         android:elevation="20dp"
         android:fontFamily="@font/poppins_light"
@@ -62,11 +62,11 @@
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
         app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="@+id/toolbar3"
-        app:layout_constraintTop_toBottomOf="@+id/txtNomeM"
+        app:layout_constraintTop_toBottomOf="@+id/txtMercado1"
         app:layout_constraintVertical_bias="0.208" />
 
     <TextView
-        android:id="@+id/txtAva"
+        android:id="@+id/txtAvaliacao"
         android:layout_width="92dp"
         android:layout_height="28dp"
         android:elevation="20dp"
@@ -75,28 +75,13 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
-        app:layout_constraintHorizontal_bias="0.787"
-        app:layout_constraintStart_toEndOf="@+id/txtDist"
-        app:layout_constraintTop_toTopOf="@+id/toolbar3"
-        app:layout_constraintVertical_bias="0.932" />
-
-    <TextView
-        android:id="@+id/txtDist"
-        android:layout_width="88dp"
-        android:layout_height="34dp"
-        android:elevation="20dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="Distância"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar3"
-        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="@+id/toolbar3"
-        app:layout_constraintTop_toBottomOf="@+id/txtEnd"
-        app:layout_constraintVertical_bias="0.58" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="0.913" />
 
     <TextView
-        android:id="@+id/txtNome"
+        android:id="@+id/txtNome1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="20dp"
@@ -127,6 +112,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar3"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtPrecoP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar3"
+        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintStart_toStartOf="@+id/toolbar3"
+        app:layout_constraintTop_toTopOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="0.343" />
+
+    <TextView
+        android:id="@+id/txtNomeM1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar3"
+        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintStart_toStartOf="@+id/toolbar3"
+        app:layout_constraintTop_toTopOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="0.496" />
+
+    <TextView
+        android:id="@+id/txtEndereco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar3"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="@+id/toolbar3"
+        app:layout_constraintTop_toTopOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="0.675" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

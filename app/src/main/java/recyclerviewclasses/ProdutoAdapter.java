@@ -1,18 +1,17 @@
-package com.example.projetofinal;
+package recyclerviewclasses;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import static java.security.AccessController.getContext;
-
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.projetofinal.ItemPesq;
+import com.example.projetofinal.R;
 
 import java.util.List;
 
@@ -32,26 +31,48 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
     public ProdutosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //chamando layout em questao para definir como modelo aser usado
         //apos tudo ser adicionado na view , a mesma é retornada pelo viewholder
-        return new ProdutosViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.itempesq,parent,false));
+        return new ProdutosViewHolder(LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.itempesq,parent,false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProdutosViewHolder holder, int position) {
         //convertendo o objet viewHolder para o nosso ViewHolder
 
+
         //agora podemos acessar os nossos coponenetes atraves do objeto "produtoVH"
         holder.nome.setText(listaitem.get(position).getNomeP());
         holder.preco.setText("R$"+listaitem.get(position).getPrecoP());
         holder.mercado.setText(listaitem.get(position).getNomeM());
 
+        //ja se tem o objeto emquestao para ser passado para o outro view holder
 
-        /*verMais.setOnClickListener(new View.OnClickListener() {
+
+        ItemPesq itemPesq =new
+
+
+
+        //declarar a funçao de trocar de layout referente ao item especifico
+        holder.btExDetalhes.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
+                //pegar o indice do item, gerar/aproveitar seu objeto ,
+                //passá-lo para o outro layout e applicar os valores nas textos
+                //link para acessar como fazer o pop app
+                // https://developer.android.com/guide/topics/ui/dialogs?hl=pt-br#CustomLayout
+
             }
-        });*/ //
+        });
+
     }
+
+    private void pegarInfo( int position) {
+
+
+   }
+
 
     @Override
     public int getItemCount() {
@@ -61,13 +82,15 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
     class ProdutosViewHolder extends RecyclerView.ViewHolder {
 
         TextView nome, preco, mercado;
+        Button btExDetalhes;
 
         public ProdutosViewHolder(@NonNull View itemView) {
             super(itemView);
 
             nome = itemView.findViewById(R.id.txtNome);
-            preco = itemView.findViewById(R.id.txtPreco);
+            preco = itemView.findViewById(R.id.txtPrecoP);
             mercado = itemView.findViewById(R.id.txtNomeM);
+            btExDetalhes= itemView.findViewById(R.id.btExDetalhes);
         }
     }
 }

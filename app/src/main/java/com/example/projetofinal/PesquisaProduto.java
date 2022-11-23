@@ -1,13 +1,21 @@
 package com.example.projetofinal;
 
+import static android.app.PendingIntent.getActivity;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -18,12 +26,12 @@ public class PesquisaProduto extends AppCompatActivity {
     //receber lista serializada , dessserializar , puxar recycler view e adicionar as informaççoes nele
 
     private ArrayList<Produto> produtos;
+    //LayoutInflater inflater =
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pesquisaproduto);
-
-
         produtos = (ArrayList<Produto>) getIntent().getSerializableExtra("produtos");
         //receberá um lista de itempesq vinda da tela Bycomp
         ArrayList<ItemPesq> itemp = new ArrayList<>();
@@ -79,16 +87,8 @@ public class PesquisaProduto extends AppCompatActivity {
 
     }
 
-/* antes de gerar esses metodos deve se pegar as informçoes em questao , para so no final aplicar no recyclerview
-
-
-    private void aplicandoAdapter() {
 
 
 
-    }
 
-    private void mostrarProdutos() {
-
-    }*/
 }

@@ -1,5 +1,8 @@
 package recyclerviewclasses;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,26 +48,31 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
         holder.preco.setText("R$"+listaitem.get(position).getPrecoP());
         holder.mercado.setText(listaitem.get(position).getNomeM());
 
-        //ja se tem o objeto emquestao para ser passado para o outro view holder
-
-
-        ItemPesq itemPesq =new
 
 
 
-        //declarar a funçao de trocar de layout referente ao item especifico
-        holder.btExDetalhes.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                //pegar o indice do item, gerar/aproveitar seu objeto ,
-                //passá-lo para o outro layout e applicar os valores nas textos
                 //link para acessar como fazer o pop app
-                // https://developer.android.com/guide/topics/ui/dialogs?hl=pt-br#CustomLayout
 
-            }
-        });
+                   //pegar o indice do item, gerar/aproveitar seu objeto ,
+                   //passá-lo para o outro layout e applicar os valores nas textos
+                   // https://developer.android.com/guide/topics/ui/dialogs?hl=pt-br#CustomLayout
+
+              holder.btExDetalhes.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View view) {
+
+
+
+
+
+
+
+
+
+
+                  }
+              });
+
 
     }
 

@@ -110,11 +110,9 @@ public class Login extends AppCompatActivity {
                 email = emailEd.getText().toString();
                 senha = senhaEd.getText().toString();
 
-                if(modoTeste)
                 startActivity(new Intent( Login.this, Bycomp.class));
 
-                else
-                try{
+                /*try{
 
                     //verificar a coneçao com a internet
 
@@ -146,19 +144,19 @@ public class Login extends AppCompatActivity {
                             }
                         });
 
-                    }
+                    }*/
 
                 }
 
 
-                catch (Exception e){
+               /* catch (Exception e){
 
                     Toast.makeText(Login.this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
                 }
 
-            }
+            }*/
         });
 
 

@@ -11,7 +11,7 @@ public class Mercado {
     private double avaliacao;
 
 
-    public Mercado(String nome, String cnpj, String uf, String cidade, String bairro, String rua, String numero ,double avaliacao) {
+    public Mercado(String nome, String cnpj, String uf, String cidade, String bairro, String rua, String numero , double avaliacao) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.uf = uf;

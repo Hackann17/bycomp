@@ -138,9 +138,6 @@ public class Lista<Int> extends Fragment {
 
                                         //gerando itent ou SharedPreferences e passando a lista produtoMercado para tela de pesquisa
 
-
-
-
                                     }
                                 }
                             });
@@ -254,9 +251,6 @@ public class Lista<Int> extends Fragment {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("uf"), document.getString("cidade"),
                                                 document.getString("bairro"), document.getString("rua"), document.getString("numero"), avaliacaoMercado(document.getString("cnpj")));
-
-
-
                                         mercados.add(m);
                                     }
                                 }

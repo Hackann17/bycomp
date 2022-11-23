@@ -1,8 +1,6 @@
 package com.example.projetofinal;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.Postagem;
-import io.grpc.internal.JsonParser;
 
 public class AvaliacoesFragment extends Fragment {
 
@@ -46,17 +43,6 @@ public class AvaliacoesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_avaliacoes, container, false);
 
-        Bundle bundle = getArguments();
-
-        if(getBoolean(bundle, "p") == true) {
-            Postagem p = (Postagem) bundle.getSerializable("p");
-
-            if(p != null) {
-                Toast.makeText(getContext(), "Foi!", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
         //botoes
         publicar = v.findViewById(R.id.butPub);
         arquivar = v.findViewById(R.id.butArq);
@@ -72,60 +58,49 @@ public class AvaliacoesFragment extends Fragment {
         qualidadeBoa = v.findViewById(R.id.radioButtonQualidadeBoa);
         qualidadeRuim = v.findViewById(R.id.radioButtonQualidadeInf);
         caro = v.findViewById(R.id.radioButtonCaro);
-        
+
+        //adiciona os checkboxs na lista
+        rdButtom[0] = qualidadeBoa;
+        rdButtom[1] = qualidadeRuim;
+        rdButtom[2] = barato;
+        rdButtom[3] = caro;
+
         publicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comentario = comentarioUsuario.getText().toString();
-                //pega a quantidade de estrelas que o usuario passou
-                 rating = String.valueOf(qtdEstrelas.getRating());
-
                 if(rating.equals("0.0")){
                     Toast.makeText(getContext(), "Avalie o mercado com estrelas", Toast.LENGTH_LONG).show();
                 } else {
-                    //adiciona os checkboxs na lista
-                    rdButtom[0] = qualidadeBoa;
-                    rdButtom[1] = qualidadeRuim;
-                    rdButtom[2] = barato;
-                    rdButtom[3] = caro;
-
-                    verificarCheckSelecionado();
-
-                    //mostrar no log
-                    Log.e("Postagem: ", postagem.getAvaliacaoMercado());
-                    Log.e("Postagem: ", postagem.getComentario());
-
-                    for(int i = 0; i < postagem.getAdicional().size(); i++){
-                        Log.e("Postagem: ", postagem.getAdicional().get(i));
-                    }
+                    montaPostagem();
                 }
             }
-
-
         });
 
         arquivar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                montaPostagem();
                 SharedPreferences.Editor gravar = getContext().getSharedPreferences("postagem", Context.MODE_PRIVATE).edit();
                 gravar.putString("postagem", new Gson().toJson(postagem));
                 gravar.apply();
 
                 Toast.makeText(getContext(), "Arquivado com sucesso", Toast.LENGTH_SHORT).show();
-
-                SharedPreferences ler = null;
-
                 Log.e("FEITO!", "FEITO");
 
             }
         });
 
-
+        mostrar();
         return v;
     }
 
-    private void verificarCheckSelecionado() {
+    private void montaPostagem() {
         Postagem p = null;
+
+        comentario = comentarioUsuario.getText().toString();
+        //pega a quantidade de estrelas que o usuario passou
+        rating = String.valueOf(qtdEstrelas.getRating());
+
         //tamanho do array checkboxes
         for(int i = 0; i < rdButtom.length; i++){
             //verifica os indices que estão selecionados
@@ -134,7 +109,6 @@ public class AvaliacoesFragment extends Fragment {
                 opcoes.add(rdButtom[i].getText().toString());
             }
         }
-
         //cria o objeto postagem e adiciona o que o usuario colocou
         p = new Postagem(rating, comentario, opcoes);
 
@@ -143,9 +117,48 @@ public class AvaliacoesFragment extends Fragment {
             Log.e("Foi selecionado: ", opcoes.get(i));
             //adiciona numa lista de objetos
         }
-
         postagem = p;
+
     }
+
+    private void mostrar(){
+        Bundle bundle = getArguments();
+
+        if(getBoolean(bundle, "p") == true) {
+            Postagem p = (Postagem) bundle.getSerializable("p");
+            if(p != null) {
+                if(p.getAvaliacaoMercado() != null){
+                    Toast.makeText(getContext(), "Foi!", Toast.LENGTH_SHORT).show();
+                    rating = p.getAvaliacaoMercado();
+                    qtdEstrelas.setRating(Float.parseFloat(rating));
+
+                    Log.e("Estrelas: ", rating);
+                }
+
+                if(p.getComentario() != null){
+                    Toast.makeText(getContext(), "Foi!", Toast.LENGTH_SHORT).show();
+                    comentarioUsuario = v.findViewById(R.id.comentarioUsuario);
+                    comentarioUsuario.setText(p.getComentario());
+
+                    Log.e("Comentário: ", comentarioUsuario.getText().toString());
+                }
+
+                if(p.getAdicional() != null){
+                    for(int i = 0; i < p.getAdicional().size(); i++){
+                        for(int it = 0; it < rdButtom.length; it++){
+                            if(p.getAdicional().get(i).equals(rdButtom[it].getText())){
+                                Log.e("Passou aqui", "");
+                                rdButtom[it].setChecked(true);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+
 
     public static Boolean getBoolean(Bundle arguments, String key) {
         if (arguments != null && arguments.containsKey(key)) {

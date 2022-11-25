@@ -31,7 +31,7 @@ public class ProdutoAdapterB extends RecyclerView.Adapter<ProdutoAdapterB.Produt
         //agora podemos acessar os nossos coponenetes atraves do objeto "produtoVH"
 
         holder.txtNome1.setText(listaitem.get(position).getNomeP());
-        holder.txtPrecoP1.setText(listaitem.get(position).getPrecoP().toString());
+        holder.txtPrecoP1.setText(listaitem.get(position).getPrecoP()+"");
         holder.txtNomeM1.setText(listaitem.get(position).getNomeM());
         holder.txtEndereco.setText(listaitem.get(position).getEnderecoM());
         holder.txtNome1.setText(listaitem.get(position).getNomeP());

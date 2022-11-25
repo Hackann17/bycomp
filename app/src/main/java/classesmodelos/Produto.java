@@ -27,9 +27,6 @@ public class Produto  implements Serializable {
         this.unidade = unidade;
     }
 
-    public Produto() {
-    }
-
     public String getNome() {
         return nome;
     }
@@ -42,7 +39,7 @@ public class Produto  implements Serializable {
         return codigo;
     }
 
-    public double getPreco() {
+    public float getPreco() {
         return preco;
     }
 
@@ -141,10 +138,10 @@ public class Produto  implements Serializable {
             for(int i = 0; i < produtos.size(); i++){
 
                 if(!produtosOrganizados.contains(produtos.get(i)))//verificar se o produto sendo analizado ja esta na lista organizada
-                if(ultimoMaisBarato==null||
-                         produtos.get(i).getPreco()<ultimoMaisBarato.getPreco()){//verificar se o produto sendo analizado é mais barato que o ultimo
-                    ultimoMaisBarato = produtos.get(i);
-                }
+                    if(ultimoMaisBarato==null||
+                            produtos.get(i).getPreco()<ultimoMaisBarato.getPreco()){//verificar se o produto sendo analizado é mais barato que o ultimo
+                        ultimoMaisBarato = produtos.get(i);
+                    }
             }
             //adicionar o ultimo mais barato na lista
             produtosOrganizados.add(ultimoMaisBarato);

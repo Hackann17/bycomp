@@ -18,7 +18,7 @@ public class ProdutosViewHolder extends RecyclerView.ViewHolder {
 
     public ProdutosViewHolder(@NonNull View itemView) {
         super(itemView);
-        //VIncular id para cda componente
+        //VIncular id para cada componente
         textNomeP = itemView.findViewById(R.id.txtNome);
         textPrecoP = itemView.findViewById(R.id.txtPreco);
         textNomeM = itemView.findViewById(R.id.txtMercado1);

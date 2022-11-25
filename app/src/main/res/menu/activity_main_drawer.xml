@@ -49,6 +49,7 @@
 
         <item
             android:id="@+id/nav_sair"
+            android:icon="@drawable/icsair"
             android:title="@string/menu_sair" />
 
     </group>

@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar3"
-        android:layout_width="357dp"
-        android:layout_height="293dp"
+        android:layout_width="339dp"
+        android:layout_height="278dp"
         android:background="@drawable/containers"
         android:elevation="20dp"
         android:minHeight="?attr/actionBarSize"
@@ -17,20 +17,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.125" />
+        app:layout_constraintVertical_bias="0.123" />
 
     <TextView
         android:id="@+id/txtPreco"
         android:layout_width="54dp"
         android:layout_height="24dp"
-        android:layout_marginBottom="180dp"
+        android:layout_marginBottom="208dp"
         android:elevation="20dp"
         android:fontFamily="@font/poppins_light"
         android:text="Preço"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
-        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="@+id/toolbar3"
         app:layout_constraintTop_toBottomOf="@+id/txtNome"
         app:layout_constraintVertical_bias="0.125" />
@@ -75,10 +75,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
-        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toStartOf="@+id/toolbar3"
         app:layout_constraintTop_toTopOf="@+id/toolbar3"
-        app:layout_constraintVertical_bias="0.913" />
+        app:layout_constraintVertical_bias="0.828" />
 
     <TextView
         android:id="@+id/txtNome1"
@@ -90,10 +90,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar3"
         app:layout_constraintEnd_toEndOf="@+id/toolbar3"
-        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="@+id/toolbar3"
         app:layout_constraintTop_toTopOf="@+id/toolbar3"
-        app:layout_constraintVertical_bias="0.173" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <Button
         android:id="@+id/bOcultar"
@@ -148,6 +148,11 @@
         app:layout_constraintStart_toStartOf="@+id/toolbar3"
         app:layout_constraintTop_toTopOf="@+id/toolbar3"
         app:layout_constraintVertical_bias="0.675" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

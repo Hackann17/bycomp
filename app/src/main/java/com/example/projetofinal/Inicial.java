@@ -17,30 +17,28 @@ public class Inicial extends AppCompatActivity {
     Button butcomecar;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //verificando se o ususao ruio é null
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            startActivity(new Intent( Inicial.this,Bycomp.class));
+        }
+
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial);
-
-        /*SharedPreferences preferences = getSharedPreferences("Salvar", Context.MODE_PRIVATE);
-
-
-        if(!preferences.getBoolean("log",false)){
-            startActivity(new Intent(Inicial.this, Bycomp.class));
-
-        }*/
-
-
         butcomecar = findViewById(R.id.butComecar);
 
         butcomecar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(Inicial.this, Login.class));
             }
         });
 
-        //metodos iniciais
-
     }
+
+
 }

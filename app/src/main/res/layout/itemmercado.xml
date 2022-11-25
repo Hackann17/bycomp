@@ -3,17 +3,135 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/nomeP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar13"
+        android:layout_width="409dp"
+        android:layout_height="248dp"
+        android:background="@drawable/containers"
+        android:elevation="20dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txtNomeMerc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_light"
+        android:text=""
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar13"
+        app:layout_constraintHorizontal_bias="0.038"
+        app:layout_constraintStart_toStartOf="@+id/toolbar13"
+        app:layout_constraintTop_toTopOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.067" />
+
+    <TextView
+        android:id="@+id/textView46"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="Subtotal"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar13"
+        app:layout_constraintHorizontal_bias="0.037"
+        app:layout_constraintStart_toStartOf="@+id/toolbar13"
+        app:layout_constraintTop_toTopOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.316" />
+
+    <TextView
+        android:id="@+id/textView47"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="Endereço"
+        android:textSize="16sp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar13"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="@+id/toolbar13"
+        app:layout_constraintTop_toTopOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.565" />
+
+    <TextView
+        android:id="@+id/textView48"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="Avaliação"
+        android:textSize="16sp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar13"
+        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.834" />
+
+    <TextView
+        android:id="@+id/txtSubtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_light"
+        android:text=""
+
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar13"
+        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintStart_toStartOf="@+id/toolbar13"
+        app:layout_constraintTop_toTopOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.316" />
+
+    <TextView
+        android:id="@+id/txtEnderecoMerc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_light"
+        android:text=""
+        android:textSize="16sp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar13"
+        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.564" />
+
+    <TextView
+        android:id="@+id/txtAvaliacaoMerc"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/poppins_light"
+        android:text=""
+        android:textSize="16sp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="@+id/toolbar13"
+        app:layout_constraintTop_toTopOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.83" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

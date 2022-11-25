@@ -30,6 +30,7 @@ public class Pesquisar extends Fragment {
 
     //essa classe msotrar o resultado da pesquisa de mercados
     //recebera dois layouts para o recycler view
+    List<ProdutoMercado> pm;
     View view;
 
     private static final String ARG_PARAM1 = "param1";
@@ -67,6 +68,24 @@ public class Pesquisar extends Fragment {
         ArrayList<ProdutoMercado> pm = new Gson().fromJson(ler.getString("produtosMercado", "{}"),ProdutoMercado.class);
 
         Log.e("lista: ", pm.toString());
+
+
+        //gerando recyclerview da lista de mercados organizados do preço mais baixo para o mais alto
+
+        pm = new ArrayList<ProdutoMercado>();
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

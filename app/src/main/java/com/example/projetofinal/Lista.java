@@ -3,13 +3,11 @@ package com.example.projetofinal;
 import static com.android.volley.VolleyLog.TAG;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -42,6 +40,7 @@ import classesmodelos.ProdutoMercado;
 import classesmodelos.Usuario;
 
 
+
 public class Lista<Int> extends Fragment {
 
     //variaveis
@@ -71,23 +70,7 @@ public class Lista<Int> extends Fragment {
         limparLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //criar tela de confirmação para perguntar se o usuario deseja limpar a lista
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("Deseja realmente limpar a lista de produtos?")
-                        .setPositiveButton("Limpar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                listaCompras.setText("");
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                // Create the AlertDialog object and return it
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                listaCompras.setText("");
             }
         });
 
@@ -132,11 +115,11 @@ public class Lista<Int> extends Fragment {
                                         }
 
                                         for (ProdutoMercado pm : produtosMercado){
-
-                                            Log.e("ordem de mercado: ", pm.getMercado()+" "+pm.getProdutos()+" "+pm.getValorTotal());
+                                            Log.e("mercado:",pm.getMercado().getCnpj());
+                                            for(Produto p : pm.getProdutos())
+                                                Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
                                         }
 
-                                        //gerando itent ou SharedPreferences e passando a lista produtoMercado para tela de pesquisa
 
                                         SharedPreferences.Editor editor = getContext().getSharedPreferences("InformacoesProdMerc",Context.MODE_PRIVATE).edit();
 
@@ -245,25 +228,27 @@ public class Lista<Int> extends Fragment {
 
     //método que devolve todos os mercados do banco
     private List<Mercado> extrairMercadosBanco(){
+        Log.e("aviso","metodo rodando");
         List<Mercado> mercados = new ArrayList<>();
         try {
-                firestore = FirebaseFirestore.getInstance();
-                firestore.collection("Mercados")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                Log.e("aviso","entrou extrair mercaos banco");
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("uf"), document.getString("cidade"),
-                                                document.getString("bairro"), document.getString("rua"), document.getString("numero"), avaliacaoMercado(document.getString("cnpj")));
-                                        mercados.add(m);
-                                    }
+            firestore = FirebaseFirestore.getInstance();
+            firestore.collection("Mercados")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            Log.e("aviso","deu bom");
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("cidade"),
+                                            document.getString("bairro"), document.getString("logradouro"), avaliacaoMercado(document.getString("cnpj")));
+                                    mercados.add(m);
                                 }
                             }
-                        });
+                        }
+                    });
         } catch (Exception e) {
+            Log.e("erro","deu erro");
             e.printStackTrace();
         }
         return  mercados;
@@ -282,7 +267,7 @@ public class Lista<Int> extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    avaliacoes.add(document.getDouble("avaliacao"));
+                                    avaliacoes.add(Double.parseDouble(document.getString("avaliacao")));
                                 }
                             }
                         }

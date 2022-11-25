@@ -1,24 +1,25 @@
 package classesmodelos;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Mercado {
     private String nome;
     private String cnpj;
     private String bairro;
     private String rua;
-    private String uf;
-    private String numero;
     private String cidade;
     private double avaliacao;
 
 
-    public Mercado(String nome, String cnpj, String uf, String cidade, String bairro, String rua, String numero , double avaliacao) {
+    public Mercado(String nome, String cnpj, String cidade, String bairro, String rua,double avaliacao) {
         this.nome = nome;
         this.cnpj = cnpj;
-        this.uf = uf;
         this.cidade = cidade;
         this.bairro = bairro;
         this.rua = rua;
-        this.numero = numero;
         this.avaliacao = avaliacao;
     }
 
@@ -38,14 +39,6 @@ public class Mercado {
 
     public String getRua() {
         return rua;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public String getNumero() {
-        return numero;
     }
 
     public double getAvaliacao() {
@@ -68,21 +61,22 @@ public class Mercado {
         this.nome = nome;
     }
 
-    public void setUf(String uf) {
-        this.nome = nome;
-    }
-
-    public void setNumero(String numero) {
-        this.nome = nome;
-    }
-
     public void setAvaliacao(double avaliacao) {
-        this.nome = nome;
+        this.avaliacao = avaliacao;
     }
 
-    public Mercado encontrarMercado(String cnpj){
-
-        return null;
+    //configura a avaliação de cada mercado de acordo com as avaliações na lista avaliacoes
+    public static void configurarAvaliacoesDosMercados(List<Mercado> mercados, List<Avaliacao> avaliacoes){
+        for (Mercado m : mercados) {
+            if(m.getAvaliacao()==0)
+                for (Avaliacao av : avaliacoes) {
+                    if (av.getCnpj().equals(m.getCnpj())) {
+                        double avaliacao = av.getAvaliacao();
+                        m.setAvaliacao(avaliacao);
+                        break;
+                    }
+                }
+        }
     }
 
 }

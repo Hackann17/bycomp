@@ -138,6 +138,13 @@ public class Lista<Int> extends Fragment {
 
                                         //gerando itent ou SharedPreferences e passando a lista produtoMercado para tela de pesquisa
 
+                                        SharedPreferences.Editor editor = getContext().getSharedPreferences("InformacoesProdMerc",Context.MODE_PRIVATE).edit();
+
+
+
+
+
+
                                     }
                                 }
                             });

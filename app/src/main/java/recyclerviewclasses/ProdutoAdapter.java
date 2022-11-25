@@ -41,7 +41,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
     public ProdutoAdapter(List<ItemPesq> itempe) {
         this.listaitem = itempe;
     }
-
     @NonNull
     @Override
     public ProdutosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,7 +49,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
         return new ProdutosViewHolder(LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.itempesq,parent,false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull ProdutosViewHolder holder, int position) {
         //convertendo o objet viewHolder para o nosso ViewHolder

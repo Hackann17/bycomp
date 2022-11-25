@@ -38,8 +38,6 @@ public class ListaMercadoAdapter extends RecyclerView.Adapter<ListaMercadoAdapte
         holder.txtEnderecoMerc.setText(pm.get(position).getMercado().getRua());
         holder.txtAvaliacaoMerc.setText((pm.get(position).getMercado().getAvaliacao()+""));
 
-
-
     }
 
     @Override

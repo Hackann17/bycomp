@@ -5,7 +5,7 @@
     android:id="@+id/pesquisar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pesquisar">
+    tools:context=".PesquisaListaProdutos">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

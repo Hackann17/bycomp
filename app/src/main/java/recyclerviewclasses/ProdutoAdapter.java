@@ -65,14 +65,14 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
         //link para acessar como fazer o pop app
         // https://developer.android.com/guide/topics/ui/dialogs?hl=pt-br#CustomLayout
 
-              holder.btExDetalhes.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
+        holder.btExDetalhes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                      mostraPOpup(itpo,view);
+                mostraPOpup(itpo,view);
 
-                  }
-              });
+            }
+        });
 
 
     }
@@ -87,12 +87,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
     // cria o popUP que sera puxado quando o botao for acionado
     public  void mostraPOpup(ItemPesq itemPesq, View v ){
 
-        /*ProdutoViewHolderb produtomais = new ProdutoViewHolderb(v);
-        produtomais.txtNome1 .setText( itemPesq.getNomeP());
-        produtomais.txtPrecoP1 .setText(itemPesq.getPrecoP().toString());
-        produtomais.txtNomeM1 .setText( itemPesq.getNomeM());
-        produtomais.txtEndereco .setText( itemPesq.getEnderecoM());*/
-
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 //        CriarInflater c = new CriarInflater();
 //        LayoutInflater inflater = c.devolver();
@@ -102,8 +96,8 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
                         "Preço" +"                     "+"R$"+itemPesq.getPrecoP()+"\n"+
                         "Mercado" +"                 "+itemPesq.getNomeM()+"\n"+
                         "Endereço" +"                "+itemPesq.getEnderecoM()+"\n"+
-                        "Avaliação"
-                        )
+                        "Avaliação"+"                "+itemPesq.getAvaliacaoM()+"\n"
+                )
                 .setPositiveButton("Ocultar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

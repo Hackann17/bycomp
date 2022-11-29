@@ -1,17 +1,14 @@
 package com.example.projetofinal;
 
-import static com.android.volley.VolleyLog.TAG;
-
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,8 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,11 +29,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import classesmodelos.Avaliacao;
 import classesmodelos.Mercado;
 import classesmodelos.Produto;
 import classesmodelos.ProdutoMercado;
-import classesmodelos.Usuario;
-
 
 
 public class Lista<Int> extends Fragment {
@@ -54,8 +48,9 @@ public class Lista<Int> extends Fragment {
     int melhoresPrecos; //vai guardar os precos mais baratos
     List<String> itens = new ArrayList<String>(); //lista que vai receber os produtos da tela
     List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
-    List<ProdutoMercado> produtosMercado = new ArrayList<ProdutoMercado>();
     TextView limparLista; //texto clicavel para limpar o texto na lista de compras
+    List<Mercado> mercadosBanco = new ArrayList<>();
+    List<Avaliacao> avaliacoesBanco = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,9 +65,30 @@ public class Lista<Int> extends Fragment {
         limparLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listaCompras.setText("");
+                //criar tela de confirmação para perguntar se o usuario deseja limpar a lista
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Deseja limpar a lista de produtos?")
+                        .setPositiveButton("Limpar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //limpar a lista
+                                listaCompras.setText("");
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //cancelar
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
             }
         });
+
+        extrairMercadosBanco();
+        extrairAvaliacoesBanco();
 
         btNavegar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,25 +123,24 @@ public class Lista<Int> extends Fragment {
 //                                            Log.e("ordem de preço: ",p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
 //                                        }
 
+                                        Mercado.configurarAvaliacoesDosMercados(mercadosBanco,avaliacoesBanco);
+
+                                        List<ProdutoMercado> produtosMercado;
+
                                         //separa os produtos pelos mercados na localização do usuário
+                                        List<Mercado> mercadosLocal;
                                         try {
-                                            produtosMercado = separaProdutoPorMercado(produtos);
+                                            mercadosLocal = compararLocal(produtos);
+                                            //produtosMercado = ProdutoMercado.separaProdutoPorMercado(produtos,mercadosLocal);
                                         } catch (IOException e) {
-                                            e.printStackTrace();
+                                            produtosMercado = null;
+                                            mercadosLocal = null;
                                         }
 
-                                        for (ProdutoMercado pm : produtosMercado){
-                                            Log.e("mercado:",pm.getMercado().getCnpj());
-                                            for(Produto p : pm.getProdutos())
-                                                Log.e("ordem de mercado: ", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
-                                        }
-
-
-                                        SharedPreferences.Editor editor = getContext().getSharedPreferences("InformacoesProdMerc",Context.MODE_PRIVATE).edit();
-
-
-
-
+                                        Intent it = new Intent(getContext(), PesquisaListaProdutos.class);
+                                        it.putExtra("produtos",(ArrayList) produtos);
+                                        it.putExtra("mercados",(ArrayList) mercadosLocal);
+                                        startActivity(it);
 
 
                                     }
@@ -160,7 +175,6 @@ public class Lista<Int> extends Fragment {
 
     //método que compara a localização dos mercados no banco e verifica a distancia da localização do usuario
     private List<Mercado> compararLocal(List<Produto> produtos) throws IOException {
-        List<Mercado> mercadosBanco = extrairMercadosBanco();
         List<Mercado> mercados = new ArrayList<>();
 
         //pegar a localização do usuário para comparar com a localização do mercado
@@ -184,51 +198,9 @@ public class Lista<Int> extends Fragment {
         return  mercados;
     }
 
-    private List<ProdutoMercado> separaProdutoPorMercado(List<Produto> produtos) throws IOException {
-        List<ProdutoMercado> produtoMercado = new ArrayList<>();
-
-        //lista com todos os mercados do banco no mesmo endereço do usuário
-        List<Mercado> mercados = compararLocal(produtos);
-        //armazenar cnpjs para não repetir
-        List<String> cnpjsListados = new ArrayList<>();
-
-        for (int i = 0; i < produtos.size(); i++) {
-            //pegar o cnpj do mercado do produto
-            String cnpj = produtos.get(i).getCnpj();
-
-            //verificar se ja existe um mercado na lista com esse cnpj
-            if(!cnpjsListados.contains(cnpj)){
-                cnpjsListados.add(cnpj);
-                //lista com todos os produtos na lista de produtos que tem esse cnpj
-                List<Produto> produtosDoMercado = new ArrayList<>();
-                //for para adicionar todos os produtos com esse cnpj na lista
-                for (Produto p : produtos) {
-                    if(p.getCnpj().equals(cnpj)){
-                        produtosDoMercado.add(p);
-                    }
-                }
-                //trazer o mercado do banco pelo cnpj
-
-                Mercado mercado = null;
-                //for para encontrar o mercado da lista que tem o mesmo cnpj do produto
-                for(Mercado m : mercados) {
-                    if (m.getCnpj().equals(cnpj)) {
-                        mercado = m;
-                        break;
-                    }
-                }
-
-                //adicionar o mercado e os produtos desse mercado na lista de produtoMercado
-                produtoMercado.add(new ProdutoMercado(produtosDoMercado, mercado));
-            }
-
-        }
-        return produtoMercado;
-    }
 
     //método que devolve todos os mercados do banco
-    private List<Mercado> extrairMercadosBanco(){
-        Log.e("aviso","metodo rodando");
+    private void extrairMercadosBanco(){
         List<Mercado> mercados = new ArrayList<>();
         try {
             firestore = FirebaseFirestore.getInstance();
@@ -237,13 +209,13 @@ public class Lista<Int> extends Fragment {
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            Log.e("aviso","deu bom");
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("cidade"),
-                                            document.getString("bairro"), document.getString("logradouro"), avaliacaoMercado(document.getString("cnpj")));
+                                            document.getString("bairro"), document.getString("logradouro"),0);
                                     mercados.add(m);
                                 }
+                                mercadosBanco = mercados;
                             }
                         }
                     });
@@ -251,37 +223,32 @@ public class Lista<Int> extends Fragment {
             Log.e("erro","deu erro");
             e.printStackTrace();
         }
-        return  mercados;
     }
 
     //devolver a avaliação de um mercado
-    private double avaliacaoMercado(String cnpj){
-        List<Double> avaliacoes = new ArrayList<>();
+    private void extrairAvaliacoesBanco() {
+        List<Avaliacao> avaliacoes = new ArrayList<>();
         try {
             //buscar todas as avaliações do mercado no banco
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
             firestore.collection("Avaliacao")
-                    .whereEqualTo("cnpj",cnpj).get()
+                    .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    avaliacoes.add(Double.parseDouble(document.getString("avaliacao")));
+                                    double avaliacao = Double.parseDouble(document.getString("avaliacao"));
+                                    String cnpj = document.getString("cnpj");
+                                    avaliacoesBanco.add(new Avaliacao(avaliacao, cnpj));
                                 }
+                                avaliacoesBanco = Avaliacao.avaliacoesMercado(avaliacoes);
                             }
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //somar todas as avaliacoes
-        double soma = 0;
-        for(double av : avaliacoes)
-            soma += av;
-
-        //devolver a média
-        return soma/avaliacoes.size();
     }
 
 }

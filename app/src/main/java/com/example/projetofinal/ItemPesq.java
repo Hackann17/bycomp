@@ -1,13 +1,14 @@
 package com.example.projetofinal;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.Mercado;
 import classesmodelos.Produto;
 
-public class ItemPesq {
+public class ItemPesq implements Serializable {
 
     private String cnpjM;
     private String nomeM;

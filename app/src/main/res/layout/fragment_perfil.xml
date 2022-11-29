@@ -23,8 +23,8 @@
         android:background="#FFFFFF"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="43dp" />
+        tools:layout_editor_absoluteX="-177dp"
+        tools:layout_editor_absoluteY="-72dp" />
 
     <TextView
         android:id="@+id/textView34"

@@ -10,16 +10,17 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar7"
-        android:layout_width="337dp"
-        android:layout_height="326dp"
+        android:layout_width="334dp"
+        android:layout_height="279dp"
         android:background="@drawable/container"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toTopOf="@+id/btCadastrar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.909" />
+        app:layout_constraintVertical_bias="0.779" />
 
     <EditText
         android:id="@+id/inputSenha"
@@ -30,12 +31,12 @@
         android:hint="Digite aqui sua senha"
         android:inputType="textPassword"
         android:paddingLeft="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/radioButton"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar7"
         app:layout_constraintEnd_toEndOf="@+id/toolbar7"
-        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="@+id/toolbar7"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955" />
+        app:layout_constraintVertical_bias="0.929" />
 
     <TextView
         android:id="@+id/textView5"
@@ -113,19 +114,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="284dp"
-        android:layout_height="59dp"
-        android:layout_marginBottom="24dp"
-        android:paddingLeft="15dp"
-        android:text="Ao entrar você aceita a nossa Política de Privacidade"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
     <Button
         android:id="@+id/btCadastrar"
         android:layout_width="150dp"
@@ -141,7 +129,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.832" />
+        app:layout_constraintVertical_bias="0.812" />
 
     <TextView
         android:id="@+id/txtEntreAqui"
@@ -195,12 +183,12 @@
         android:ems="10"
         android:hint="Digite aqui seu e-mail"
         android:paddingLeft="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/inputSenha"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar7"
         app:layout_constraintEnd_toEndOf="@+id/toolbar7"
-        app:layout_constraintHorizontal_bias="0.418"
+        app:layout_constraintHorizontal_bias="0.423"
         app:layout_constraintStart_toStartOf="@+id/toolbar7"
         app:layout_constraintTop_toBottomOf="@+id/inputUser"
-        app:layout_constraintVertical_bias="0.547" />
+        app:layout_constraintVertical_bias="0.268" />
 
     <EditText
         android:id="@+id/inputUser"

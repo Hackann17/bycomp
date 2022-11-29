@@ -1,9 +1,11 @@
 package com.example.projetofinal;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,12 +22,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Cadastro extends AppCompatActivity {
 
@@ -109,6 +113,8 @@ public class Cadastro extends AppCompatActivity {
                                         editor.commit();
 
                                         Toast.makeText(Cadastro.this,"Cadastro realizado com sucesso", Toast.LENGTH_SHORT);
+                                       FirebaseAuth.getInstance().signOut();
+                                        gerarCodigo();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -123,6 +129,9 @@ public class Cadastro extends AppCompatActivity {
                             } catch (Exception e){
                                 Log.e("ERRO", e.toString());
                             }
+                        } else {
+                            Log.e("ERRO:", "Algo no cadastro deu errado");
+
                         }
                     }
                 });
@@ -147,6 +156,36 @@ public class Cadastro extends AppCompatActivity {
             }
         }
     }
+
+    private void gerarCodigo(){
+        int codigo;
+        Random r = new Random();
+        codigo = r.nextInt(899999)+100000;
+        Log.e("Codigo ", codigo+"");
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+//        CriarInflater c = new CriarInflater();
+//        LayoutInflater inflater = c.devolver();
+        //builder.setView(inflater.inflate(R.layout.itempesqb,null))
+
+        builder.setMessage(
+                "Foi"
+                )
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+
+    }
+
 
 }
 

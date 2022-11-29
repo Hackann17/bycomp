@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 //import android.util.Base64;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,7 +62,7 @@ public class Login extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     EditText emailEd, senhaEd;
-    TextView Criarconta;
+    TextView Criarconta, esqueceuSenha;
     Button btLogar;
     String email, senha;
     Usuario u;
@@ -86,6 +87,7 @@ public class Login extends AppCompatActivity {
         btLogar = findViewById(R.id.btLogar);
         emailEd = findViewById(R.id.edtEmail);
         senhaEd = findViewById(R.id.inputSenhaL);
+        esqueceuSenha = findViewById(R.id.esqueceuLoginTxt);
         mAuth = FirebaseAuth.getInstance();
 
        // sharedpreferences = getSharedPreferences(SHARED_PREFS, Cadastro.MODE_PRIVATE);
@@ -102,6 +104,13 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        esqueceuSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent( Login.this,redefinirSenha.class));
+            }
+        });
+
         //entrar na tela do aplicativo
         btLogar.setOnClickListener(new View.OnClickListener() {
 
@@ -110,9 +119,7 @@ public class Login extends AppCompatActivity {
                 email = emailEd.getText().toString();
                 senha = senhaEd.getText().toString();
 
-                startActivity(new Intent( Login.this, Bycomp.class));
-
-                /*try{
+                try{
 
                     //verificar a coneçao com a internet
 
@@ -126,49 +133,31 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-
-
                                     startActivity(new Intent( Login.this, Bycomp.class));
                                     finish();
 
-                                    // Sign in success, update UI with the signed-in user's information
                                     //FirebaseUser user = mAuth.getCurrentUser();
                                     //updateUI(user);
                                 } else {
                                     Toast.makeText(Login.this, "Verifique se o email e a senha estão corretos", Toast.LENGTH_SHORT).show();
-                                    // If sign in fails, display a message to the user.
-
-                                    //updateUI(null);
                                 }
 
                             }
                         });
 
-                    }*/
+                    }
 
                 }
-
-
-               /* catch (Exception e){
-
+                catch (Exception e){
                     Toast.makeText(Login.this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
                     e.getStackTrace();
 
                 }
 
-            }*/
+            }
         });
 
 
     }
-
-    //realizar a autentificaçao
-
-
-
-
-
-
-
 
 }

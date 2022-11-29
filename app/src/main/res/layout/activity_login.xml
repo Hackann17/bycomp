@@ -190,10 +190,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.745" />
+        app:layout_constraintVertical_bias="0.763" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -217,5 +217,18 @@
         app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="@+id/inputSenhaL"
         app:layout_constraintTop_toTopOf="@+id/inputSenhaL" />
+
+    <TextView
+        android:id="@+id/esqueceuLoginTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Esqueceu o login? "
+        android:textColor="#F24C00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.172"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputSenhaL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

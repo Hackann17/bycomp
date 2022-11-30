@@ -104,7 +104,6 @@ public class Perfil extends Fragment {
             //declarando os inputs / pegar informações dos inputs
             textView37 = v.findViewById(R.id.textView37);
             textView38 = v.findViewById(R.id.textView38);
-            inputNomeUsuario = v.findViewById(R.id.inputNomeUsuario);
             inputEmailUsuario = v.findViewById(R.id.inputEmailUsuario);
 
             btAlterarDados = v.findViewById(R.id.btAlterarDados);
@@ -135,19 +134,15 @@ public class Perfil extends Fragment {
                 String nomeusuario,emailusuario;
 
                 //lembrar de colocar a verificaçao do input de nomedousuario
-                if(TextUtils.isEmpty(inputNomeUsuario.getText().toString().trim()) && TextUtils.isEmpty(inputEmailUsuario.getText().toString().trim())){
-                    Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(inputEmailUsuario.getText().toString().trim())){
+                    Toast.makeText(getContext(), "Preencha os campos", Toast.LENGTH_SHORT).show();
                 }
                 else{
-
-                    nomeusuario=inputNomeUsuario.getText().toString();
                     emailusuario = inputEmailUsuario.getText().toString();
-
                     try {
 
                         //esse metod alterar os dados somente no firestore ,deve se ser implementados as aleraçoes vigentes no authentification
-                        Atualizardados(nomeusuario,emailusuario);
-                        inputNomeUsuario.setText("");
+                        Atualizardados(emailusuario);
                         inputEmailUsuario.setText("");
 
                     }
@@ -165,12 +160,7 @@ public class Perfil extends Fragment {
 
     }
 
-    private void Atualizardados(String nomeusuario,String emailusuario) throws IOException {
-
-        //alteraçoes athentification
-       // mAuth.updateCurrentUser()
-        //auteraçoes firestore
-        AlterarNomeU(nomeusuario);
+    private void Atualizardados(String emailusuario) throws IOException {
         AlterarEmailU(emailusuario);
 
     }
@@ -213,26 +203,6 @@ public class Perfil extends Fragment {
         });
     }
 
-    private void AlterarNomeU(String nomeusuario)throws IOException{
-
-        DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
-
-        documentReference.update("nome usuario",nomeusuario).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(getContext(), "Dados atualizados com sucesso", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Houve um problema ", Toast.LENGTH_SHORT).show();
-
-                Log.e("Erro","=============>"+e);
-
-            }
-        });
-
-    }
 
     //metodo que desloga o usuario
     private void RecolhendoNome(){
@@ -241,19 +211,11 @@ public class Perfil extends Fragment {
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-
                 if(value != null) {
-
-                    inputNomeUsuario.setHint(value.getString("nome usuario"));
                     inputEmailUsuario.setHint(value.getString("email"));
-
-
                 }
-
             }
         });
-
-
     }
 
 

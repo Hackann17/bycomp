@@ -46,18 +46,16 @@ public class Cadastro extends AppCompatActivity {
     Button btCadastrar;
     View v;
 
-    EditText inputUser;
     EditText inputSenha;
     EditText inputEmail;
 
-    String usuario, senha, email;
+    String senha, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        inputUser = findViewById(R.id.inputUser);
         inputSenha = findViewById(R.id.inputSenha);
         inputEmail = findViewById(R.id.inputEmail);
 
@@ -78,7 +76,6 @@ public class Cadastro extends AppCompatActivity {
             public void onClick(View view) {
             //implementando firebase
 
-                usuario = inputUser.getText().toString().trim();
                 senha= inputSenha.getText().toString().trim();
                 email = inputEmail.getText().toString().trim();
 
@@ -150,7 +147,16 @@ public class Cadastro extends AppCompatActivity {
                             }
                         } else {
                             //significa que o email já existe no banco
-                            Toast.makeText(Cadastro.this,"Esse e-mail já está cadastrado. Por favor, escolha outro", Toast.LENGTH_LONG);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Cadastro.this);
+
+                            builder.setMessage("Esse e-mail já está cadastrado. Tente outro").setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+
                             inputEmail.setTextColor(Color.parseColor("#B10101"));
 
                         }

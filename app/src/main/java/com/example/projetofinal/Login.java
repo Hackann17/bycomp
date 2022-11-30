@@ -120,9 +120,6 @@ public class Login extends AppCompatActivity {
                 senha = senhaEd.getText().toString();
 
                 try{
-
-                    //verificar a coneçao com a internet
-
                     //verifica se os campos estão preenchidos
                     if(TextUtils.isEmpty(emailEd.getText().toString().trim()) && TextUtils.isEmpty(senhaEd.getText().toString().trim())){
 
@@ -133,11 +130,14 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
+                                    SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
+                                    editor.putString("NomeDocumento",email);
+                                    editor.putString("log","true");
+                                    editor.apply();
+
                                     startActivity(new Intent( Login.this, Bycomp.class));
                                     finish();
 
-                                    //FirebaseUser user = mAuth.getCurrentUser();
-                                    //updateUI(user);
                                 } else {
                                     Toast.makeText(Login.this, "Verifique se o email e a senha estão corretos", Toast.LENGTH_SHORT).show();
                                 }

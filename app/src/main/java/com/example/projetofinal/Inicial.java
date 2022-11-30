@@ -20,7 +20,9 @@ public class Inicial extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //verificando se o ususao ruio é null
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+        SharedPreferences editor = getSharedPreferences("Salvar",MODE_PRIVATE);
+
+        if(editor.getString("log", "").equals("true")){
             startActivity(new Intent( Inicial.this,Bycomp.class));
         }
 

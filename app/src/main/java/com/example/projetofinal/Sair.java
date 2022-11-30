@@ -1,7 +1,11 @@
 package com.example.projetofinal;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,8 +28,15 @@ public class Sair extends Fragment {
                 .setPositiveButton("Sair", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //deslogar o usuario
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(getContext(), Login.class));
+                        //verificando se o ususao ruio é null
+                        SharedPreferences editor = getContext().getSharedPreferences("Salvar",MODE_PRIVATE);
+
+                        if(editor.getString("log", "").equals("true")){
+                            SharedPreferences.Editor ed = getContext().getSharedPreferences("Salvar",MODE_PRIVATE).edit();
+                            ed.putString("log", "false");
+                            ed.apply();
+                            startActivity(new Intent( getContext(),Inicial.class));
+                        }
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

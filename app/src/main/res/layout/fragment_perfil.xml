@@ -140,7 +140,7 @@
         android:layout_width="65dp"
         android:layout_height="26dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.367"
+        app:layout_constraintHorizontal_bias="0.328"
         app:layout_constraintStart_toEndOf="@+id/textView37"
         tools:layout_editor_absoluteY="185dp" />
 

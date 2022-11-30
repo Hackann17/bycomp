@@ -1,5 +1,7 @@
 package com.example.projetofinal;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,10 +48,8 @@ public class Perfil extends Fragment {
 
     Button btAlterarDados;
     Button btAlterarSenha;
-    EditText inputNomeUsuario;
     EditText inputEmailUsuario;
-    TextView textView37;
-    TextView textView38;
+    TextView codigoRec;
 
     String nomedocumento;
 
@@ -96,18 +96,22 @@ public class Perfil extends Fragment {
         v = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         //puxando informaçoes shared preferences
-        SharedPreferences preferences = getContext().getSharedPreferences("Salvar", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getContext().getSharedPreferences("Salvar", MODE_PRIVATE);
 
         nomedocumento = preferences.getString("NomeDocumento","");
 
         try {
             //declarando os inputs / pegar informações dos inputs
-            textView37 = v.findViewById(R.id.textView37);
-            textView38 = v.findViewById(R.id.textView38);
             inputEmailUsuario = v.findViewById(R.id.inputEmailUsuario);
 
             btAlterarDados = v.findViewById(R.id.btAlterarDados);
             btAlterarSenha = v.findViewById(R.id.btAlterarSenha);
+            codigoRec = v.findViewById(R.id.txtCodigo);
+
+            Log.e("Codigo",preferences.getString("codigo", ""));
+
+            codigoRec.setText(preferences.getString("codigo", ""));
+
 
             btAlterarSenha.setOnClickListener(new View.OnClickListener() {
                 @Override

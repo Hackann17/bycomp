@@ -126,6 +126,7 @@ public class Cadastro extends AppCompatActivity {
 
                                         SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
                                         editor.putString("NomeDocumento",email);
+                                        editor.putString("codigo",codigo+"");
                                         editor.putString("log","false");
 
                                         editor.commit();

@@ -10,17 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projetofinal.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.ProdutoMercado;
 
-public class ListaMercadoAdapter extends RecyclerView.Adapter<ListaMercadoAdapter.MercadoViewHolder> {
+public class ListaProdutoAdapter extends RecyclerView.Adapter<ListaProdutoAdapter.MercadoViewHolder> {
     List<ProdutoMercado> pm ;
 
 
     //construtor
-    public  ListaMercadoAdapter(List<ProdutoMercado> pm){this.pm=pm;}
+    public ListaProdutoAdapter(List<ProdutoMercado> pm){this.pm=pm;}
 
     @NonNull
     @Override
@@ -30,7 +29,7 @@ public class ListaMercadoAdapter extends RecyclerView.Adapter<ListaMercadoAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListaMercadoAdapter.MercadoViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListaProdutoAdapter.MercadoViewHolder holder, int position) {
 
         //atributindo valores aos atributos do viewHolder
         holder.txtNomeMerc.setText(pm.get(position).getMercado().getNome());

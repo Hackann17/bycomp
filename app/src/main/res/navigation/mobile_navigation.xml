@@ -66,7 +66,7 @@
         android:id="@+id/pesquisar"
         android:name="com.example.projetofinal.PesquisaListaProdutos"
         android:label="fragment_pesquisar"
-        tools:layout="@layout/activity_pesquisar" />
+        tools:layout="@layout/activity_pesquisalistaproduto" />
     <fragment
         android:id="@+id/nav_perfil"
         android:name="com.example.projetofinal.Perfil"

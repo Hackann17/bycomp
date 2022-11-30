@@ -1,7 +1,5 @@
 package com.example.projetofinal;
 
-import static java.security.AccessController.getContext;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +11,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,8 +31,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projetofinal.databinding.ActivityBycompBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,8 +42,6 @@ import java.util.List;
 import classesmodelos.Avaliacao;
 import classesmodelos.Mercado;
 import classesmodelos.Produto;
-import classesmodelos.ProdutoMercado;
-import classesmodelos.Usuario;
 
 public class Bycomp extends AppCompatActivity {
 
@@ -69,11 +61,11 @@ public class Bycomp extends AppCompatActivity {
     List<Produto> produtos = new ArrayList<>(); //lista que vai armazenar os dados vindos do firebase
     List<Mercado> mercadosBanco = new ArrayList<>();
     List<Avaliacao> avaliacoesBanco = new ArrayList<>();
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.e("oncreate","oncreate");
 
         binding = ActivityBycompBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -88,7 +80,6 @@ public class Bycomp extends AppCompatActivity {
         });
 
         extrairMercadosBanco();
-        extrairAvaliacoesBanco();
 
         //método da barra de pesquisa
         search = findViewById(R.id.searchViewProduto);
@@ -122,16 +113,10 @@ public class Bycomp extends AppCompatActivity {
                                         //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
                                         produtos = Produto.organizarPorPreco(produtos);
 
-                                        for (Produto p : produtos)
-                                            Log.e("nome do produto",p.getNome());
-
-                                        Mercado.configurarAvaliacoesDosMercados(mercadosBanco,avaliacoesBanco);
-
                                         List<ItemPesq> produtoMercado;
 
                                         try {
-                                            List<Mercado> mercadosLocal = compararLocal(produtos);
-                                            produtoMercado = ItemPesq.separaProdutoPorMercado(produtos,mercadosLocal);
+                                            produtoMercado = ItemPesq.separaProdutoPorMercado(produtos,mercadosBanco);
                                         } catch (IOException e) {
                                             produtoMercado = null;
                                         }
@@ -142,6 +127,7 @@ public class Bycomp extends AppCompatActivity {
                                             Intent it = new Intent(Bycomp.this, PesquisaProduto.class);
                                             it.putExtra("produtos", (ArrayList) produtoMercado);
                                             startActivity(it);
+                                            finish();
                                         } else{
                                             Toast.makeText(Bycomp.this,"Nenhum produto encontrado.",Toast.LENGTH_LONG).show();
                                         }
@@ -175,20 +161,6 @@ public class Bycomp extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        /*navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                if(item.getItemId()==R.id.nav_sair){
-                  FirebaseAuth.getInstance().signOut();
-
-                    startActivity(new Intent(Bycomp.this, Login.class));
-
-                    finish();
-                }
-                return false;
-            }
-        });*/
         //uma das primeiras coisas a se fazer para pegar a localizaçao é pedir a permissao
         //variveis para armazenar a latitude e a longitude
         double latitude = 0.0;
@@ -286,36 +258,15 @@ public class Bycomp extends AppCompatActivity {
         return endereco;
     }
 
-    //método que compara a localização dos mercados no banco e verifica a distancia da localização do usuario
-    private List<Mercado> compararLocal(List<Produto> produtos) throws IOException {
-        List<Mercado> mercados = new ArrayList<>();
-
-        //pegar a localização do usuário para comparar com a localização do mercado
-        SharedPreferences preferences = getSharedPreferences("LocalizacaoUsuario",MODE_PRIVATE);
-        String bairroU = preferences.getString("bairroU", "");
-        String cidadeU = preferences.getString("cidadeU","");
-
-        try {
-            for(Mercado m : mercadosBanco) {
-                //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no memso bairro que o usuario
-                if (m.getCidade().equalsIgnoreCase(cidadeU)) {
-                    //caso o mercado atenda aos requisitos seu cnpj sera adicionado a lista
-                    mercados.add(m);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //talvez seja possivel retornar uma lista bem mais completa do que as identificaçoes dos mecados
-        //que ja estao selecionados para a outra tela para serem selecionados de novo
-        return  mercados;
-    }
-
     //método que devolve todos os mercados do banco
     private void extrairMercadosBanco(){
+        //pegar a localização do usuário para buscar apenas os mercados próximos do usuario
+        SharedPreferences preferences = getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
+        String cidadeU = preferences.getString("cidadeU","");
+        String bairroU = preferences.getString("bairroU","");
         try {
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-            firestore.collection("Mercados")
+            firestore.collection("Mercados").whereEqualTo("cidade",cidadeU.toUpperCase())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -326,6 +277,7 @@ public class Bycomp extends AppCompatActivity {
                                             document.getString("bairro"), document.getString("logradouro"), 0);
                                     mercadosBanco.add(m);
                                 }
+                                extrairAvaliacoesBanco();
                             }
                         }
                     });
@@ -346,11 +298,10 @@ public class Bycomp extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    double avaliacao = Double.parseDouble(document.getString("avaliacao"));
-                                    String cnpj = document.getString("cnpj");
-                                    avaliacoesBanco.add(new Avaliacao(avaliacao,cnpj));
+                                    avaliacoesBanco.add(new Avaliacao(Double.parseDouble(document.getString("avaliacao")),document.getString("cnpj")));
                                 }
                                 avaliacoesBanco = Avaliacao.avaliacoesMercado(avaliacoesBanco);
+                                Mercado.configurarAvaliacoesDosMercados(mercadosBanco,avaliacoesBanco);
                             }
                         }
                     });

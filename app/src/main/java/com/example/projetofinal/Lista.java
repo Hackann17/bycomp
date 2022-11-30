@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import classesmodelos.Avaliacao;
 import classesmodelos.Mercado;
@@ -40,12 +41,8 @@ public class Lista<Int> extends Fragment {
     //variaveis
     private FirebaseFirestore firestore;
     View v;
-    Button pesq;
     EditText listaCompras;
-    String endereco; //do mercado
-    String localizacao; //do usuario
     String lista;
-    int melhoresPrecos; //vai guardar os precos mais baratos
     List<String> itens = new ArrayList<String>(); //lista que vai receber os produtos da tela
     List<Produto> produtos = new ArrayList<Produto>(); //lista que vai armazenar os dados vindos do firebase
     TextView limparLista; //texto clicavel para limpar o texto na lista de compras
@@ -88,7 +85,6 @@ public class Lista<Int> extends Fragment {
         });
 
         extrairMercadosBanco();
-        extrairAvaliacoesBanco();
 
         btNavegar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,29 +115,20 @@ public class Lista<Int> extends Fragment {
                                         //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
                                         produtos = Produto.organizarPorPreco(produtos);
 
-//                                        for (Produto p : produtos) {
-//                                            Log.e("ordem de preço: ",p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
-//                                        }
-
-                                        Mercado.configurarAvaliacoesDosMercados(mercadosBanco,avaliacoesBanco);
-
-                                        List<ProdutoMercado> produtosMercado;
-
-                                        //separa os produtos pelos mercados na localização do usuário
-                                        List<Mercado> mercadosLocal;
                                         try {
-                                            mercadosLocal = compararLocal(produtos);
-                                            //produtosMercado = ProdutoMercado.separaProdutoPorMercado(produtos,mercadosLocal);
+                                            List<ProdutoMercado> produtosMercado = ProdutoMercado.separaProdutoPorMercado(produtos,mercadosBanco);
+
+                                            if(produtosMercado!=null&&produtosMercado.size()>0) {
+                                                Intent it = new Intent(getContext(), PesquisaListaProdutos.class);
+                                                it.putExtra("produtos",(ArrayList) produtos);
+                                                it.putExtra("mercados",(ArrayList) mercadosBanco);
+                                                startActivity(it);
+                                            } else{
+                                                Toast.makeText(getContext(),"Nenhum produto encontrado.",Toast.LENGTH_LONG).show();
+                                            }
                                         } catch (IOException e) {
-                                            produtosMercado = null;
-                                            mercadosLocal = null;
+                                            e.printStackTrace();
                                         }
-
-                                        Intent it = new Intent(getContext(), PesquisaListaProdutos.class);
-                                        it.putExtra("produtos",(ArrayList) produtos);
-                                        it.putExtra("mercados",(ArrayList) mercadosLocal);
-                                        startActivity(it);
-
 
                                     }
                                 }
@@ -173,38 +160,16 @@ public class Lista<Int> extends Fragment {
         }
     }
 
-    //método que compara a localização dos mercados no banco e verifica a distancia da localização do usuario
-    private List<Mercado> compararLocal(List<Produto> produtos) throws IOException {
-        List<Mercado> mercados = new ArrayList<>();
-
-        //pegar a localização do usuário para comparar com a localização do mercado
-        SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
-        String bairroU = preferences.getString("bairroU", "");
-        String cidadeU = preferences.getString("cidadeU","");
-
-        try {
-            for(Mercado m : mercadosBanco) {
-                //verifica se o mecado possui o mesmo cnpj que o produto e se esta pelo menos no memso bairro que o usuario
-                if (m.getCidade().equalsIgnoreCase(cidadeU)) {
-                    //caso o mercado atenda aos requisitos seu cnpj sera adicionado a lista
-                    mercados.add(m);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //talvez seja possivel retornar uma lista bem mais completa do que as identificaçoes dos mecados
-        //que ja estao selecionados para a outra tela para serem selecionados de novo
-        return  mercados;
-    }
-
 
     //método que devolve todos os mercados do banco
     private void extrairMercadosBanco(){
-        List<Mercado> mercados = new ArrayList<>();
+        //pegar a localização do usuário para buscar apenas os mercados próximos do usuario
+        SharedPreferences preferences = getContext().getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
+        String cidadeU = preferences.getString("cidadeU","");
+        String bairroU = preferences.getString("bairroU","");
         try {
             firestore = FirebaseFirestore.getInstance();
-            firestore.collection("Mercados")
+            firestore.collection("Mercados").whereEqualTo("cidade",cidadeU.toUpperCase())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -213,9 +178,9 @@ public class Lista<Int> extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("cidade"),
                                             document.getString("bairro"), document.getString("logradouro"),0);
-                                    mercados.add(m);
+                                    mercadosBanco.add(m);
                                 }
-                                mercadosBanco = mercados;
+                                extrairAvaliacoesBanco();
                             }
                         }
                     });
@@ -227,7 +192,6 @@ public class Lista<Int> extends Fragment {
 
     //devolver a avaliação de um mercado
     private void extrairAvaliacoesBanco() {
-        List<Avaliacao> avaliacoes = new ArrayList<>();
         try {
             //buscar todas as avaliações do mercado no banco
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -238,11 +202,10 @@ public class Lista<Int> extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    double avaliacao = Double.parseDouble(document.getString("avaliacao"));
-                                    String cnpj = document.getString("cnpj");
-                                    avaliacoesBanco.add(new Avaliacao(avaliacao, cnpj));
+                                    avaliacoesBanco.add(new Avaliacao(Double.parseDouble(document.getString("avaliacao")), document.getString("cnpj")));
                                 }
-                                avaliacoesBanco = Avaliacao.avaliacoesMercado(avaliacoes);
+                                avaliacoesBanco = Avaliacao.avaliacoesMercado(avaliacoesBanco);
+                                Mercado.configurarAvaliacoesDosMercados(mercadosBanco,avaliacoesBanco);
                             }
                         }
                     });

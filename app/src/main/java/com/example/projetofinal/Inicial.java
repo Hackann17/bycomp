@@ -1,10 +1,13 @@
 package com.example.projetofinal;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,9 +25,17 @@ public class Inicial extends AppCompatActivity {
         //verificando se o ususao ruio é null
         SharedPreferences editor = getSharedPreferences("Salvar",MODE_PRIVATE);
 
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},120);
+        }
+        else
         if(editor.getString("log", "").equals("true")){
             startActivity(new Intent( Inicial.this,Bycomp.class));
+            finish();
         }
+
+
 
     }
     @Override

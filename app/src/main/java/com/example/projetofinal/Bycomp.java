@@ -2,6 +2,7 @@ package com.example.projetofinal;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -61,23 +63,10 @@ public class Bycomp extends AppCompatActivity {
     List<Produto> produtos = new ArrayList<>(); //lista que vai armazenar os dados vindos do firebase
     List<Mercado> mercadosBanco = new ArrayList<>();
     List<Avaliacao> avaliacoesBanco = new ArrayList<>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Log.e("oncreate","oncreate");
-
-        binding = ActivityBycompBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.appBarBycomp.toolbar);
-        binding.appBarBycomp.appBarLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    protected void onStart() {
+        super.onStart();
 
         extrairMercadosBanco();
 
@@ -127,7 +116,7 @@ public class Bycomp extends AppCompatActivity {
                                             Intent it = new Intent(Bycomp.this, PesquisaProduto.class);
                                             it.putExtra("produtos", (ArrayList) produtoMercado);
                                             startActivity(it);
-                                            finish();
+                                            //finish();
                                         } else{
                                             Toast.makeText(Bycomp.this,"Nenhum produto encontrado.",Toast.LENGTH_LONG).show();
                                         }
@@ -144,6 +133,23 @@ public class Bycomp extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {return false;}
+        });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityBycompBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.appBarBycomp.toolbar);
+        binding.appBarBycomp.appBarLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
         });
 
         DrawerLayout drawer = binding.drawerLayout;
@@ -170,9 +176,9 @@ public class Bycomp extends AppCompatActivity {
         /*verificaçao de permiçao*/
         try {
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
             {
-                //solicitar a permição do usuario, funciona caso seja permitido
+                Toast.makeText(this, "Para o funcionamento do app, precisamos da sua localização.", Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},120);
             }
 
@@ -186,7 +192,9 @@ public class Bycomp extends AppCompatActivity {
         if (location != null){
 
             longitude = location.getLongitude();
+
             latitude = location.getLatitude();
+            Log.e("local", longitude+" "+latitude);
 
         }
 
@@ -209,10 +217,20 @@ public class Bycomp extends AppCompatActivity {
             Log.e("TAGCATCH", "---------------->" + e);
         }
 
-        catch (Exception e ){
-            //Toast.makeText(this, "Ocorreu um problema ", Toast.LENGTH_SHORT).show();
+        catch (NullPointerException e ){
+            AlertDialog.Builder builder = new AlertDialog.Builder(Bycomp.this);
 
-            Log.e("errrooooo","-------------------->"+e);
+            builder.setMessage("Não conseguimos buscar a sua localização. Isso é necessário para o funcionamento do app, por favor permita nas configurações.")
+                    .setPositiveButton("Ocultar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+        catch (Exception e){
 
         }
 

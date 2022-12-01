@@ -88,9 +88,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
     public  void mostraPOpup(ItemPesq itemPesq, View v ){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-//        CriarInflater c = new CriarInflater();
-//        LayoutInflater inflater = c.devolver();
-        //builder.setView(inflater.inflate(R.layout.itempesqb,null))
 
         builder.setMessage(itemPesq.getNomeP() +"\n"+
                         "Preço" +"                     "+"R$"+itemPesq.getPrecoP()+"\n"+

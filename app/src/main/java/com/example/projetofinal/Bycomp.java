@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import classesmodelos.Avaliacao;
+import classesmodelos.ItemPesq;
 import classesmodelos.Mercado;
 import classesmodelos.Produto;
 
@@ -63,11 +64,14 @@ public class Bycomp extends AppCompatActivity {
     List<Produto> produtos = new ArrayList<>(); //lista que vai armazenar os dados vindos do firebase
     List<Mercado> mercadosBanco = new ArrayList<>();
     List<Avaliacao> avaliacoesBanco = new ArrayList<>();
+    List<ItemPesq> produtoMercado;
+
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        //seleciona todos os mecados do banco , ou aqueles nas proximidades do usuario
         extrairMercadosBanco();
 
         //método da barra de pesquisa
@@ -78,52 +82,10 @@ public class Bycomp extends AppCompatActivity {
 
                 //busca os produtos no banco
                 try{
-                    firestore = FirebaseFirestore.getInstance();
-                    firestore.collection("Produtos")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                                    List<Produto> aux = new ArrayList<Produto>();
-
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
-                                                    Float.parseFloat(document.getString("preco")), document.getString("unidade"));
-                                            aux.add(p);
-                                        }
-
-                                        List<String> produtoPesquisadoLista = new ArrayList<>();
-                                        produtoPesquisadoLista.add(produtoPesquisado);
-
-                                        produtos = Produto.separarProdutos(aux,produtoPesquisadoLista);
-
-                                        //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
-                                        produtos = Produto.organizarPorPreco(produtos);
-
-                                        List<ItemPesq> produtoMercado;
-
-                                        try {
-                                            produtoMercado = ItemPesq.separaProdutoPorMercado(produtos,mercadosBanco);
-                                        } catch (IOException e) {
-                                            produtoMercado = null;
-                                        }
-
-                                        if(produtoMercado!=null&&produtoMercado.size()>0) {
-                                            //leva as informaçoes para outra tela de pesquisa
-                                            //gerando a intent
-                                            Intent it = new Intent(Bycomp.this, PesquisaProduto.class);
-                                            it.putExtra("produtos", (ArrayList) produtoMercado);
-                                            startActivity(it);
-                                            //finish();
-                                        } else{
-                                            Toast.makeText(Bycomp.this,"Nenhum produto encontrado.",Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                }
-                            });
-
+                    if (mercadosBanco==null || mercadosBanco.size()<=0){
+                        selecionaTodosMecados(produtoPesquisado);
+                    }
+                    montaListaProdutoMercado(produtoPesquisado);
 
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
@@ -135,6 +97,7 @@ public class Bycomp extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {return false;}
         });
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +121,7 @@ public class Bycomp extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_pesquisar,
-                R.id.nav_promocoes,R.id.nav_adicionarnota,
+                R.id.nav_promocoes,
                 R.id.nav_historico,R.id.avaliacaoTela,
                 R.id.nav_perfil,R.id.nav_social)
                 .setOpenableLayout(drawer)
@@ -187,23 +150,25 @@ public class Bycomp extends AppCompatActivity {
             locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Log.e("LOCALLLLLL", location.toString());
+
         } catch(Exception e){}
 
         if (location != null){
 
             longitude = location.getLongitude();
-
             latitude = location.getLatitude();
-            Log.e("local", longitude+" "+latitude);
+            Log.e("LOCALLLLLL", longitude+" "+latitude);
 
         }
 
-        //retornando um toast para ver os dados adquirido ,VOLTADO PARA TESTES ESSE TOAST
         try {
+            //reaizando o metodo para adquirir o endereço do usuario
             endereco = BuscaEndereco(latitude,longitude);
 
+            Log.e("endereço",endereco.toString());
+            //gerando o shared para armazenar essas informaçoes para serem acessadas e qualquer lugar
             SharedPreferences.Editor editor = getSharedPreferences("LocalizacaoUsuario",MODE_PRIVATE).edit();
-
             editor.putString("bairroU",endereco.getSubLocality());
             editor.putString("cidadeU",endereco.getSubAdminArea());
 
@@ -218,17 +183,10 @@ public class Bycomp extends AppCompatActivity {
         }
 
         catch (NullPointerException e ){
-            AlertDialog.Builder builder = new AlertDialog.Builder(Bycomp.this);
 
-            builder.setMessage("Não conseguimos buscar a sua localização. Isso é necessário para o funcionamento do app, por favor permita nas configurações.")
-                    .setPositiveButton("Ocultar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            // Create the AlertDialog object and return it
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
+            Log.e("ObjetoVasio",e.toString());
+
+            Toast.makeText(this, "Não encontramos sua localização", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){
 
@@ -276,13 +234,63 @@ public class Bycomp extends AppCompatActivity {
         return endereco;
     }
 
+    //pergunta ao usuario se ele quer receber informações de todos os mercados, processa de acordo com sua resposta
+    private void selecionaTodosMecados(String produtoPesquisado) {
+        Log.e("Else","----------------->"+"ver todos os mecados?");
+        //seleciona todos os mercados do banco caso o usuario queira
+        AlertDialog.Builder builder = new AlertDialog.Builder(Bycomp.this);
+        builder.setMessage("Não foi encontrado nenhum mercado em suas proximidades,deeja ver os produtos de qualquer mercado?")
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //seleciona qualquer mercado do banco
+                        dialog.cancel();
+                        try {
+                            firestore = FirebaseFirestore.getInstance();
+                            firestore.collection("Mercados").get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    Mercado m = new Mercado(document.getString("nome"), document.getString("cnpj"), document.getString("cidade"),
+                                                            document.getString("bairro"), document.getString("logradouro"), 0);
+                                                    mercadosBanco.add(m);
+                                                }
+                                                extrairAvaliacoesBanco();
+                                                montaListaProdutoMercado(produtoPesquisado);
+                                                Log.e("Else","----------------->"+"ver todos os mecados?Sim"+mercadosBanco);
+
+                                            }
+                                        }
+                                    });
+
+                        } catch (Exception e) {
+                            Log.e("erro", "deu erro");
+                            e.printStackTrace();
+                        }
+                    }
+                }).setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //fecha a mensagem e só
+                        dialogInterface.cancel();
+                        Log.e("Else","----------------->"+"ver todos os mecados?Nao");
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
     //método que devolve todos os mercados do banco
     private void extrairMercadosBanco(){
         //pegar a localização do usuário para buscar apenas os mercados próximos do usuario
         SharedPreferences preferences = getSharedPreferences("LocalizacaoUsuario", Context.MODE_PRIVATE);
         String cidadeU = preferences.getString("cidadeU","");
-        String bairroU = preferences.getString("bairroU","");
+       // String bairroU = preferences.getString("bairroU","");
+        if(!cidadeU.equals("")){
         try {
+            //seleciona os mercados nas proximidades do usuario
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
             firestore.collection("Mercados").whereEqualTo("cidade",cidadeU.toUpperCase())
                     .get()
@@ -302,6 +310,12 @@ public class Bycomp extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        }else {
+            //caso nao se tenha a localizaçao do usuario ele poderá ver todos os mercados
+            Log.e("nao há cidade","------------------->"+cidadeU);
+
+        }
+
     }
 
     //devolver a avaliação de um mercado
@@ -327,5 +341,56 @@ public class Bycomp extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    //sera realizado para selecionar , montar e passar a lista pronta de uma tela para outra
+    private void montaListaProdutoMercado(String produtoPesquisado) {
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("Produtos")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        List<Produto> aux = new ArrayList<Produto>();
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Produto p = new Produto(document.getString("nome"), document.getString("cnpj"), document.getString("codigo"),
+                                        Float.parseFloat(document.getString("preco")), document.getString("unidade"));
+                                aux.add(p);
+                            }
+
+                            List<String> produtoPesquisadoLista = new ArrayList<>();
+                            produtoPesquisadoLista.add(produtoPesquisado);
+
+                            produtos = Produto.separarProdutos(aux,produtoPesquisadoLista);
+
+                            //método para reorganizar uma lista de produtos pela ordem de mais barato para mais caro
+                            produtos = Produto.organizarPorPreco(produtos);
+
+
+                            try {
+                                //verifica se mercadosBanco é null
+                                produtoMercado = ItemPesq.separaProdutoPorMercado(produtos,mercadosBanco);
+
+                            } catch (IOException e) {
+                                produtoMercado = null;
+                            }
+
+                            if(produtoMercado!=null&&produtoMercado.size()>0) {
+                                //leva as informaçoes para outra tela de pesquisa
+                                //gerando a intent
+                                Intent it = new Intent(Bycomp.this, PesquisaProduto.class);
+                                it.putExtra("produtos", (ArrayList) produtoMercado);
+                                startActivity(it);
+                                //finish();
+                            }else{
+                                Toast.makeText(Bycomp.this, "Não foi encontrado seu produto", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+    }
+
 
 }

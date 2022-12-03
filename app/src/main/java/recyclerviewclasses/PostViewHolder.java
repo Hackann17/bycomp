@@ -1,4 +1,4 @@
-package com.example.projetofinal;
+package recyclerviewclasses;
 
 import android.view.View;
 import android.widget.TextView;

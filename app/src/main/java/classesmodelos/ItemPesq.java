@@ -1,12 +1,11 @@
-package com.example.projetofinal;
+package classesmodelos;
+
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import classesmodelos.Mercado;
-import classesmodelos.Produto;
 
 public class ItemPesq implements Serializable {
 

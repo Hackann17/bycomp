@@ -1,28 +1,24 @@
-package com.example.projetofinal;
-
-import static androidx.core.content.ContextCompat.startActivity;
+package recyclerviewclasses;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.graphics.drawable.AnimatedStateListDrawableCompat;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projetofinal.R;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import classesmodelos.ItemHist;
 import classesmodelos.Postagem;
 
 public class HistAdapter extends RecyclerView.Adapter<HistViewHolder>{

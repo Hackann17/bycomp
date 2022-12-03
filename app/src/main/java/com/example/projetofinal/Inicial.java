@@ -30,7 +30,7 @@ public class Inicial extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},120);
         }
         else
-        if(editor.getString("log", "").equals("true")){
+        if(editor.getString("log", "").equals("true") && FirebaseAuth.getInstance().getCurrentUser()!=null){
             startActivity(new Intent( Inicial.this,Bycomp.class));
             finish();
         }

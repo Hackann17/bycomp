@@ -2,42 +2,25 @@ package com.example.projetofinal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 //import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.Context;
 import android.content.Intent;
 //import android.graphics.Bitmap;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 //import android.util.Base64;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.projetofinal.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 import classesmodelos.Usuario;
 
@@ -107,7 +90,7 @@ public class Login extends AppCompatActivity {
         esqueceuSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent( Login.this,redefinirSenha.class));
+                startActivity(new Intent( Login.this, RedefinirSenha.class));
             }
         });
 
@@ -131,7 +114,6 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
                                     SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
-                                    editor.putString("NomeDocumento",email);
                                     editor.putString("log","true");
                                     editor.apply();
 

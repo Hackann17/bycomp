@@ -35,7 +35,8 @@ public class Sair extends Fragment {
                             SharedPreferences.Editor ed = getContext().getSharedPreferences("Salvar",MODE_PRIVATE).edit();
                             ed.putString("log", "false");
                             ed.apply();
-                            startActivity(new Intent( getContext(),Inicial.class));
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent( getContext(),Login.class));
                         }
                     }
                 })

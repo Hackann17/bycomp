@@ -1,4 +1,4 @@
-package com.example.projetofinal;
+package classesmodelos;
 
 public class ItemPost {
 

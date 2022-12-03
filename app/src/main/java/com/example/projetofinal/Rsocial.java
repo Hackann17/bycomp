@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import classesmodelos.ItemPost;
+import recyclerviewclasses.PostAdapter;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Rsocial#newInstance} factory method to

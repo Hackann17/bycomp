@@ -7,17 +7,18 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar13"
-        android:layout_width="409dp"
-        android:layout_height="248dp"
+        android:layout_width="348dp"
+        android:layout_height="151dp"
         android:background="@drawable/containers"
         android:elevation="20dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.181" />
 
     <TextView
         android:id="@+id/txtNomeMerc"
@@ -76,10 +77,10 @@
 
         app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
         app:layout_constraintEnd_toEndOf="@+id/toolbar13"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.039"
+        app:layout_constraintStart_toStartOf="@+id/toolbar13"
         app:layout_constraintTop_toTopOf="@+id/toolbar13"
-        app:layout_constraintVertical_bias="0.834" />
+        app:layout_constraintVertical_bias="0.876" />
 
     <TextView
         android:id="@+id/txtSubtotal"
@@ -92,10 +93,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
         app:layout_constraintEnd_toEndOf="@+id/toolbar13"
-        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="@+id/toolbar13"
         app:layout_constraintTop_toTopOf="@+id/toolbar13"
-        app:layout_constraintVertical_bias="0.316" />
+        app:layout_constraintVertical_bias="0.315" />
 
     <TextView
         android:id="@+id/txtEnderecoMerc"
@@ -115,7 +116,7 @@
 
     <TextView
         android:id="@+id/txtAvaliacaoMerc"
-        android:layout_width="66dp"
+        android:layout_width="34dp"
         android:layout_height="22dp"
         android:elevation="20dp"
         android:fontFamily="@font/poppins_light"
@@ -123,15 +124,26 @@
         android:textSize="16sp"
 
         app:layout_constraintBottom_toBottomOf="@+id/toolbar13"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar13"
+        app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="@+id/toolbar13"
         app:layout_constraintTop_toTopOf="@+id/toolbar13"
-        app:layout_constraintVertical_bias="0.83" />
+        app:layout_constraintVertical_bias="0.863" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="102dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/botao"
+        android:text="Mostrar mais"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar13"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

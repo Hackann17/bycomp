@@ -97,7 +97,6 @@ public class Perfil extends Fragment {
 
         //puxando informaçoes shared preferences
         SharedPreferences preferences = getContext().getSharedPreferences("Salvar", MODE_PRIVATE);
-
         nomedocumento = preferences.getString("NomeDocumento","");
 
         try {
@@ -112,7 +111,6 @@ public class Perfil extends Fragment {
 
             codigoRec.setText(preferences.getString("codigo", ""));
 
-
             btAlterarSenha.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -126,6 +124,7 @@ public class Perfil extends Fragment {
             RecolhendoNome();
         }
         catch (Exception e) {
+            Log.e("Perfilerro"+e.getMessage(),"---------------------->"+e.toString());
             Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -175,6 +174,7 @@ public class Perfil extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         try{
+            Log.e("emailnovo",emailusuario);
         user.updateEmail(emailusuario)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

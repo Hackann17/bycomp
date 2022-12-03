@@ -2,24 +2,16 @@ package com.example.projetofinal;
 
 import static android.app.PendingIntent.getActivity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-import classesmodelos.Produto;
+import classesmodelos.ItemPesq;
 import recyclerviewclasses.ProdutoAdapter;
 
 public class PesquisaProduto extends AppCompatActivity {

@@ -41,7 +41,7 @@ public class ListaProdutoAdapter extends RecyclerView.Adapter<ListaProdutoAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return pm.size();
     }
 
     public class MercadoViewHolder extends RecyclerView.ViewHolder {

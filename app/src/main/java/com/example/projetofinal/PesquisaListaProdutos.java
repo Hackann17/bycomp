@@ -1,8 +1,11 @@
 package com.example.projetofinal;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +26,7 @@ public class PesquisaListaProdutos extends AppCompatActivity {
     //essa classe msotrar o resultado da pesquisa de mercados
     //recebera dois layouts para o recycler view
     List<ProdutoMercado> produtosMercado;
-    View view;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +36,21 @@ public class PesquisaListaProdutos extends AppCompatActivity {
         List<Produto> produtos = (ArrayList<Produto>) getIntent().getSerializableExtra("produtos");
         List<Mercado> mercados = (ArrayList<Mercado>) getIntent().getSerializableExtra("mercados");
 
+
         try {
             produtosMercado = ProdutoMercado.separaProdutoPorMercado(produtos,mercados);
-        } catch (IOException e) {
+            Log.e("produtomercado",produtosMercado+"");
+        }
+        catch (NullPointerException e){
+            AlertDialog.Builder builder = new AlertDialog.Builder(PesquisaListaProdutos.this);
+            builder.setMessage("Não possível realizar a pesquisa")
+                    .setPositiveButton("Retornar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Navigation.findNavController(getCurrentFocus()).navigate(R.id.lista2);
+                        }
+                    });
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         for (ProdutoMercado pm : produtosMercado){

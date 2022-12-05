@@ -39,7 +39,6 @@ public class PesquisaListaProdutos extends AppCompatActivity {
 
         try {
             produtosMercado = ProdutoMercado.separaProdutoPorMercado(produtos,mercados);
-            Log.e("produtomercado",produtosMercado+"");
         }
         catch (NullPointerException e){
             AlertDialog.Builder builder = new AlertDialog.Builder(PesquisaListaProdutos.this);

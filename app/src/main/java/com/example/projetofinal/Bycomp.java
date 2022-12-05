@@ -85,7 +85,9 @@ public class Bycomp extends AppCompatActivity {
                     if (mercadosBanco==null || mercadosBanco.size()<=0){
                         selecionaTodosMecados(produtoPesquisado);
                     }
+
                     montaListaProdutoMercado(produtoPesquisado);
+                    produtoPesquisado="";
 
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());

@@ -62,8 +62,6 @@ public class Lista<Int> extends Fragment {
         String bairroU = preferences.getString("bairroU", "");
 
 
-
-
         Log.e("cidade/bairro", cidadeU + bairroU);
         //achando os ids
         btNavegar= v.findViewById(R.id.butPesq);
@@ -145,7 +143,7 @@ public class Lista<Int> extends Fragment {
                                                     Toast.makeText(getContext(), "Nenhum produto encontrado.", Toast.LENGTH_LONG).show();
                                                 }
                                                 }else{
-                                                    Toast.makeText(getContext(), "Nwnhum mercado encontrado", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), "Nenhum mercado encontrado", Toast.LENGTH_SHORT).show();
                                                 }
                                             } catch (IOException e) {
 

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 //import android.util.Base64;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import classesmodelos.Usuario;
 
@@ -113,12 +118,43 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-                                    SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
-                                    editor.putString("log","true");
-                                    editor.apply();
 
-                                    startActivity(new Intent( Login.this, Bycomp.class));
-                                    finish();
+                                    SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
+
+                                    //caso a autentificação seja bem sucedida, as informaçoes do usuario serao acssadas no banco de dados
+                                    // e serao guardadas em um shared
+                                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                                    firestore.collection("Usuarios").whereEqualTo("email",email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                            if (task.isSuccessful()){
+                                                Log.e("Login","--------------------------------->"+"entrou if");
+                                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                                if (task.getResult().getDocuments().size()<=0){
+                                                    Toast.makeText(Login.this, "Não foi possível encontrar suas informações", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                                    //caso os dados sejam encontrados
+                                                    editor.putString("NomeDocumento", document.getId());
+                                                    editor.putString("log","true");
+                                                    editor.putString("codigo",document.getString("codigo"));
+
+                                                editor.apply();
+                                                SharedPreferences edito = getSharedPreferences("Salvar",MODE_PRIVATE);
+                                                Log.e("NOmedocumento","--------------------------------->"+document.getId());
+                                                Log.e("Codigo","--------------------------------->"+document.getString("codigo"));
+                                                Log.e("Codigo","--------------------------------->"+edito.getString("codigo",""));
+
+
+
+                                                startActivity(new Intent( Login.this, Bycomp.class));
+                                                finish();
+                                            }
+
+                                        }
+                                    });
 
                                 } else {
                                     Toast.makeText(Login.this, "Verifique se o email e a senha estão corretos", Toast.LENGTH_SHORT).show();

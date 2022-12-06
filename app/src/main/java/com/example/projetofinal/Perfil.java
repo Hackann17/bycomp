@@ -119,8 +119,7 @@ public class Perfil extends Fragment {
                 }
             });
 
-            // pegar as informações do banco local e passar para os inputs
-
+            //pegando as informaçoes do usuario e passando pros inputs
             RecolhendoNome();
         }
         catch (Exception e) {
@@ -212,6 +211,7 @@ public class Perfil extends Fragment {
     private void RecolhendoNome(){
         DocumentReference documentReference = db.collection("Usuarios").document(nomedocumento);
 
+        Log.e("NOmedocumento","======================>"+nomedocumento);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {

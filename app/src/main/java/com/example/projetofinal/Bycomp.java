@@ -87,7 +87,7 @@ public class Bycomp extends AppCompatActivity {
                     }
 
                     montaListaProdutoMercado(produtoPesquisado);
-                    produtoPesquisado="";
+
 
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());

@@ -88,7 +88,6 @@ public class ListaProdutoAdapter extends RecyclerView.Adapter<ListaProdutoAdapte
          //monta uma linha da mensagem
          mensagem+= pm.getProdutos().get(i).getNome()+"    "
                  +"R$"+pm.getProdutos().get(i).getPreco()+"\n"+"\n";
-
         }
 
         //monta a tela da mensagem

@@ -9,17 +9,17 @@
         android:id="@+id/toolbar13"
         android:layout_width="348dp"
         android:layout_height="151dp"
+        android:layout_marginTop="13dp"
         android:background="@drawable/containers"
         android:elevation="20dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        android:layout_marginTop="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.746"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.179" />
+        app:layout_constraintVertical_bias="0.357" />
 
     <TextView
         android:id="@+id/txtNomeMerc"

@@ -6,8 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -17,32 +22,33 @@ import recyclerviewclasses.ProdutoAdapter;
 public class PesquisaProduto extends AppCompatActivity {
     //receber lista serializada , dessserializar , puxar recycler view e adicionar as informaççoes nele
 
+    FloatingActionButton fbtVoltar;
     private ArrayList<ItemPesq> produtos;
     //LayoutInflater inflater =
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pesquisaproduto);
         produtos = (ArrayList<ItemPesq>) getIntent().getSerializableExtra("produtos");
 
-
-            //dados a serem mostrados :
-            //itempesq: nomeP, precoP, nomeM
-            //itempesq2:nomeP, precoP, nomeM,loalizaçaoM,distanciaM, avaliaçaoM
-
-            for (ItemPesq p : produtos) {
-                Log.e("produto",p.getNomeP()+" "+p.getPrecoP());
-                Log.e("mercado",p.getCnpjM()+" "+p.getNomeM()+" "+p.getAvaliacaoM());
-            }
-
-            //passando a lista par o adapter personalizad
+            //passando a lista par o adapter personalizada
             RecyclerView recyclerTela = findViewById(R.id.LPM);
 
             recyclerTela.setLayoutManager(new LinearLayoutManager(PesquisaProduto.this));
             recyclerTela.setAdapter(new ProdutoAdapter(produtos));
 
+            //gerando o metodo para voltar para a activity principal
+        fbtVoltar= findViewById(R.id.fbtVoltar);
 
+        fbtVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(PesquisaProduto.this,Bycomp.class));
+            }
+        });
 
 
     }

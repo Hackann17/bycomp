@@ -1,6 +1,8 @@
 package com.example.projetofinal;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,8 +30,10 @@ public class PesquisaListaProdutos extends AppCompatActivity {
     //essa classe msotrar o resultado da pesquisa de mercados
     //recebera dois layouts para o recycler view
     List<ProdutoMercado> produtosMercado;
+    FloatingActionButton fbtVoltar2;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,21 @@ public class PesquisaListaProdutos extends AppCompatActivity {
 
         List<Produto> produtos = (ArrayList<Produto>) getIntent().getSerializableExtra("produtos");
         List<Mercado> mercados = (ArrayList<Mercado>) getIntent().getSerializableExtra("mercados");
+
+        fbtVoltar2 = findViewById(R.id.fbtVoltar2);
+
+        //açao do botao voltar
+        fbtVoltar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                //volta para a activity bycomp
+                startActivity(new Intent(PesquisaListaProdutos.this,Bycomp.class));
+            }
+        });
+
+
+
 
 
         try {
@@ -52,11 +73,13 @@ public class PesquisaListaProdutos extends AppCompatActivity {
         catch (IOException e) {
             e.printStackTrace();
         }
+        //teste
         for (ProdutoMercado pm : produtosMercado){
             for(Produto p : pm.getProdutos())
                 Log.e("produtos", p.getNome()+" "+p.getPreco()+" "+p.getCnpj());
             Log.e("mercado",pm.getMercado().getCnpj()+" "+pm.getMercado().getNome()+" "+pm.getMercado().getAvaliacao());
         }
+
         //passando a lista par o adapter personalizad
         RecyclerView recyclerTela = findViewById(R.id.ListaTelapes);
 

@@ -80,14 +80,13 @@ public class Bycomp extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String produtoPesquisado) {
 
+
                 //busca os produtos no banco
                 try{
                     if (mercadosBanco==null || mercadosBanco.size()<=0){
                         selecionaTodosMecados(produtoPesquisado);
                     }
-
                     montaListaProdutoMercado(produtoPesquisado);
-
 
                 } catch (Exception e){
                     Log.e("ERRO: ", e.getMessage());
@@ -241,7 +240,7 @@ public class Bycomp extends AppCompatActivity {
         Log.e("Else","----------------->"+"ver todos os mecados?");
         //seleciona todos os mercados do banco caso o usuario queira
         AlertDialog.Builder builder = new AlertDialog.Builder(Bycomp.this);
-        builder.setMessage("Não foi encontrado nenhum mercado em suas proximidades,deeja ver os produtos de qualquer mercado?")
+        builder.setMessage("Não foi encontrado nenhum mercado em suas proximidades,deseja ver os produtos de qualquer mercado?")
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //seleciona qualquer mercado do banco
@@ -377,16 +376,16 @@ public class Bycomp extends AppCompatActivity {
                             } catch (IOException e) {
                                 produtoMercado = null;
                             }
-
                             if(produtoMercado!=null&&produtoMercado.size()>0) {
                                 //leva as informaçoes para outra tela de pesquisa
                                 //gerando a intent
                                 Intent it = new Intent(Bycomp.this, PesquisaProduto.class);
                                 it.putExtra("produtos", (ArrayList) produtoMercado);
                                 startActivity(it);
-                                //finish();
                             }else{
                                 Toast.makeText(Bycomp.this, "Não foi encontrado seu produto", Toast.LENGTH_SHORT).show();
+
+                                
                             }
                         }
                     }

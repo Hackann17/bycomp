@@ -86,21 +86,7 @@ public class Cadastro extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            //Gera um codigo de recuperação para o usuario
-                            int codigo;
-                            Random r = new Random();
-                            codigo = r.nextInt(899999)+100000;
-                            Log.e("Codigo ", codigo+"");
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Cadastro.this);
-
-                            builder.setMessage("Esse é o seu código de recuperação: " + codigo + ", caso esqueça sua senha. Você poderá vê-lo outra vez indo em Home > Perfil").setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
+                            Toast.makeText(Cadastro.this, "Cadastro feito com sucesso", Toast.LENGTH_LONG);
 
                             //pega uma instancia do usuario em questao ao salvar
                             FirebaseFirestore ff = FirebaseFirestore.getInstance();
@@ -110,7 +96,6 @@ public class Cadastro extends AppCompatActivity {
 
                             mp.put("senha", senha);
                             mp.put("email", email);
-                            mp.put("codigo", codigo+"");
 
                             //o qeu sera colocado no firebase, expecificando as coleçoes (usuarios no caso)
                             DocumentReference documentReference = ff.collection("Usuarios").document(email);
@@ -126,7 +111,6 @@ public class Cadastro extends AppCompatActivity {
 
                                         SharedPreferences.Editor editor = getSharedPreferences("Salvar",MODE_PRIVATE).edit();
                                         editor.putString("NomeDocumento",email);
-                                        editor.putString("codigo",codigo+"");
                                         editor.putString("log","false");
 
                                         editor.commit();

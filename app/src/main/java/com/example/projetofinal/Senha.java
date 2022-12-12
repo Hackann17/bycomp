@@ -2,8 +2,10 @@ package com.example.projetofinal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.FloatingWindow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,6 +36,7 @@ public class Senha extends AppCompatActivity {
     EditText idNovaSenha;
     Button btAlterarSenha2;
     Button btVoltarTela;
+    FloatingActionButton fbtVoltar3;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -43,20 +47,40 @@ public class Senha extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_senha);
 
+        fbtVoltar3=findViewById(R.id.fbtVoltar3);
 
         idSenhaAtual = findViewById(R.id.idSenhaAtual);
         idNovaSenha = findViewById(R.id.idNovaSenha);
 
         btAlterarSenha2 = findViewById(R.id.btAlterarSenha2);
 
-
         idSenhaAtual.setHint("Digite aqui sua senha atual ");
         idNovaSenha.setHint("Digite aqui sua nova senha");
+
 
         //puxando informaçoes shared preferences
         SharedPreferences preferences = getSharedPreferences("Salvar",MODE_PRIVATE);
 
         nomedocumento = preferences.getString("NomeDocumento","");
+
+        //botao voltar
+        fbtVoltar3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                //volta para a activity bycomp
+                startActivity(new Intent(Senha.this,Bycomp.class));
+
+
+
+            }
+        });
+
+
+
+
+
+
 
         //metodo para alterar a senha no banco
         btAlterarSenha2.setOnClickListener(new View.OnClickListener() {

@@ -105,11 +105,6 @@ public class Perfil extends Fragment {
 
             btAlterarDados = v.findViewById(R.id.btAlterarDados);
             btAlterarSenha = v.findViewById(R.id.btAlterarSenha);
-            codigoRec = v.findViewById(R.id.txtCodigo);
-
-            Log.e("Codigo",preferences.getString("codigo", ""));
-
-            codigoRec.setText(preferences.getString("codigo", ""));
 
             btAlterarSenha.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -24,7 +24,7 @@
         android:layout_height="52dp"
         android:layout_marginTop="92dp"
         android:fontFamily="@font/poppins_medium"
-        android:text="Coloque seu código de recuperação dado na primeira vez que acessou o aplicativo"
+        android:text="Insira o email cadastrado "
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -32,15 +32,15 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar15" />
 
     <EditText
-        android:id="@+id/txtTelefone"
-        android:layout_width="252dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="32dp"
+        android:id="@+id/txtEmail"
+        android:layout_width="316dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/container"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintHorizontal_bias="0.263"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
@@ -57,7 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTelefone" />
+        app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
 
     <TextView
         android:id="@+id/textView50"

@@ -124,30 +124,4 @@
         app:layout_constraintTop_toTopOf="@+id/textView35"
         app:layout_constraintVertical_bias="0.157" />
 
-    <TextView
-        android:id="@+id/textView37"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Seu código de recuperação: "
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView35"
-        app:layout_constraintEnd_toEndOf="@+id/textView35"
-        app:layout_constraintHorizontal_bias="0.288"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView42"
-        app:layout_constraintVertical_bias="0.026" />
-
-    <TextView
-        android:id="@+id/txtCodigo"
-        android:layout_width="65dp"
-        android:layout_height="26dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView35"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.245"
-        app:layout_constraintStart_toEndOf="@+id/textView37"
-        app:layout_constraintTop_toTopOf="@+id/textView35"
-        app:layout_constraintVertical_bias="0.279" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
